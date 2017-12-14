@@ -1,0 +1,52 @@
+site_name: OneAtlas Playground Documentation
+site_url: # TO FILL
+site_author: OneAtlas Playground
+repo_url: # TO FILL
+
+theme: material
+
+extra:
+  palette:
+    primary: 'indigo'
+    accent: 'indigo'
+  font:
+    text: 'Roboto'
+    code: 'Fira Mono'
+  logo: 'images/logo_airbus_A.png'
+
+markdown_extensions:
+  - admonition
+  - codehilite
+  - pymdownx.arithmatex
+  - pymdownx.betterem(smart_enable=all)
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:pymdownx.emoji.to_svg
+  - pymdownx.inlinehilite
+  - pymdownx.magiclink
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.tasklist(custom_checkbox=true)
+  - pymdownx.tilde
+
+extra_css:
+  - 'stylesheets/extra.css'
+
+# Copyright
+copyright: 'Copyright &copy; 2017 - Airbus Defence and Space - Intelligence'
+
+pages:
+  - OneAtlas Playground: index.md
+  - Service Deployment:
+    - Packaging your Predictor: service/packaging.md
+    - Builiding your Docker: service/docker.md
+    - Deployment Process on Playground: service/deploy.md
+  - Using OneAtlas Web Interface:
+    - Using OneAtlas Playground Web Interface: web/interface.md
+    - Tagging Datasets on OneAtlas: web/tag.md
+  - Ship Detection:
+    - Ship Recognition Database: ship/ship.md
+
