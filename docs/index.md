@@ -20,7 +20,7 @@ The OneAtlas Playground is the sandbox development platform for imagery services
 The core principle of OneAtlas Playground is to provide a "sandboxed" environment connected to OneAtlas Imagery in order to develop, deploy and test Machine Learning Services in a Cloud Environment.
 It relies on the Google Cloud Platform and is based on Google App Engine.
 
-The main objective of the Playground is to abstract away data connection, deployment and scalability for any Data Scientist and to provide an integrated platform to directly assess the performance and scalability of ML services. 
+The main objective of the Playground is to abstract away data connection, deployment and scalability for any Data Scientist and to provide an integrated platform to directly assess the performance and scalability of ML services.
 
 ![OneAtlas Playground](images/playground.png "OneAtlasPlayground")
 
