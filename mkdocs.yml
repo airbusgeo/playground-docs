@@ -5,6 +5,19 @@ repo_url: # TO FILL
 
 theme: readthedocs
 
+extra:
+  palette:
+    primary: 'indigo'
+    accent: 'indigo'
+  font:
+    text: 'Roboto'
+    code: 'Fira Mono'
+  logo: 'images/logo_airbus_A.png'
+
+markdown_extensions:
+  - admonition
+  - codehilite
+
 # Copyright
 copyright: 'Copyright &copy; 2017 - Airbus Defence and Space - Intelligence'
 
