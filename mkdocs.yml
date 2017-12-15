@@ -3,35 +3,7 @@ site_url: # TO FILL
 site_author: OneAtlas Playground
 repo_url: # TO FILL
 
-theme: material
-
-extra:
-  palette:
-    primary: 'indigo'
-    accent: 'indigo'
-  font:
-    text: 'Roboto'
-    code: 'Fira Mono'
-  logo: 'images/logo_airbus_A.png'
-
-markdown_extensions:
-  - admonition
-  - codehilite
-  - pymdownx.arithmatex
-  - pymdownx.betterem(smart_enable=all)
-  - pymdownx.caret
-  - pymdownx.critic
-  - pymdownx.details
-  - pymdownx.inlinehilite
-  - pymdownx.magiclink
-  - pymdownx.mark
-  - pymdownx.smartsymbols
-  - pymdownx.superfences
-  - pymdownx.tasklist(custom_checkbox=true)
-  - pymdownx.tilde
-
-extra_css:
-  - 'stylesheets/extra.css'
+theme: readthedocs
 
 # Copyright
 copyright: 'Copyright &copy; 2017 - Airbus Defence and Space - Intelligence'
