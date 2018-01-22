@@ -23,12 +23,16 @@ copyright: 'Copyright &copy; 2017 - Airbus Defence and Space - Intelligence'
 
 pages:
   - OneAtlas Playground: index.md
-  - Service Deployment:
-    - Packaging your Predictor: service/packaging.md
-    - Builiding your Docker: service/docker.md
-    - Deployment Process on Playground: service/deploy.md
-  - Using OneAtlas Web Interface:
-    - Using OneAtlas Playground Web Interface: web/interface.md
-    - Tagging Datasets on OneAtlas: web/tag.md
-  - Ship Detection:
-    - Ship Recognition Database: ship/ship.md
+  - Using OneAtlas Playground:
+    - Web interface: web/interface.md
+    - Datasets: web/dataset.md
+    - Validation: web/validation.md
+    - Processing: web/processing.md
+    - Jobs: web/job.md
+  - Custom Process:
+    - Create a predictor: processing/predictor.md
+    - Build a container image: processing/docker.md
+    - Deploy on GCP: processing/deploy.md
+    - Use from Playground: processing/use.md
+    - Sample application: processing/sample.md
+

@@ -1,4 +1,4 @@
-# Using the OneAtlas Playground Web Interface
+# Using OneAtlas Playground Web Interface
 
 You will find guidelines about using the Playground Web Interface.
 
