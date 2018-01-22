@@ -1,0 +1,123 @@
+swagger: "2.0"
+info:
+  description: "OneAtlas Playground Processing API.
+   This API has to be implemented by all Playground services that processes tiles."
+  version: "1.0.0"
+  title: "OneAtlas Playground Processing API"
+  termsOfService: "https://playground.intelligence-airbusds.com/"
+  contact:
+    email: "support@sandbox.jitbit.com"
+  license:
+    name: "Proprietary"
+basePath: "/api/v1"
+tags:
+
+- name: "API v1"
+  description: "Processing API"
+  externalDocs:
+    description: "Playground documentation"
+    url: "http://playground-docs.readthedocs.io"
+
+schemes:
+- "http"
+
+paths:
+  /describe:
+    get:
+      tags:
+      - "API v1"
+      summary: "Describes process"
+      description: "Returns description and parameters of the processing"
+      operationId: "describe"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Describe"
+        400:
+          description: "Invalid status value"
+
+  /predict:
+    post:
+      tags:
+      - "API v1"
+      summary: "Process tiles"
+      description: ""
+      operationId: "predict"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Tiles"
+        required: true
+        schema:
+          $ref: "#/definitions/PredictRequest"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/PredictResult"
+        405:
+          description: "Invalid input"
+
+definitions:
+  Describe:
+    type: "object"
+    properties:
+      padding:
+        description: "Tile padding"
+        type: "integer"
+        format: "int32"
+      nb_tiles:
+        description: "Tile number"
+        type: "integer"
+        format: "int32"
+
+  PredictRequest:
+    type: "object"
+    required:
+      - "tile_1"
+    properties:
+      tile_1:
+        description: "First tile image"
+        type: "string"
+        format: "base64"
+      tile_2:
+        description: "Second (optional) tile image"
+        type: "string"
+        format: "base64"
+
+  PredictResult:
+    type: "object"
+    required:
+      - status
+      - type
+    discriminator: type
+    properties:
+      status:
+        type: "string"
+        description: "processing status"
+        enum:
+        - "DONE"
+        - "ERROR"
+      error:
+        type: "string"
+        description: "error message"
+      type:
+        type: "string"
+        description: "the result type"
+        enum:
+        - "application/geo+json"
+      result:
+        type: "object"
+        description: "a GeoJSON feature collection"
+
+externalDocs:
+    description: "Playground documentation"
+    url: "http://playground-docs.readthedocs.io"
+
