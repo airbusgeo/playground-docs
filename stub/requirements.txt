@@ -1,0 +1,16 @@
+# http server
+gunicorn==19.7.1
+
+# web framework
+Flask==0.12.2
+werkzeug==0.12.2
+
+# image processing
+Pillow==5.0.0
+
+# matrix processing
+numpy==1.14.0
+
+# deep learning
+tensorflow==1.2.0
+
