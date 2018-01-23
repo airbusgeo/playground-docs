@@ -30,7 +30,7 @@ Abstracting away the deployment of ML services is done by deploying Docker conta
 
 ![OneAtlas Playground](images/playground2.png "OneAtlasPlayground")
 
-## Tagging and Labelling directly on One Atlas
+## Tagging and Labelling
 
 The Playground also offers a Web Interface to create, edit and refine datasets using OneAtlas images via tagging, detouring and markin Area Of Interests, Region Of Interests and objects on satellite images.
 
