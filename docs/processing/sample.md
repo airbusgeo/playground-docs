@@ -6,5 +6,5 @@ The sample application is a Python 2.7 program using the following dependencies:
 * Pillow imaging
 * NumPy processing
 
-The processing stub source code is available [here](http://github.com/airbusgeo/playground-docs/stub).
+The processing stub source code is available [on GitHub](http://github.com/airbusgeo/playground-docs/tree/master/stub).
 

@@ -12,7 +12,7 @@ info:
 basePath: "/api/v1"
 tags:
 
-- name: "API v1"
+- name: "/api/v1"
   description: "Processing API"
   externalDocs:
     description: "Playground documentation"
@@ -25,7 +25,7 @@ paths:
   /describe:
     get:
       tags:
-      - "API v1"
+      - "/api/v1"
       summary: "Describes process"
       description: "Returns description and parameters of the processing"
       operationId: "describe"
@@ -42,7 +42,7 @@ paths:
   /predict:
     post:
       tags:
-      - "API v1"
+      - "/api/v1"
       summary: "Process tiles"
       description: ""
       operationId: "predict"
