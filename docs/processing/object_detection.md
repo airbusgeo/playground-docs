@@ -4,7 +4,7 @@ Description of the Playground [Geo Process API](https://airbusgeo.github.io/geoa
 
 # Describe service
 
-This service returns a JSON document that comply to the [tile-object-detection](http://github.com/airbusgeo/playground-docs/master/api/tile-object-detection-describe.json) template.
+This service returns a JSON document that comply to the [tile-object-detection](https://raw.githubusercontent.com/airbusgeo/playground-docs/master/api/tile-object-detection-describe.json) template.
 
 Replace `#TODO#` string with correct values.
 
@@ -112,7 +112,7 @@ Replace `#TODO#` string with correct values.
 
 # Config service
 
-This service returns a JSON document that comply to the [tile-object-detection](http://github.com/airbusgeo/playground-docs/master/api/tile-object-detection-config.json) config schema.
+This service returns a JSON document that comply to the [tile-object-detection](https://raw.githubusercontent.com/airbusgeo/playground-docs/master/api/tile-object-detection-config.json) config schema.
 
 **Example :**
 
@@ -129,7 +129,7 @@ This service executes the process.
 
 ## Input data
 
-A JSON document that comply to the [tile-object-detection](http://github.com/airbusgeo/playground-docs/master/api/tile-object-detection-input.json) input schema.
+A JSON document that comply to the [tile-object-detection](https://raw.githubusercontent.com/airbusgeo/playground-docs/master/api/tile-object-detection-input.json) input schema.
 
 **Example :**
 
