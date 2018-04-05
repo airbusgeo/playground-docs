@@ -22,26 +22,33 @@ Sample *Dockerfile* for a Python application:
 # Create a container image from a stock Python 2.7 Debian image
 FROM python:2.7-stretch
 
+# Install system dependencies: libgeos
+RUN apt-get update && \
+    apt-get install -qy libgeos-c1v5 && \
+    apt-get clean
+
 # Create a virtualenv for installing the application
 RUN virtualenv --no-download /env -p python
 # Set virtualenv environment variables. This is equivalent to running
 # source /env/bin/activate
 ENV VIRTUAL_ENV /env
 ENV PATH /env/bin:$PATH
+# update pip to avoid debian problems
+RUN pip install -U pip
 
 # Set workdir
 WORKDIR /app/
 
 # Install application requirements
-ADD requirements.txt /app/
+COPY requirements.txt /app/
 RUN pip install -r requirements.txt
 
 # Install application
-ADD . /app/
+COPY . /app/
 
 # Launch web application
 EXPOSE 80
-ENTRYPOINT ["gunicorn", "-c", "gunicorn.conf.py", "-b", "0.0.0.0:80", "api_stub:app"]
+ENTRYPOINT ["gunicorn", "-c", "gunicorn.conf.py", "-b", "0.0.0.0:80", "api:app"]
 ```
 
 # Build a Docker image
@@ -51,22 +58,21 @@ ENTRYPOINT ["gunicorn", "-c", "gunicorn.conf.py", "-b", "0.0.0.0:80", "api_stub:
 Please refer to the [Docker Reference page](https://docs.docker.com/engine/reference/builder/). 
 
 ```bash
-docker build --rm -t stub .
+docker build --rm -t process .
 ```
 
 # Execute a container
 
 The image can be deployed as a container and executed.
 
-In the following exemple, the service port is redirected to port 8000 on the docker host:
+In the following example, the service port is redirected to port 9000 on the docker host:
 
 ```bash
-docker run --rm -ti -p 8000:80 stub
+docker run --rm -ti -p 9000:80 process
 ```
 
-# Test the predictor
+# Test the process
 
 ```bash
-curl http://localhost:8000/api/v1/describe
+curl http://localhost:9000/api/v1/describe
 ```
-

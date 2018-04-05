@@ -1,0 +1,34 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "title": "tile-object-detection-input",
+    "description": "Geo Process API input schema for tile object detection",
+    "type" : "object",
+    "required": [
+        "zoom",
+        "tileFormat",
+        "tile"
+    ],
+    "properties": {
+        "zoom": {
+            "description": "Tile zoom level",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 20
+        },
+        "tileFormat": {
+            "description": "MIME type of tile image format (image/png or image/jpeg)",
+            "type": "string"
+        },
+        "tile": {
+            "description": "The tile image base64 encoded, may be JPEG or PNG format",
+            "type": "string",
+            "format": "base64"
+        },
+        "mask": {
+            "description": "Mask image base64 encoded in 8 bits PNG format",
+            "type": "string",
+            "format": "base64"
+        }
+    }
+}
+

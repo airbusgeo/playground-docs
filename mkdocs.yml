@@ -1,7 +1,7 @@
 site_name: OneAtlas Playground Documentation
-site_url: # TO FILL
+site_url: http://playground-docs.readthedocs.io/
 site_author: OneAtlas Playground
-repo_url: # TO FILL
+repo_url: http://github.com/airbusgeo/playground-docs/
 
 theme: readthedocs
 
@@ -19,7 +19,7 @@ markdown_extensions:
   - codehilite
 
 # Copyright
-copyright: 'Copyright &copy; 2017 - Airbus Defence and Space - Intelligence'
+copyright: 'Copyright &copy; 2018 - Airbus Defence and Space - Intelligence'
 
 pages:
   - OneAtlas Playground: index.md
@@ -30,9 +30,12 @@ pages:
     - Processing: web/processing.md
     - Jobs: web/job.md
   - Custom Process:
-    - Create a predictor: processing/predictor.md
+    - Create a custom process: processing/process.md
     - Build a container image: processing/docker.md
-    - Deploy on GCP: processing/deploy.md
+    - Deploy on GCE: processing/deploy_gce.md
+    - Deploy on GKE: processing/deploy_gke.md
     - Use from Playground: processing/use.md
     - Sample application: processing/sample.md
-
+  - Process templates:
+      - Object detection: processing/object_detection.md
+      - Change detection: processing/change_detection.md
