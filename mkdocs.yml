@@ -25,7 +25,6 @@ markdown_extensions:
   - admonition
   - codehilite
 
-# Copyright
 copyright: 'Copyright &copy; 2018 - Airbus Defence and Space - Intelligence'
 
 pages:
@@ -38,12 +37,12 @@ pages:
     - Jobs: web/job.md
   - Custom Process:
     - Create a custom process: processing/process.md
-    - Geo Process API: processing/geo_process_api.md
     - Build a container image: processing/docker.md
     - Deploy on GCE: processing/deploy_gce.md
     - Deploy on GKE: processing/deploy_gke.md
     - Use from Playground: processing/use.md
     - Sample application: processing/sample.md
-  - Process templates:
+  - Geo Process API: processing/geo_process_api.md
+  - Playground templates:
       - Object detection: processing/object_detection.md
       - Change detection: processing/change_detection.md
