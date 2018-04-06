@@ -79,7 +79,7 @@ paths:
     get:
       tags:
         - mandatory
-      summary: Describes process service.
+      summary: Describes process service
       description: |
         Returns the description of the process.
       operationId: describe
@@ -609,7 +609,7 @@ components:
               "$schema": "http://json-schema.org/draft-06/schema#",
               "title": "tile-object-detection-input",
               "description": "Geo Process API input schema for tile object detection",
-              "type" : "object",
+              "type": "object",
               "required": [
                 "zoom",
                 "tile"
@@ -623,7 +623,7 @@ components:
                 },
                 "tile": {
                   "description": "The tile image base64 encoded, may be JPEG or PNG format",
-                  "type" : "string",
+                  "type": "string",
                   "format": "base64"
                 }
               }
