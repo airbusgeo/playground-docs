@@ -1,22 +1,21 @@
-"""Predict processing.
+"""Object detection processing.
 """
 
 # utilities
 import json
 import base64
 import io
+import geojson
 
 # image processing
 from PIL import Image
+import shapely.geometry
 
 # matrix processing
 import numpy as np
 
 # deep learning
 import tensorflow as tf
-
-# playground
-from playground_api import PredictStatus, PredictType
 
 
 class PredictError(Exception):
@@ -32,12 +31,11 @@ class PredictError(Exception):
         Args:
             message (str): error message
         """
-        super(PredictError, self).__init__()
-        self.message = message
+        super(PredictError, self).__init__(message)
 
 
 class Predict(object):
-    """Prediction processing.
+    """Object detection processing.
     
     Attributes:
         logger (TYPE): the logger
@@ -52,40 +50,65 @@ class Predict(object):
         self.logger = logger
 
 
-    def predict(self, tile_1, tile_2):
-        """Predict tiles.
+    def process(self, zoom, tile_format, tile, mask=None, debug=False):
+        """Process tile.
         
         Args:
-            tile_1 (bytearray): first tile
-            tile_2 (bytearray): second (optional) tile
+            zoom (integer): zoom level
+            tile_format (string): tile mime-type
+            tile (bytearray): tile
+            mask (bytearray): mask as 8 bits PNG
+            debug (boolean): debug mode
         
         Returns:
-            dict: prediction result
+            object: GeoJSON FeatureCollection
         """
         self.logger.debug('Generate prediction')
 
         try:
             # convert tile from byte array to numpy array
-            img = Image.open(io.BytesIO(tile_1))
+            img = Image.open(io.BytesIO(tile))
             img = np.asarray(img, dtype=np.uint8)
+            
+            if mask is not None:
+                mask = Image.open(io.BytesIO(mask))
+                mask = np.asarray(mask, dtype=np.uint8)
         
             # process tile image
-            # TODO
-            result = None
+            polygons, confidence = self._predict(img, mask)
 
-            data = {
-                'status' : PredictStatus.DONE,
-                'type' : PredictType.GEO_JSON,
-                'result' : result
-            }
+            if debug:
+                self.logger.info('%d polygons found', len(polygons))
 
-        except:
-            data = {
-                'status' : PredictStatus.ERROR,
-                'error' : 'Error processing tile',
-                'type' : PredictType.GEO_JSON,
-                'result' : None
-            }
+            # create a GeoJSON
+            features = []
+            for p in polygons:
+                props = {
+                    "category": "test",
+                    "conficence": confidence
+                }
+                features.append(geojson.Feature(geometry=shapely.geometry.mapping(p), properties=props))
+            data = geojson.FeatureCollection(features)
+
+        except Exception as error:
+            self.logger.exception(error)
+            raise PredictError(error.message)
 
         return data
 
+
+    def _predict(self, img, mask=None):
+        """Process tile.
+        
+        Args:
+            img (numpy array): tile image
+            mask (numpy array): mask
+        
+        Returns:
+            array: array of GeoJSON Features
+        """
+        # TODO process tile image, each detected object is a polygon
+        polygons = []
+        confidence = 1.0
+
+        return polygons, confidence
