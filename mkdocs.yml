@@ -14,6 +14,13 @@ extra:
     code: 'Fira Mono'
   logo: 'images/logo_airbus_A.png'
 
+extra_css:
+  - stylesheets/swagger-ui.css
+
+extra_javascript:
+  - scripts/swagger-ui-bundle.js
+  - scripts/swagger-ui-standalone-preset.js
+
 markdown_extensions:
   - admonition
   - codehilite
@@ -31,6 +38,7 @@ pages:
     - Jobs: web/job.md
   - Custom Process:
     - Create a custom process: processing/process.md
+    - Geo Process API: processing/geo_process_api.md
     - Build a container image: processing/docker.md
     - Deploy on GCE: processing/deploy_gce.md
     - Deploy on GKE: processing/deploy_gke.md

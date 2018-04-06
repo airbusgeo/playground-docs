@@ -4,7 +4,7 @@ OneAtlas Playground allows to process tile images in order to detect objects, ch
 
 # Web-Service API
 
-The process has to provide a REST web-service that implements the [Geo Process API](https://airbusgeo.github.io/geoapi-viewer/?url=https://raw.githubusercontent.com/airbusgeo/playground-docs/master/api/api_geo_process_v1.0.0.yaml).
+The process has to provide a REST web-service that implements the [Geo Process API](geo_process_api.md).
 
 In the Playground, processes are asynchronous, the synchronous interface of the API is not used.
 The following services must be implemented.

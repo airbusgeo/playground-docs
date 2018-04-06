@@ -1,29 +1,29 @@
 # Introduction
 
-Description of the Playground [Geo Process API](https://airbusgeo.github.io/geoapi-viewer/?url=https://raw.githubusercontent.com/airbusgeo/playground-docs/master/api/api_geo_process_v1.0.0.yaml) for object detection class of processes.
+Description of the Playground [Geo Process API](geo_process_api.md) for object detection class of processes.
 
 # Describe service
 
-This service returns a JSON document that comply to the [tile-object-detection](https://raw.githubusercontent.com/airbusgeo/playground-docs/master/api/tile-object-detection-describe.json) template.
+This service returns a JSON document that comply to the **tile-object-detection** Geo Process API [template](https://raw.githubusercontent.com/airbusgeo/playground-docs/master/api/tile-object-detection-describe.json).
 
-Replace `#TODO#` string with correct values.
+Replace `TBC` (to be completed) strings with correct values.
 
-**Example :**
+*Example :*
 
 ```json
 {
-    "name": "#TODO#",
-    "title": "#TODO#",
-    "family": "#TODO#",
-    "version": "#TODO#",
-    "description": "#TODO#",
-    "organization": "#TODO#",
-    "email": "#TODO#",
-    "keywords": "#TODO#",
+    "name": "TBC",
+    "title": "TBC",
+    "family": "TBC",
+    "version": "TBC",
+    "description": "TBC",
+    "organization": "TBC",
+    "email": "TBC",
+    "keywords": "TBC",
     "template": "tile-object-detection",
     "resources": {
-        "cpu": #TODO#,
-        "ram": #TODO#
+        "cpu": TBC,
+        "ram": TBC
     },
     "input": {
         "$schema": "http://json-schema.org/draft-06/schema#",
@@ -95,16 +95,16 @@ Replace `#TODO#` string with correct values.
     "asynchronous": false,
     "_links": {
         "self": {
-            "href": "#TODO#"
+            "href": "TBC"
         },
         "execution": {
-            "href": "#TODO#"
+            "href": "TBC"
         },
         "config:": {
-            "href": "#TODO#"
+            "href": "TBC"
         },
         "version": {
-            "href": "#TODO#"
+            "href": "TBC"
         }
     }
 }
@@ -112,9 +112,9 @@ Replace `#TODO#` string with correct values.
 
 # Config service
 
-This service returns a JSON document that comply to the [tile-object-detection](https://raw.githubusercontent.com/airbusgeo/playground-docs/master/api/tile-object-detection-config.json) config schema.
+This service returns a JSON document that comply to the **tile-object-detection** [config schema](https://raw.githubusercontent.com/airbusgeo/playground-docs/master/api/tile-object-detection-config.json).
 
-**Example :**
+*Example :*
 
 ```json
 {
@@ -129,9 +129,9 @@ This service executes the process.
 
 ## Input data
 
-A JSON document that comply to the [tile-object-detection](https://raw.githubusercontent.com/airbusgeo/playground-docs/master/api/tile-object-detection-input.json) input schema.
+A JSON document that comply to the **tile-object-detection** [input schema](https://raw.githubusercontent.com/airbusgeo/playground-docs/master/api/tile-object-detection-input.json).
 
-**Example :**
+*Example :*
 
 ```json
 {
@@ -154,7 +154,7 @@ A JSON document that comply to the [GeoJSON](https://en.wikipedia.org/wiki/GeoJS
     * The 'category' property is used for tags, labels or classification results. It's value may be a string with several values separated by a comma or an array of strings.
     * The 'confidence' property value is a float between 0. and 1.0.
 
-**Example :**
+*Example :*
 
 ```json
 {
