@@ -26,6 +26,10 @@ def openapi():
         GET /api/v1/openapi
         Return Geo Process API OpenAPI specification.
     """
+    with open('api_geo_process.yaml', 'r') as content_file:
+        content = content_file.read()
+    
+    return content
 
 
 @app.route('/api/v1/describe', methods=['GET'])
