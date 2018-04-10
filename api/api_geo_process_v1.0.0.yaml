@@ -13,12 +13,12 @@ info:
     An optional asynchronous mode for long running processes and process that returns huge amount of data may be implemented.
 
     OneAtlas Playgound is an evaluation environment to test Geo Process on OneAtlas imagery from Airbus and Partners. It is open on invitation only. Registration should be done on OneAtlas Sandbox (https://www.intelligence-airbusds.com/sandbox).
-  termsOfService: 'https://sandbox.intelligence-airbusds.com/web/assets/files/Technical-Evaluation-Licence-December2014.pdf'
   contact:
     name: Airbus Defence and Space - Intelligence - Innovation Team
     url: 'https://www.intelligence-airbusds.com/'
   license:
-    name: proprietary
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
   version: 1.0.0
 
 #
