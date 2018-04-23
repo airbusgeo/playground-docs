@@ -23,7 +23,6 @@ extra_javascript:
 
 markdown_extensions:
   - admonition
-  - codehilite
 
 copyright: 'Copyright &copy; 2018 - Airbus Defence and Space - Intelligence'
 
@@ -35,7 +34,10 @@ pages:
     - Validation: web/validation.md
     - Processing: web/processing.md
     - Jobs: web/job.md
-  - Custom Process:
+  - Using OneAtlas Playground Data:
+    - One Atlas: parsing/one-atlas-data.md
+    - Export Data Format: parsing/parsing.md
+  - Creating a Custom Process:
     - Create a custom process: processing/process.md
     - Build a container image: processing/docker.md
     - Deploy on GCE: processing/deploy_gce.md
@@ -43,6 +45,6 @@ pages:
     - Use from Playground: processing/use.md
     - Sample application: processing/sample.md
   - Geo Process API: processing/geo_process_api.md
-  - Playground templates:
+  - Process Templates for OneAtlas Playground:
       - Object detection: processing/object_detection.md
       - Change detection: processing/change_detection.md
