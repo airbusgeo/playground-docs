@@ -20,13 +20,9 @@ It relies on the Google Cloud Platform components.
 
 The main objective of the Playground is to abstract away data connection, deployment and scalability for any Data Scientist and to provide an integrated platform to directly assess the performance and scalability of ML services.
 
-![OneAtlas Playground](images/playground.png "OneAtlasPlayground")
-
 # Sandboxed Deployment
 
 Abstracting away the deployment of ML services is done by deploying Docker containers on Google Kubernetes Engine or others cloud providers.
-
-![OneAtlas Playground](images/playground2.png "OneAtlasPlayground")
 
 # Tagging and Labelling
 
