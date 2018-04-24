@@ -26,7 +26,7 @@ info:
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
-  version: 1.0.0
+  version: 1.0.1
 
 #
 # External docs
@@ -555,7 +555,6 @@ components:
         - family
         - version
         - description
-        - maintainer
         - organization
         - email
         - resources
@@ -665,6 +664,15 @@ components:
           description: Number of CPU cores.
           type: integer
           example: 2
+        cpuArch:
+          description: CPU architecture, the default value is amd64.
+          type: string
+          enum: [amd64, arm64]
+          example: amd64
+        cpuPlatform:
+          description: Minimum CPU microarchitecture platform.
+          type: string
+          example: Haswell
         gpu:
           description: Number of GPU cores.
           type: integer
@@ -820,7 +828,9 @@ components:
     #
     Metrics:
       description: |
-        TODO
+        Process metrics.
+
+        Implementation specific.
       type: object
 
     #
