@@ -17,9 +17,6 @@ This service returns the OpenAPI specification of the Geo Process API in YAML fo
 
 This service provides generic process informations to the Playground.
 
-* padding : tile padding / border (0 to 256)
-* nb_tiles : number of tiles for each processing (1 or 2)
-
 **GET /config**
 
 This service provides specific informations to the Playground.
@@ -35,8 +32,8 @@ They have to be used by custom processes in order to be integrated to the Playgr
 
 Templates are defined for each kind of process that are supported by the Playgroud:
 
-* object detection
-* change detection
+* [object detection](object_detection.md)
+* [change detection](change_detection.md)
 
 # Input
 
