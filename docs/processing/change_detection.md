@@ -1,6 +1,6 @@
 # Introduction
 
-Description of the Playground [Geo Process API](geo_process_api.md) for change detection class of processes.
+[Geo Process API](geo_process_api.md) template specification for OneAtlas Playground change detection class of processes.
 
 # Describe service
 

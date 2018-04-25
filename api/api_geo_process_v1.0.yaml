@@ -6,8 +6,8 @@ openapi: 3.0.0
 info:
   title: Geo Process API
   description: |
-    This document presents the Airbus Defence and Space Geo Process Service API Specification.
-    Geo Process Services that are provided to or from Airbus Defense and Space should implement this specification.
+    This document describes the Airbus Defence and Space "Geo Process" API specification.
+    Geo Process services that are provided to or from Airbus Defense and Space should implement this specification.
 
     The default execution mode for Geo Process Services is synchronous.
     An optional asynchronous mode for long running processes and process that returns huge amount of data may be implemented.
@@ -21,8 +21,8 @@ info:
     It is open on invitation only.
     Registration should be done on OneAtlas Sandbox (https://www.intelligence-airbusds.com/sandbox).
   contact:
-    name: Airbus Defence and Space - Intelligence - Innovation Team
-    url: 'https://www.intelligence-airbusds.com/'
+    name: Airbus Defence and Space
+    url: 'https://www.airbus.com/'
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
