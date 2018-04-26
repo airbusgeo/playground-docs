@@ -29,16 +29,16 @@ ENV PATH /env/bin:$PATH
 # update pip to avoid debian problems
 RUN pip install -U pip
 
-# Set workdir
-WORKDIR /app/
-
 # Install application requirements
-COPY requirements.txt /app/
-RUN pip install -r requirements.txt
+COPY requirements.txt /tmp/
+RUN pip install -r /tmp/requirements.txt
+
+# Set workdir
+WORKDIR /api/
 
 # Install application
-COPY . /app/
+COPY . /api/
 
 # Launch web application
 EXPOSE 8080
-ENTRYPOINT ["gunicorn", "-c", "gunicorn.conf.py", "-b", "0.0.0.0:8080", "api:app"]
+ENTRYPOINT ["gunicorn", "-c", "/api/app/gunicorn.conf.py", "-b", "0.0.0.0:8080", "app.api:APP"]

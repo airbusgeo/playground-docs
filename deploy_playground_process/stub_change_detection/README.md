@@ -1,4 +1,4 @@
-# OneAtlas Playground processing stub
+# OneAtlas Playground Change Detection Processing Stub
 
 The processing stub provides a sample Python 2.7 project to implement a Playground tile process.
 
@@ -14,19 +14,32 @@ Documentation on how to implement a Playground process:
 Build the docker image :
 
 ```bash
-docker build --rm -t stub .
+docker build --rm -f Dockerfile -t playground-stub:change-detection .
 ```
 
 Execute the container (redirect service port to 8000 on the host) :
 
 ```bash
-docker run --rm -ti -p 8000:8080 stub
+docker run --rm -p 8000:8080 playground-stub:change-detection
 ```
 
-Call the service :
+Call the service : (these should work)
 
 ```bash
 curl http://localhost:8000/api/v1/describe
+```
+
+```bash
+curl http://localhost:8000/api/config
+```
+
+```bash
+curl http://localhost:8000/api/version
+```
+
+
+```bash
+curl http://localhost:8000/api/openapi
 ```
 
 Test service with an image :

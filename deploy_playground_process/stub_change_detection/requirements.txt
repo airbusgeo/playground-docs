@@ -12,11 +12,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Gunicorn (http server) configuration.
-"""
+# http server
+gunicorn==19.7.1
 
-import multiprocessing
+# web framework
+Flask==0.12.2
+werkzeug==0.12.2
 
-worker_class = 'sync'
-workers = multiprocessing.cpu_count() * 2 + 1
-#timeout = 60
+# json schema validator
+jsonschema==2.6.0
+
+# image processing
+Pillow==5.0.0
+shapely==1.5.15
+geojson==2.3.0
+
+# matrix processing
+numpy==1.14.0
+
+# deep learning
+tensorflow==1.7.0

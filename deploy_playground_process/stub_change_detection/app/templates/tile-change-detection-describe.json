@@ -1,0 +1,108 @@
+{
+    "name": null,
+    "title": null,
+    "family": null,
+    "version": null,
+    "description": null,
+    "organization": null,
+    "email": null,
+    "keywords": null,
+    "template": "tile-change-detection",
+    "resources": {
+        "cpu": null,
+        "ram": null
+    },
+    "input": {
+        "$schema": "http://json-schema.org/draft-06/schema#",
+        "title": "tile-change-detection-input",
+        "description": "Geo Process API input schema for tile change detection",
+        "type": "object",
+        "required": [
+            "zoom",
+            "tile1Format",
+            "tile1",
+            "tile2Format",
+            "tile2"
+        ],
+        "properties": {
+            "zoom": {
+                "description": "Tile zoom level",
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 20
+            },
+            "tile1Format": {
+                "description": "MIME type of the first tile image format (image/png or image/jpeg)",
+                "type": "string"
+            },
+            "tile1": {
+                "description": "The first tile image base64 encoded, may be JPEG or PNG format",
+                "type": "string",
+                "format": "base64"
+            },
+            "tile2Format": {
+                "description": "MIME type of second tile image format (image/png or image/jpeg)",
+                "type": "string"
+            },
+            "tile2": {
+                "description": "The second tile image base64 encoded, may be JPEG or PNG format",
+                "type": "string",
+                "format": "base64"
+            },
+            "mask": {
+                "description": "Mask image base64 encoded in 8 bits PNG format",
+                "type": "string",
+                "format": "base64"
+            }
+        }
+    },
+    "output": {
+        "description": "Tile change detection GeoJSON. Root element has to be a 'FeatureCollection' with one or several 'Feature' objects. Feature geometry is expressed with (0,0) at the top left of the tile image padding included. Feature properties may be 'category' and 'confidence'. The 'category' property is used for tags, labels or classification results. It's value may be a string with several values separated by a comma or an array of strings. The 'confidence' property value is a float between 0. and 1.0.",
+        "content": {
+            "application/geo+json": {}
+        }
+    },
+    "config": {
+        "$schema": "http://json-schema.org/draft-06/schema#",
+        "title": "tile-change-detection-config",
+        "description": "Geo Process API config schema for tile change detection",
+        "type": "object",
+        "required": [
+            "zoom",
+            "padding"
+        ],
+        "properties": {
+            "zoom": {
+                "description": "Zoom levels that can be processed",
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 17
+                }
+            },
+            "padding": {
+                "description": "Padding / border needed to process the tile. 0 for no padding.",
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 256
+            }
+        }
+    },
+    "asynchronous": false,
+    "_links": {
+        "self": {
+            "href": "/api/v1/describe"
+        },
+        "execution": {
+            "href": "/api/jobs"
+        },
+        "config:": {
+            "href": "/api/config"
+        },
+        "version": {
+            "href": "/api/version"
+        }
+    }
+}

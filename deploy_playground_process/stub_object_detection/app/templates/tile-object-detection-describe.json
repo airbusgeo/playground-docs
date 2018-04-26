@@ -1,16 +1,16 @@
 {
-    "name": "TBC",
-    "title": "TBC",
-    "family": "TBC",
-    "version": "TBC",
-    "description": "TBC",
-    "organization": "TBC",
-    "email": "TBC",
-    "keywords": "TBC",
+    "name": null,
+    "title": null,
+    "family": null,
+    "version": null,
+    "description": null,
+    "organization": null,
+    "email": null,
+    "keywords": null,
     "template": "tile-object-detection",
     "resources": {
-        "cpu": "TBC",
-        "ram": "TBC"
+        "cpu": null,
+        "ram": null
     },
     "input": {
         "$schema": "http://json-schema.org/draft-06/schema#",
@@ -82,16 +82,16 @@
     "asynchronous": false,
     "_links": {
         "self": {
-            "href": "TBC"
+            "href": "/api/v1/describe"
         },
         "execution": {
-            "href": "TBC"
+            "href": "/api/jobs"
         },
         "config:": {
-            "href": "TBC"
+            "href": "/api/config"
         },
         "version": {
-            "href": "TBC"
+            "href": "/api/version"
         }
     }
 }

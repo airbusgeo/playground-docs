@@ -2,6 +2,10 @@
 
 This project manages source code of the OneAtlas Playground Documentation.
 
+## File structure
+
+`/api/`con
+
 It also contans examples on how to read, process playground data and how to package processes for deployment on OneAtlas Playground
 
 * Documentation is automatically deployed on [Read the Docs](http://playground-docs.readthedocs.io/)

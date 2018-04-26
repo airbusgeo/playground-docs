@@ -1,0 +1,44 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "title": "tile-change-detection-input",
+    "description": "Geo Process API input schema for tile change detection",
+    "type" : "object",
+    "required": [
+        "zoom",
+        "tile1Format",
+        "tile1",
+        "tile2Format",
+        "tile2"
+    ],
+    "properties": {
+        "zoom": {
+            "description": "Tile zoom level",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 20
+        },
+        "tile1Format": {
+            "description": "MIME type of the first tile image format (image/png or image/jpeg)",
+            "type": "string"
+        },
+        "tile1": {
+            "description": "The first tile image base64 encoded, may be JPEG or PNG format",
+            "type": "string",
+            "format": "base64"
+        },
+        "tile2Format": {
+            "description": "MIME type of second tile image format (image/png or image/jpeg)",
+            "type": "string"
+        },
+        "tile2": {
+            "description": "The second tile image base64 encoded, may be JPEG or PNG format",
+            "type": "string",
+            "format": "base64"
+        },
+        "mask": {
+            "description": "Mask image base64 encoded in 8 bits PNG format",
+            "type": "string",
+            "format": "base64"
+        }
+    }
+}

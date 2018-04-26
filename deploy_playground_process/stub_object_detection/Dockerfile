@@ -1,0 +1,44 @@
+# Copyright 2018 Airbus. All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Create a container image from a stock Python 2.7 Debian image
+FROM python:2.7-stretch
+
+# Install system dependencies: libgeos
+RUN apt-get update && \
+    apt-get install -qy libgeos-c1v5 && \
+    apt-get clean
+
+# Create a virtualenv for installing the application
+RUN virtualenv --no-download /env -p python
+# Set virtualenv environment variables. This is equivalent to running
+# source /env/bin/activate
+ENV VIRTUAL_ENV /env
+ENV PATH /env/bin:$PATH
+# update pip to avoid debian problems
+RUN pip install -U pip
+
+# Install application requirements
+COPY requirements.txt /tmp/
+RUN pip install -r /tmp/requirements.txt
+
+# Set workdir
+WORKDIR /api/
+
+# Install application
+COPY . /api/
+
+# Launch web application
+EXPOSE 8080
+ENTRYPOINT ["gunicorn", "-c", "/api/app/gunicorn.conf.py", "-b", "0.0.0.0:8080", "app.api:APP"]

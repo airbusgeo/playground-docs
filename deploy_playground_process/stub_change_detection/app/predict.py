@@ -11,7 +11,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 """Object detection processing.
 """
 
@@ -63,8 +62,7 @@ class Predict(object):
         """
         self.logger = logger
 
-
-    def process(self, zoom, tile_format, tile, mask=None, debug=False):
+    def process(self, zoom, tile_formats, tiles, mask=None, debug=False):
         """Process tile.
         
         Args:
@@ -81,27 +79,33 @@ class Predict(object):
 
         try:
             # convert tile from byte array to numpy array
-            img = Image.open(io.BytesIO(tile))
-            img = np.asarray(img, dtype=np.uint8)
-            
+            tile_1, tile_2 = tiles
+            tile_1_format, tile_2_format = tile_formats
+            img_1 = Image.open(io.BytesIO(tile_1))
+            img_1 = np.asarray(img_1, dtype=np.uint8)
+            img_2 = Image.open(io.BytesIO(tile_2))
+            img_2 = np.asarray(img_2, dtype=np.uint8)
             if mask is not None:
                 mask = Image.open(io.BytesIO(mask))
                 mask = np.asarray(mask, dtype=np.uint8)
-        
+
             # process tile image
-            polygons, confidence = self._predict(img, mask)
+            polygons, categories, confidences = self._predict(img_1,img_2, mask)
 
             if debug:
                 self.logger.info('%d polygons found', len(polygons))
 
             # create a GeoJSON
             features = []
-            for p in polygons:
+            for i, p in enumerate(polygons):
                 props = {
-                    "category": "test",
-                    "conficence": confidence
+                    "category": categories[i],
+                    "conficence": confidences[i]
                 }
-                features.append(geojson.Feature(geometry=shapely.geometry.mapping(p), properties=props))
+                features.append(
+                    geojson.Feature(
+                        geometry=shapely.geometry.mapping(p),
+                        properties=props))
             data = geojson.FeatureCollection(features)
 
         except Exception as error:
@@ -110,8 +114,7 @@ class Predict(object):
 
         return data
 
-
-    def _predict(self, img, mask=None):
+    def _predict(self, img_1,img_2, mask=None):
         """Process tile.
         
         Args:
@@ -123,6 +126,7 @@ class Predict(object):
         """
         # TODO process tile image, each detected object is a polygon
         polygons = []
-        confidence = 1.0
+        categories = [""]
+        confidences = [1.0]
 
-        return polygons, confidence
+        return polygons, categories, confidences

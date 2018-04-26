@@ -19,6 +19,9 @@ gunicorn==19.7.1
 Flask==0.12.2
 werkzeug==0.12.2
 
+# json schema validator
+jsonschema==2.6.0
+
 # image processing
 Pillow==5.0.0
 shapely==1.5.15
@@ -28,4 +31,4 @@ geojson==2.3.0
 numpy==1.14.0
 
 # deep learning
-tensorflow==1.2.0
+tensorflow==1.7.0
