@@ -22,7 +22,7 @@ from datetime import datetime
 from .api_utils import APIHelper
 
 # web framework
-from flask import Flask, request, json, jsonify
+from flask import Flask, request, json, jsonify, Response
 
 # predictor
 from predict import Predict, PredictError
