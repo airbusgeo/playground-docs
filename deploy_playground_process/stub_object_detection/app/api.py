@@ -91,6 +91,32 @@ except ValueError as e:
 # You may not have to modify anything, except if you modified the default _links above
 # predict.py should contain your prediction code and is defined above via PREDICTOR
 
+@APP.route("/liveness_check")
+def check_liveness():
+    """Liveness check for GKE/GAE
+    """
+    LOGGER.debug("Received /liveness_check request")
+    """ Check service health """
+    if PREDICTOR is not None:
+        LOGGER.debug("Responding Live OK")
+        return Response("live ok", status=200)
+    else:
+        LOGGER.debug("Responding Live KO")
+        return Response("not live", status=500)
+
+
+@APP.route("/readiness_check")
+def check_readiness():
+    """Readiness check for GKE/GAE
+    """
+    LOGGER.debug("Received /readiness_check request")
+    """ Check service health """
+    if PREDICTOR is not None:
+        LOGGER.debug("Responding Ready OK")
+        return Response("live ok", status=200)
+    else:
+        LOGGER.debug("Responding Ready KO")
+        return Response("not live", status=500)
 
 @APP.route('/api/v1/openapi', methods=['GET'])
 def openapi():
@@ -99,7 +125,7 @@ def openapi():
         Return Geo Process API OpenAPI specification.
     """
     open_api_data = API_HELPER.open_api_data
-    return jsonify(open_api_data)
+    return open_api_data
 
 
 @APP.route('/api/v1/describe', methods=['GET'])
