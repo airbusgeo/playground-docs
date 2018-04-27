@@ -47,5 +47,6 @@ pages:
   - APIs:
     - Geo Process API: processing/geo_process_api.md
     - Geo Processes Manager API: processing/geo_processes_manager_api.md
+    - ADS JSON Schema metadata extensions: processing/ads_json_extensions.md
     - Object detection template: processing/object_detection.md
     - Change detection template: processing/change_detection.md
