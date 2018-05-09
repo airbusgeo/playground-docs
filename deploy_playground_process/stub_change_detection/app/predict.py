@@ -100,7 +100,7 @@ class Predict(object):
             for i, p in enumerate(polygons):
                 props = {
                     "category": categories[i],
-                    "conficence": confidences[i]
+                    "confidence": confidences[i]
                 }
                 features.append(
                     geojson.Feature(

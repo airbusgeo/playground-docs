@@ -87,7 +87,7 @@
         "execution": {
             "href": "/api/jobs"
         },
-        "config:": {
+        "config": {
             "href": "/api/config"
         },
         "version": {

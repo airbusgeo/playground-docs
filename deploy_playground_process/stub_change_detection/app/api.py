@@ -91,6 +91,7 @@ except ValueError as e:
 # You may not have to modify anything, except if you modified the default _links above
 # predict.py should contain your prediction code and is defined above via PREDICTOR
 
+
 @APP.route("/")
 def default_backend():
     """Default backend check for GKE Ingress
@@ -103,6 +104,7 @@ def default_backend():
     else:
         LOGGER.debug("Responding Ready KO")
         return Response("not live", status=500)
+
 
 @APP.route("/liveness_check")
 def check_liveness():
@@ -131,6 +133,7 @@ def check_readiness():
         LOGGER.debug("Responding Ready KO")
         return Response("not live", status=500)
 
+
 @APP.route('/api/v1/openapi', methods=['GET'])
 def openapi():
     """
@@ -138,7 +141,7 @@ def openapi():
         Return Geo Process API OpenAPI specification.
     """
     open_api_data = API_HELPER.open_api_data
-    return open_api_data
+    return Response(open_api_data, mimetype="text/yaml", status=200)
 
 
 @APP.route('/api/v1/describe', methods=['GET'])
@@ -159,8 +162,11 @@ def jobs():
     try:
         # get input parameter
         correlation_id = request.headers.get('X-Correlation-ID')
-        debug = request.headers.get('X-ADS-Debug').lower() in ("yes", "true",
-                                                               "t", "1")
+        if request.headers.get('X-ADS-Debug') is not None:
+            debug = request.headers.get('X-ADS-Debug').lower()
+            debug = debug in ("yes", "true", "t", "1")
+        else:
+            debug = False
 
         # get input data
         data = request.get_json()
@@ -181,7 +187,7 @@ def jobs():
     except Exception as error:
         logging.error('requestId: %s error: %s', correlation_id, error.message)
         # return invalid input error
-        return error.message, 400
+        return Response(error.message, status=400)
 
     try:
         # detect objects
@@ -202,7 +208,7 @@ def jobs():
             "timestamp": datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         }
         logging.error(data)
-        return jsonify(data), 500
+        return Response(json.dumps(data), mimetype="application/json", status=500)
 
 
 @APP.route('/api/config', methods=['GET'])
@@ -211,6 +217,7 @@ def get_config():
         GET /api/config
         Return process configuration.
     """
+    correlation_id = request.headers.get('X-Correlation-ID')
     config_data = {
         # to be changed by each process implementation
         "zoom": ZOOM_LEVELS,
@@ -223,7 +230,7 @@ def get_config():
     except Exception as error:
         logging.error('requestId: %s error: %s', correlation_id, error.message)
         # return invalid input error
-        return error.message, 400
+        return Response(error.message, status=400)
 
 
 @APP.route('/api/config', methods=['PUT'])
@@ -233,7 +240,7 @@ def set_config():
         Set process configuration.
     """
     # do nothing as this process is asynchronous and not statefull
-    return '', 200
+    return Response('ok', status=200)
 
 
 @APP.route('/api/version', methods=['GET'])
