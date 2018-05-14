@@ -2,9 +2,9 @@
 
 [Geo Process API](geo_process_api.md) template specification for OneAtlas Playground change detection class of processes.
 
-# Describe service
+# Describe endpoint
 
-This service returns a JSON document that comply to the **tile-change-detection** Geo Process API [template](https://raw.githubusercontent.com/airbusgeo/playground-docs/master/api/tile-change-detection-describe.json).
+This endpoint returns a JSON document that comply to the **tile-change-detection** Geo Process API [template](https://raw.githubusercontent.com/airbusgeo/playground-docs/master/api/tile-change-detection-describe.json).
 
 Replace `TBC` (to be completed) strings with correct values.
 
@@ -121,9 +121,9 @@ Replace `TBC` (to be completed) strings with correct values.
 }
 ```
 
-# Config service
+# Config endpoint
 
-This service returns a JSON document that comply to the **tile-change-detection** [config schema](https://raw.githubusercontent.com/airbusgeo/playground-docs/master/api/tile-change-detection-config.json).
+This endpoint returns a JSON document that comply to the **tile-change-detection** [config schema](https://raw.githubusercontent.com/airbusgeo/playground-docs/master/api/tile-change-detection-config.json).
 
 *Example :*
 
@@ -134,9 +134,9 @@ This service returns a JSON document that comply to the **tile-change-detection*
 }
 ```
 
-# Job service
+# Job endpoint
 
-This service executes the process.
+This endpoint executes the process.
 
 ## Input data
 

@@ -7,9 +7,9 @@ With a VM it is easy to **test the processing** and its deployment.
 
 # Prerequisites
 
-* a Google account
-* a project on Google Cloud Platform
-* install Google Cloud SDK from [https://cloud.google.com/sdk/downloads](https://cloud.google.com/sdk/downloads)
+* A Google account
+* A project on Google Cloud Platform
+* Google Cloud SDK installed from [https://cloud.google.com/sdk/downloads](https://cloud.google.com/sdk/downloads)
 
 # Create a VM
 
