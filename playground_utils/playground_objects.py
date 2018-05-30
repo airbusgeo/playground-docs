@@ -1,10 +1,11 @@
 import os
 import glob
 import json
+import tqdm
 
 
 class PlaygroundExport(object):
-    def __init__(self, job_name, export_dir):
+    def __init__(self, export_dir, job_name):
         """
         An Export class that is the main class and contains Datasets
         Initializing a PlaygroundExport Class will automatically find all datasets inside this export 
@@ -17,8 +18,9 @@ class PlaygroundExport(object):
             job_name: The job name (usually the dir name)
             export_dir: The path to the export directory (should point to /data/job-name/)
         """
-        self.job_name = job_name
         self.input_dir = export_dir
+        self.job_name = job_name
+        self.datasets = []
 
         assert os.path.exists(os.path.join(
             export_dir,
@@ -28,14 +30,30 @@ class PlaygroundExport(object):
             config = json.loads(f.read())
             self.zoom = config.get("targetZoom")
             self.datasets_ids = config.get("datasetIds")
-            self.datasets = []
-            for dataset_id in self.datasets_ids:
-                export_dir = os.path.join(export_dir)
-                self.datasets.append(PlaygroundDataset(dataset_id, export_dir))
+
+            for dataset_id in tqdm.tqdm(
+                    self.datasets_ids, desc="Findind dataset files"):
+                self.datasets.append(PlaygroundDataset(export_dir, dataset_id))
+
+    def __repr__(self):
+        s = " {} - {}\n".format(self.input_dir, self.job_name)
+        s += " {} Zones {} Tiles\n".format(
+            sum([len(dataset.zones) for dataset in self.datasets]),
+            sum([
+                len(zone.tiles) for dataset in self.datasets
+                for zone in dataset.zones
+            ]),
+        )
+        for dataset in self.datasets:
+            s += "Dataset {}: {} zones - {} tiles\n".format(
+                dataset.dataset_id, len(dataset.zones),
+                sum([len(zone.tiles) for zone in dataset.zones]))
+
+        return s
 
 
 class PlaygroundDataset(object):
-    def __init__(self, dataset_id, export_dir):
+    def __init__(self, export_dir, dataset_id):
         """
         The Playground Dataset Export class that contains zones
         Automatically created by PlaygroundExport class
@@ -64,11 +82,11 @@ class PlaygroundDataset(object):
                 if not isinstance(image_ids, list):
                     image_ids = [image_ids]
                 self.zones.append(
-                    PlaygroundZone(dataset_id, zone_id, image_ids, export_dir))
+                    PlaygroundZone(export_dir, dataset_id, zone_id, image_ids))
 
 
 class PlaygroundZone(object):
-    def __init__(self, dataset_id, zone_id, image_ids, export_dir):
+    def __init__(self, export_dir, dataset_id, zone_id, image_ids):
         """
         A Playground Zone (that contain tiles objects). Automatically created by the Dataset class
         A zone is a list of WMTS tiles belonging to a certain undisclosed geographical location.
@@ -81,6 +99,7 @@ class PlaygroundZone(object):
             image_ids: Image_ids where this zone is located
             export_dir:
         """
+        self.export_dir = export_dir
         self.dataset_id = dataset_id
         self.zone_id = zone_id
         self.image_ids = image_ids
@@ -105,24 +124,19 @@ class PlaygroundZone(object):
         Returns:
 
         """
-        label_id = os.path.splitext(os.path.basename(label_file))[0]
-        sample_files = []
-        for sample_dir in self.samples_dirs:
-            if os.path.exists(os.path.join(sample_dir, label_id + ".jpg")):
-                sample_files.append(
-                    os.path.join(sample_dir, label_id + ".jpg"))
-            elif os.path.exists(os.path.join(sample_dir, label_id + ".png")):
-                sample_files.append(
-                    os.path.join(sample_dir, label_id + ".png"))
-        if len(sample_files) == len(self.samples_dirs):
-            return PlaygroundTile(self.dataset_id, self.zone_id, label_file,
-                                  sample_files)
+        tile_id = os.path.splitext(os.path.basename(label_file))[0]
+
+        tile = PlaygroundTile(self.export_dir, self.dataset_id, self.zone_id,
+                              self.image_ids, tile_id)
+
+        if tile.sample_files is not None:
+            return tile
         else:
             return None
 
 
 class PlaygroundTile(object):
-    def __init__(self, dataset_id, zone_id, label_file, sample_files):
+    def __init__(self, export_dir, dataset_id, zone_id, image_ids, tile_id):
         """
 
         Args:
@@ -131,8 +145,36 @@ class PlaygroundTile(object):
             label_file:
             sample_files:
         """
+        self.export_dir = export_dir
         self.dataset_id = dataset_id
         self.zone_id = zone_id
-        self.tile_id = os.path.splitext(os.path.basename(label_file))[0]
-        self.label_file = label_file
-        self.sample_files = sample_files
+        self.image_ids = image_ids
+        self.tile_id = tile_id
+
+        self.target_file = os.path.join(self.export_dir, self.dataset_id,
+                                        "labels", self.zone_id,
+                                        tile_id + ".json")
+        self.sample_files = []
+
+        self._find()
+
+    def _find(self):
+        samples_dirs = [
+            os.path.join(self.export_dir, self.dataset_id, "samples",
+                         self.zone_id, image_id) for image_id in self.image_ids
+        ]
+
+        sample_files = []
+        for sample_dir in samples_dirs:
+            if os.path.exists(os.path.join(sample_dir, self.tile_id + ".jpg")):
+                sample_files.append(
+                    os.path.join(sample_dir, self.tile_id + ".jpg"))
+            elif os.path.exists(
+                    os.path.join(sample_dir, self.tile_id + ".png")):
+                sample_files.append(
+                    os.path.join(sample_dir, self.tile_id + ".png"))
+
+        if len(sample_files) == len(samples_dirs):
+            self.sample_files = sample_files
+        else:
+            self.sample_files = None
