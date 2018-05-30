@@ -37,14 +37,16 @@ pages:
   - Using OneAtlas Playground Data:
     - One Atlas: parsing/one-atlas-data.md
     - Export Data Format: parsing/parsing.md
-  - Creating a Custom Process:
+  - Custom Process:
     - Create a custom process: processing/process.md
     - Build a container image: processing/docker.md
     - Deploy on GCE: processing/deploy_gce.md
     - Deploy on GKE: processing/deploy_gke.md
     - Use from Playground: processing/use.md
     - Sample application: processing/sample.md
-  - Geo Process API: processing/geo_process_api.md
-  - Process Templates for OneAtlas Playground:
-      - Object detection: processing/object_detection.md
-      - Change detection: processing/change_detection.md
+  - APIs:
+    - Geo Process API: processing/geo_process_api.md
+    - Geo Processes Manager API: processing/geo_processes_manager_api.md
+    - ADS JSON Schema metadata extensions: processing/ads_json_extensions.md
+    - Object detection template: processing/object_detection.md
+    - Change detection template: processing/change_detection.md

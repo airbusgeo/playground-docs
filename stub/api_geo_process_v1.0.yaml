@@ -6,20 +6,27 @@ openapi: 3.0.0
 info:
   title: Geo Process API
   description: |
-    This document presents the Airbus Defence and Space Geo Process Service API Specification.
-    Geo Process Services that are provided to or from Airbus Defense and Space should implement this specification.
+    This document describes the Airbus Defence and Space "Geo Process" API specification.
+    Geo Process services that are provided to or from Airbus Defense and Space should implement this specification.
 
     The default execution mode for Geo Process Services is synchronous.
     An optional asynchronous mode for long running processes and process that returns huge amount of data may be implemented.
 
-    OneAtlas Playgound is an evaluation environment to test Geo Process on OneAtlas imagery from Airbus and Partners. It is open on invitation only. Registration should be done on OneAtlas Sandbox (https://www.intelligence-airbusds.com/sandbox).
+    This API provides two endpoints with a fixed path /api/v1/openapi and /api/v1/describe.
+    The path prefix for the others endpoints are implementation specific, for example the /jobs endpoint could be implemented at /jobs or /mypath/jobs or /api/v1/jobs.
+    As been the only fixed endpoint with implementation specific data, /api/v1/describe contains the _links attribute that has to reference all implemented endpoints for the service.
+    With this main service entry and the provided links it is possible for a client to discover and address others endpoints of the service.
+
+    OneAtlas Playgound is an evaluation environment to test Geo Process on OneAtlas imagery from Airbus and Partners.
+    It is open on invitation only.
+    Registration should be done on OneAtlas Sandbox (https://www.intelligence-airbusds.com/sandbox).
   contact:
-    name: Airbus Defence and Space - Intelligence - Innovation Team
-    url: 'https://www.intelligence-airbusds.com/'
+    name: Airbus Defence and Space
+    url: 'https://www.airbus.com/'
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
-  version: 1.0.0
+  version: 1.0.1
 
 #
 # External docs
@@ -548,7 +555,6 @@ components:
         - family
         - version
         - description
-        - maintainer
         - organization
         - email
         - resources
@@ -658,6 +664,15 @@ components:
           description: Number of CPU cores.
           type: integer
           example: 2
+        cpuArch:
+          description: CPU architecture, the default value is amd64.
+          type: string
+          enum: [amd64, arm64]
+          example: amd64
+        cpuPlatform:
+          description: Minimum CPU microarchitecture platform.
+          type: string
+          example: Haswell
         gpu:
           description: Number of GPU cores.
           type: integer
@@ -813,7 +828,9 @@ components:
     #
     Metrics:
       description: |
-        TODO
+        Process metrics.
+
+        Implementation specific.
       type: object
 
     #
