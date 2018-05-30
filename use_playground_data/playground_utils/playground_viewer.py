@@ -8,32 +8,21 @@ from .utils import rasterize_feature_on_tile
 
 
 class PlaygroundViewer(object):
-    def __init__(self, job_name, input_dir, tags_to_label_dict,
+    def __init__(self, playground_export, tags_to_label_dict,
                  labels_color_dict):
         """
 
         Args:
-            job_name:
-            input_dir:
+            playground_export
             tags_to_label_dict:
         """
-        print("Parsing Playground Export")
-        self.playground_export = PlaygroundExport(job_name, input_dir)
+        self.playground_export = playground_export
         self.tags_to_labels_dict = tags_to_label_dict
         self.labels_color_dict = labels_color_dict
         self.tiles = [
             tile for dataset in self.playground_export.datasets
             for zone in dataset.zones for tile in zone.tiles
         ]
-        print("Found {} datasets in {}/{}".format(
-            len(self.playground_export.datasets), input_dir, job_name))
-        print("Found {} zones in {}/{}".format(
-            sum([
-                len(dataset.zones)
-                for dataset in self.playground_export.datasets
-            ]), input_dir, job_name))
-        print("Found {} tiles in {}/{}".format(
-            len(self.tiles), input_dir, job_name))
 
         self.examples = []
 
@@ -64,22 +53,22 @@ class PlaygroundViewer(object):
         Returns:
 
         """
-        msk_path = tile.label_file
+        msk_path = tile.target_file
         with open(msk_path, "r") as f:
             feature_collection = geojson.load(f)
 
-        data_mask = None
+        data_masks = []
         features = []
         for feature in feature_collection['features']:
             if "mask" in feature['properties']:
-                data_mask = shapely.geometry.shape(feature['geometry'])
+                data_masks.append(shapely.geometry.shape(feature['geometry']))
             else:
                 tags = feature['properties'].get('tags') or []
                 kept_percentage = feature['properties'].get(
                     'kept_percentage') or 1.0
                 labels = []
                 if not isinstance(tags, list):
-                    tags = [tags]
+                    tags = tags.split(",")
                 for tag in tags:
                     labels.append(self.tags_to_labels_dict.get(tag) or None)
                 labels = list(
@@ -102,10 +91,13 @@ class PlaygroundViewer(object):
         h, w = example[0].shape[:2]
 
         gt = np.zeros((h, w, 3), dtype=np.uint8)
+
         no_data_mask = shapely.geometry.box(0, 0, h, w)
-        no_data_mask = no_data_mask.difference(data_mask)
-        gt = rasterize_feature_on_tile(
-            gt, no_data_mask, color=(128, 128, 128))
+        if len(data_masks) > 0:
+            no_data_mask = no_data_mask.difference(
+                shapely.geometry.MultiPolygon(data_masks))
+            gt = rasterize_feature_on_tile(
+                gt, no_data_mask, color=(128, 128, 128))
         for feature in features:
             polygon = shapely.geometry.shape(feature['geometry'])
             label = feature['properties']['label']
@@ -121,8 +113,9 @@ class PlaygroundViewer(object):
         Returns:
 
         """
+        num_ex = max([len(ex) for ex in self.examples])
         fig, axarr = plt.subplots(
-            len(self.examples), len(self.examples[0]), figsize=(20, 40))
+            len(self.examples), num_ex, figsize=(20, 20 * num_ex))
         for i, example in enumerate(self.examples):
             for k, img in enumerate(example):
                 axarr[i, k].imshow(img)
