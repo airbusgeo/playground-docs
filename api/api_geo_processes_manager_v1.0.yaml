@@ -12,7 +12,7 @@ info:
     operating processes.
 
     A job is a unitary execution of a process.
-    
+
     A process may be an unitary processing or a composition of several tasks.
     In the later case, the tasks workflow management can be specific to the process
     or delegated to the process manager which is also specific to the geo process
@@ -66,7 +66,7 @@ paths:
       responses:
         '200':
           description: Process Open API web UI.
-  
+
   #
   # Process list and creation
   #
@@ -189,7 +189,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  
+
   #
   # Process management
   #
@@ -344,7 +344,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  
+
   #
   # Job list for all processes
   #
@@ -392,7 +392,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  
+
   #
   # Job list and creation for one process
   #
@@ -527,7 +527,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Input'
-  
+
   #
   # Job management
   #
@@ -640,7 +640,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  
+
   #
   # Job technical metadata
   #
@@ -696,7 +696,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  
+
   #
   # Job task list
   #
@@ -770,7 +770,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  
+
   #
   # Job task informations
   #
@@ -1221,7 +1221,7 @@ components:
             "tile": {
               "description": "The tile image base64 encoded, may be JPEG or PNG format",
               "type": "string",
-              "format": "base64"
+              "contentEncoding": "base64"
             }
           }
         }
