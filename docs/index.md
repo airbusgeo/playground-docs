@@ -6,25 +6,24 @@ For more informations, go to the [official website](https://sandbox.intelligence
 
 You will find here documentation regarding:
 
-* Using the OneAtlas Playground Web Interface
-* Deploying services on OneAtlas Playground
+* Using the OneAtlas Playground Web Interface (coming soon)
+* Deploying a processing on OneAtlas Playground
 
 # Introduction
 
-The OneAtlas Playground is the sandbox development platform for imagery services based on OneAtlas.
+OneAtlas Playground is a development platform for imagery processing services based on OneAtlas data. The core objective of OneAtlas Playground is to provide a "sandboxed" environment connected to OneAtlas imagery in order to develop, deploy and test image processing services in a cloud environment. By taking care of data connection, deployment and scalability, it enables data scientists to concentrate on their jobs. In particular, it has been designed to facilitate the development of machine learning algorithms by making it easy to upload a predictor, run inference on large quantities of data, validate each records, benchmark the overall preformance and generate new updated datasets for training.
 
-# Core Concepts
 
-The core principle of OneAtlas Playground is to provide a "sandboxed" environment connected to OneAtlas Imagery in order to develop, deploy and test Machine Learning services in a Cloud Environment.
-It relies on the Google Cloud Platform components.
+# Concepts
 
-The main objective of the Playground is to abstract away data connection, deployment and scalability for any Data Scientist and to provide an integrated platform to directly assess the performance and scalability of ML services.
+OOneAtlas Playground image processing services are based on tiles (along the WMTS Geographic and Mercator grids). When a processing is applied to an image, each single tile that is part of the image is processed and all results are merged together. This is why you need to specify at which zoom level (i.e. resolution) the processing should be applied. OneAtlas Playground relies on the Google Cloud Platform components. 
 
-# Sandboxed Deployment
 
-Abstracting away the deployment of ML services is done by deploying Docker containers on Google Kubernetes Engine or others cloud providers.
+# Deployment
 
-# Tagging and Labelling
+Abstracting away the deployment of image processing services is done by deploying Docker containers on Google Kubernetes Engine or others cloud providers. As a user, you only have to provide the location of a Docker container in a Docker registry, OneAtlas Playground takes care of the rest!
 
-The Playground also offers a Web Interface to create, edit and refine datasets using OneAtlas images via tagging, detouring and markin Area Of Interests, Region Of Interests and objects on satellite images.
+# Tagging and labelling
+
+OneAtlas Playground offers a web interface to create datasets using OneAtlas images via labelling and detouring of objects on satellite images. It also enables to edit and iterate on datasets by using inference and validation tools.
 

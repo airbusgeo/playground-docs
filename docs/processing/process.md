@@ -1,13 +1,12 @@
 # Introduction
 
-OneAtlas Playground allows to process tile images in order to detect objects, changes ...
+OneAtlas Playground is a cloud environment to process images provided as tiles (in WMTS format). Processings can either be object detection, image segmentation or both as well as change detection. In that last case, the processing will apply on two tiles displaying the same location. If you wish to run your algorithm in OneAtlas Playground, you need to implement a specific API. 
 
-# Web-Service API
+# Implementing Geo Process Web-Service API
 
-The process has to provide a REST web-service that implements the [Geo Process API](geo_process_api.md).
+The process has to provide a REST web-service that implements the [Geo Process API](geo_process_api.md) official API. This API is an open specification that enables inter-operability of algorithms.
 
-In the Playground **all processes are synchronous**, *the asynchronous interface of the Geo Process API is not used*.
-The following services must be implemented.
+In OneAtlas Playground **all processes are synchronous**. This means that *the asynchronous interface of the Geo Process API is not used*. In a nutshell, only the following services must be implemented.
 
 **GET /api/v1/openapi**
 
@@ -15,40 +14,39 @@ This service returns the OpenAPI specification of the Geo Process API in YAML fo
 
 **GET /api/v1/describe**
 
-This service provides generic process informations to the Playground.
+This service provides generic process informations to OneAtlas Playground.
 
 **GET /config**
 
-This service provides specific informations to the Playground.
+This service provides specific informations to OneAtlas Playground.
 
 **POST /jobs**
 
-This service executes the process on input data described by the input property of the describe service ans returns the result in the format defined by the output property of the describe service.
+This service executes the process. The type of input data is described by the input property of the describe service. The result is stored in the format defined by the output property of the describe service.
 
-# Templates
+# Using Templates
 
-Playground defines several templates for the describe service.
-They have to be used by custom processes in order to be integrated to the Playground.
+OneAtlas Playground defines several templates for the *describe* service.
+Using the provided templates will facilitate the integration of a custom processes in OenAtlas Playground.
 
-Templates are defined for each kind of process that are supported by the Playgroud:
+Templates are defined for the two main kind of processes that are supported by OneAtlas Playgroud:
 
-* [object detection](object_detection.md)
-* [change detection](change_detection.md)
+* [Object Detection](object_detection.md)
+* [Change Detection](change_detection.md)
 
-# Input
+# Details about input
 
-Tiles are 8 bits RGB images of 256x256 pixels (without padding).
-They are base64 encoded in a JSON document passed as the request body.
+Tiles are 8 bits RGB images of 256x256 pixels. To this you can add a padding of up to 256 pixels. As the results the maximum size of a tile is 768x768 pxeils. Tiles are base64 encoded in a JSON document passed in the request body.
 
-# Output
+# Details about output
 
 When process output is defined as [GeoJSON](https://en.wikipedia.org/wiki/GeoJSON), it must comply with the following characteristics :
 
 * Root element has to be a 'FeatureCollection' with one or several 'Feature' objects.
-* Feature geometry is expressed with (0,0) at the top left of the tile image padding included.
-* Feature properties may be 'category' and 'confidence'.
-    * The 'category' property is used for tags, labels or classification results. It's value may be a string with several values separated by a comma or an array of strings.
-    * The 'confidence' property value is a float between 0. and 1.0.
+* Feature geometry is expressed with (0,0) at the top left of the tile image with padding included.
+* Feature properties may include 'category' and 'confidence'.
+    * The 'category' property is used for tags, labels or classification results. Its value may be a string with several values separated by a comma or an array of strings.
+    * The 'confidence' property value is a float between 0.0 and 1.0.
 
 **Feature geometry example :**
 
