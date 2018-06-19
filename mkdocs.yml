@@ -28,25 +28,25 @@ copyright: 'Copyright &copy; 2018 - Airbus Defence and Space - Intelligence'
 
 pages:
   - OneAtlas Playground: index.md
+  - Create a custom process:
+    - Create a custom process: processing/process.md
+    - Build a container image: processing/docker.md
+    - Use from in OneAtlas Playground: processing/use.md
+    - (optional) Deploy on GCE: processing/deploy_gce.md
+    - (optional) Deploy on GKE: processing/deploy_gke.md
+    - Sample application: processing/sample.md
+  - Exporting OneAtlas Playground Data:
+    - One Atlas: parsing/one-atlas-data.md
+    - Export Data Format: parsing/parsing.md
+  - APIs:
+    - Geo Process API: processing/geo_process_api.md
+    - Geo Processes Manager API: processing/geo_processes_manager_api.md
+    - Airbus DS JSON Schema metadata extensions: processing/ads_json_extensions.md
+    - Object Detection template: processing/object_detection.md
+    - Change Detection template: processing/change_detection.md
   - Using OneAtlas Playground:
     - Web interface: web/interface.md
     - Datasets: web/dataset.md
     - Validation: web/validation.md
     - Processing: web/processing.md
     - Jobs: web/job.md
-  - Using OneAtlas Playground Data:
-    - One Atlas: parsing/one-atlas-data.md
-    - Export Data Format: parsing/parsing.md
-  - Custom Process:
-    - Create a custom process: processing/process.md
-    - Build a container image: processing/docker.md
-    - Deploy on GCE: processing/deploy_gce.md
-    - Deploy on GKE: processing/deploy_gke.md
-    - Use from Playground: processing/use.md
-    - Sample application: processing/sample.md
-  - APIs:
-    - Geo Process API: processing/geo_process_api.md
-    - Geo Processes Manager API: processing/geo_processes_manager_api.md
-    - ADS JSON Schema metadata extensions: processing/ads_json_extensions.md
-    - Object detection template: processing/object_detection.md
-    - Change detection template: processing/change_detection.md
