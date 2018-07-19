@@ -184,7 +184,7 @@ paths:
         variables:
           customPath:
             default: ''
-    parameters: 
+    parameters:
       - name: jobId
         in: path
         description: Job identifier
@@ -212,7 +212,7 @@ paths:
         variables:
           customPath:
             default: ''
-    parameters: 
+    parameters:
       - name: jobId
         in: path
         description: Job identifier
@@ -250,7 +250,7 @@ paths:
         variables:
           customPath:
             default: ''
-    parameters: 
+    parameters:
       - name: jobId
         in: path
         description: Job identifier
@@ -302,7 +302,7 @@ paths:
         variables:
           customPath:
             default: ''
-    parameters: 
+    parameters:
       - name: jobId
         in: path
         description: Job identifier.
@@ -630,7 +630,7 @@ components:
                 "tile": {
                   "description": "The tile image base64 encoded, may be JPEG or PNG format",
                   "type": "string",
-                  "format": "base64"
+                  "contentEncoding": "base64"
                 }
               }
             }
@@ -709,7 +709,7 @@ components:
             (MIME type) and value as object (json schema) or string (description)
             for contents that do not need an extra definition (as for image/jpeg
             or application/geo+json).
-            
+
             If a content is of type JSON (key as application/json) the value might
             be a JSON Schema object with ADS metadata extensions.
           type: object
@@ -957,4 +957,3 @@ components:
         timestamp:
           description: Error timestamp.
           type: string
-
