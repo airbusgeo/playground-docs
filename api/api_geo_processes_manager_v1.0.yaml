@@ -1464,7 +1464,7 @@ components:
             additionalProperties:
               type: string
         _links:
-          $ref: '#/components/schemas/NavLinks'
+          $ref: '#/components/schemas/ItemLinks'
 
     #
     # TaskSummary schema
@@ -1504,7 +1504,7 @@ components:
         status:
           $ref: '#/components/schemas/Status'
         _links:
-          $ref: '#/components/schemas/NavLinks'
+          $ref: '#/components/schemas/ItemLinks'
 
     #
     # Status schema
