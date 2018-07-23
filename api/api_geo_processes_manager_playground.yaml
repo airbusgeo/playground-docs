@@ -33,7 +33,7 @@ info:
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
-  version: 1.1.0
+  version: 1.0.0
 
 #
 # Tags
@@ -78,10 +78,10 @@ paths:
   #
   # Process list and creation
   #
-  /api/v1/processes/{projectId}:
+  /api/v1/processes:
     get:
       parameters:
-        - in: path
+        - in: query
           name: projectId
           required: true
           schema:
@@ -161,7 +161,7 @@ paths:
       summary: Register a new process service
       description: Register a process service for further execution
       parameters:
-        - in: path
+        - in: query
           name: projectId
           required: true
           schema:
@@ -216,20 +216,13 @@ paths:
   #
   # Process management
   #
-  '/api/v1/processes/{projectId}/{processId}':
+  '/api/v1/processes/{processId}':
     get:
       tags:
         - catalog
       summary: Find process by ID
       description: Return a single process
       parameters:
-        - in: path
-          name: projectId
-          required: true
-          schema:
-            type: string
-            format: uuid
-          description: Playground project ID.
         - name: processId
           in: path
           description: ID of process to return
@@ -237,6 +230,13 @@ paths:
           schema:
             type: string
             format: uuid
+        - in: query
+          name: projectId
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Playground project ID.
       responses:
         '200':
           description: successful operation
@@ -274,13 +274,6 @@ paths:
       summary: Update an existing process service
       description: Update an existing process service
       parameters:
-        - in: path
-          name: projectId
-          required: true
-          schema:
-            type: string
-            format: uuid
-          description: Playground project ID.
         - name: processId
           in: path
           description: ID of process to return
@@ -288,6 +281,13 @@ paths:
           schema:
             type: string
             format: uuid
+        - in: query
+          name: projectId
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Playground project ID.
       requestBody:
         description: |
           Process description
@@ -343,13 +343,6 @@ paths:
         here, the process itself should only be "marked for deletion" until
         we are sure we can remove it.
       parameters:
-        - in: path
-          name: projectId
-          required: true
-          schema:
-            type: string
-            format: uuid
-          description: Playground project ID.
         - name: processId
           in: path
           description: Process ID to delete
@@ -357,6 +350,13 @@ paths:
           schema:
             type: string
             format: uuid
+        - in: query
+          name: projectId
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Playground project ID.
       responses:
         '202':
           description: Process marked for deletion
@@ -392,14 +392,14 @@ paths:
   #
   # Job list for all processes
   #
-  /api/v1/jobs/{projectId}:
+  /api/v1/jobs:
     get:
       tags:
         - jobs
       summary: List available jobs
       description: Return the list of all available jobs for this context
       parameters:
-        - in: path
+        - in: query
           name: projectId
           required: true
           schema:
@@ -447,20 +447,13 @@ paths:
   #
   # Job list and creation for one process
   #
-  '/api/v1/processes/{projectId}/{processId}/jobs':
+  '/api/v1/processes/{processId}/jobs':
     get:
       tags:
         - jobs
       summary: List process' jobs
       description: Return the list of all process' jobs
       parameters:
-        - in: path
-          name: projectId
-          required: true
-          schema:
-            type: string
-            format: uuid
-          description: Playground project ID.
         - name: processId
           in: path
           description: ID of process to get input return
@@ -468,6 +461,13 @@ paths:
           schema:
             type: string
             format: uuid
+        - in: query
+          name: projectId
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Playground project ID.
         - name: page
           in: query
           description: "Page number. Default: 1."
@@ -517,13 +517,6 @@ paths:
       summary: Request for a job execution
       description: Make a job request that should be queued for future execution
       parameters:
-        - in: path
-          name: projectId
-          required: true
-          schema:
-            type: string
-            format: uuid
-          description: Playground project ID.
         - name: processId
           in: path
           description: ID of process to get input return
@@ -596,20 +589,13 @@ paths:
   #
   # Job management
   #
-  '/api/v1/processes/{projectId}/{processId}/jobs/{jobId}':
+  '/api/v1/processes/{processId}/jobs/{jobId}':
     get:
       tags:
         - jobs
       summary: Find jobs by ID
       description: Returns a single job
       parameters:
-        - in: path
-          name: projectId
-          required: true
-          schema:
-            type: string
-            format: uuid
-          description: Playground project ID.
         - name: processId
           in: path
           description: ID of job's process
@@ -624,6 +610,13 @@ paths:
           schema:
             type: string
             format: uuid
+        - in: query
+          name: projectId
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Playground project ID.
       responses:
         '200':
           description: successful operation
@@ -661,13 +654,6 @@ paths:
       summary: Delete a job
       description: Kill any running job associated to this id and delete execution details
       parameters:
-        - in: path
-          name: projectId
-          required: true
-          schema:
-            type: string
-            format: uuid
-          description: Playground project ID.
         - name: processId
           in: path
           description: ID of job's process
@@ -682,6 +668,13 @@ paths:
           schema:
             type: string
             format: uuid
+        - in: query
+          name: projectId
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Playground project ID.
       responses:
         '202':
           description: Job marked for deletion
@@ -723,20 +716,13 @@ paths:
   #
   # Job technical metadata
   #
-  '/api/v1/processes/{projectId}/{processId}/jobs/{jobId}/technical':
+  '/api/v1/processes/{processId}/jobs/{jobId}/technical':
     get:
       tags:
         - jobs
       summary: Get a job's technical metadatas.
       description: Returns a job's technical metadatas description.
       parameters:
-        - in: path
-          name: projectId
-          required: true
-          schema:
-            type: string
-            format: uuid
-          description: Playground project ID.
         - name: processId
           in: path
           description: ID of job's process
@@ -751,6 +737,13 @@ paths:
           schema:
             type: string
             format: uuid
+        - in: query
+          name: projectId
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Playground project ID.
       responses:
         '200':
           description: successful operation
@@ -786,20 +779,13 @@ paths:
   #
   # Job task list
   #
-  '/api/v1/processes/{projectId}/{processId}/jobs/{jobId}/tasks':
+  '/api/v1/processes/{processId}/jobs/{jobId}/tasks':
     get:
       tags:
         - jobs
       summary: List job's task
       description: Return the list of all registered tasks for current job
       parameters:
-        - in: path
-          name: projectId
-          required: true
-          schema:
-            type: string
-            format: uuid
-          description: Playground project ID.
         - name: processId
           in: path
           description: ID of tasks' process
@@ -814,6 +800,13 @@ paths:
           schema:
             type: string
             format: uuid
+        - in: query
+          name: projectId
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Playground project ID.
         - name: status
           in: query
           description: Status
@@ -867,20 +860,13 @@ paths:
   #
   # Job task informations
   #
-  '/api/v1/processes/{projectId}/{processId}/jobs/{jobId}/tasks/{taskId}':
+  '/api/v1/processes/{processId}/jobs/{jobId}/tasks/{taskId}':
     get:
       tags:
         - jobs
       summary: Find task by ID
       description: Returns a single task
       parameters:
-        - in: path
-          name: projectId
-          required: true
-          schema:
-            type: string
-            format: uuid
-          description: Playground project ID.
         - name: processId
           in: path
           description: ID of task's process
@@ -902,6 +888,13 @@ paths:
           schema:
             type: string
             format: uuid
+        - in: query
+          name: projectId
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Playground project ID.
       responses:
         '200':
           description: successful operation

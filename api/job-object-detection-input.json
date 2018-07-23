@@ -36,6 +36,10 @@
                 }
             }
         },
+        "projectId": {
+            "description": "Project ID",
+            "type": "string"
+        },
         "datasetId": {
             "description": "Dataset ID, if the dataset already exists (exclusive with datasetName)",
             "type": "string"
