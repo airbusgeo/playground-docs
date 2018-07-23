@@ -28,6 +28,7 @@ Using an existing dataset :
             [-3.38992361111,37.4653125]
         ]]
     },
+    "projectId": "ab4358f0-30f2-11e8-b467-0ed5f89f718b",
     "datasetId": "bb4358f0-30f2-11e8-b467-0ed5f89f718b"
 }
 ```
@@ -48,6 +49,7 @@ While creating a new dataset :
             [-3.38992361111,37.4653125]
         ]]
     },
+    "projectId": "ab4358f0-30f2-11e8-b467-0ed5f89f718b",
     "datasetName": "Ship detection 1"
 }
 ```
