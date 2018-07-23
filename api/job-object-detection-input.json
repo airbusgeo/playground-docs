@@ -1,0 +1,60 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "title": "job-object-detection-input",
+    "description": "Geo Processes Manager API input schema for tile object detection",
+    "type" : "object",
+    "required": [
+        "name",
+        "sourceId",
+        "geom"
+    ],
+    "properties": {
+        "name": {
+            "description": "Job name",
+            "type": "string"
+        },
+        "sourceId": {
+            "description": "Image source ID",
+            "type": "string"
+        },
+        "geom": {
+            "description": "Area of interest",
+            "type": "object",
+            "required": [
+                "type",
+                "coordinates"
+            ],
+            "properties": {
+                "type": {
+                    "description": "Always a Polygon",
+                    "type": "string",
+                    "default": "Polygon"
+                },
+                "coordinates": {
+                    "description": "GeoJSON Polygon coordinates",
+                    "type": "array"
+                }
+            }
+        },
+        "datasetId": {
+            "description": "Dataset ID, if the dataset already exists (exclusive with datasetName)",
+            "type": "string"
+        },
+        "datasetName": {
+            "description": "Dataset name, to create a new dataset (exclusive with datasetId)",
+            "type": "string"
+        }
+    },
+    "oneOf": [
+        {
+            "required": [
+                "datasetId"
+            ]
+        },
+        {
+            "required": [
+                "datasetName"
+            ]
+        }
+    ]
+}

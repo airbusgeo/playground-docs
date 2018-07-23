@@ -35,16 +35,22 @@ pages:
     - (optional) Deploy on GCE: processing/deploy_gce.md
     - (optional) Deploy on GKE: processing/deploy_gke.md
     - Sample application: processing/sample.md
-  - Exporting OneAtlas Playground Data:
-    - One Atlas: parsing/one-atlas-data.md
-    - Export Data Format: parsing/parsing.md
-  - APIs:
+  - Airbus DS Geo APIs:
     - Geo Process API: processing/geo_process_api.md
-    - Geo Processes Manager API: processing/geo_processes_manager_api.md
+    - Geo Processes Manager API: process_manager/geo_processes_manager_api.md
     - Airbus DS JSON Schema metadata extensions: processing/ads_json_extensions.md
+  - Playground Process APIs:
     - Object Detection template: processing/object_detection.md
     - Change Detection template: processing/change_detection.md
-  - Using OneAtlas Playground:
+  - Playground APIs:
+    - Geo Processes Manager API: process_manager/geo_processes_manager_playground.md
+    - Object Detection template: process_manager/object_detection.md
+    - Change Detection template: process_manager/change_detection.md
+    - Geo Data Manager API: data_manager/geo_data_manager_playground.md
+  - Exported Data:
+    - One Atlas: parsing/one-atlas-data.md
+    - Export Data Format: parsing/parsing.md
+  - Playground usage:
     - Web interface: web/interface.md
     - Datasets: web/dataset.md
     - Validation: web/validation.md

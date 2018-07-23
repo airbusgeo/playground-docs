@@ -1,10 +1,6 @@
 # OneAtlas Playground
 
-This project manages source code of the OneAtlas Playground Documentation.
-
-## File structure
-
-It also contans examples on how to read, process playground data and how to package processes for deployment on OneAtlas Playground
+This project manages source code of the OneAtlas Playground documentation, samples, stubs and tools.
 
 * Documentation is automatically deployed on [Read the Docs](http://playground-docs.readthedocs.io/)
 * Sample processing program in [stub](http://github.com/airbusgeo/playground-docs/tree/master/stub)

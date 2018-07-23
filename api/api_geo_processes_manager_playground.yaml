@@ -1,0 +1,1890 @@
+openapi: 3.0.0
+
+#
+# Info
+#
+info:
+  title: Geo Processes Manager API for OneAtlas Playground
+  description: |
+    Airbus Defence and Space "Geo Processes Manager" API specification for OneAtlas Playground.
+
+    The processes manager is reponsible for registering, monitoring and
+    operating processes.
+
+    A job is a unitary execution of a process.
+
+    A process may be an unitary processing or a composition of several tasks.
+    In the later case, the tasks workflow management can be specific to the process
+    or delegated to the process manager which is also specific to the geo process
+    manager implementation. Workflow implementation is not covered by this API.
+
+    Results can be retrieved using another API. The job provides two optional links
+    that allows the client to:
+    - retrieve the full result of the job processing according to process output description,
+    - get a result catalog that provides links to navigate in the process output chunks
+
+    This Playground specific implementation adds the concept of project and dataset to the 
+    generic Airbus Defence and Space API by extended it.
+
+    Processes have to implement the "Geo Process API" specification.
+  contact:
+    name: Airbus Defence and Space
+    url: 'https://www.airbus.com/'
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.1.0
+
+#
+# Tags
+#
+tags:
+  - name: mandatory
+    description: |
+      Mandatory resources.
+      Defines the main entry point of the service.
+  - name: catalog
+    description: |
+      Processes catalog.
+  - name: jobs
+    description: |
+      Processes execution management.
+
+#
+# Security
+#
+security:
+  - bearerAuth: []
+
+#
+# Paths
+#
+paths:
+  #
+  # OpenAPI schema
+  #
+  /api/v1/openapi:
+    get:
+      tags:
+        - mandatory
+      summary: Open API specification of this service in YAML format
+      description: |
+        Returns Open API specification of this service in YAML format.
+        Subset of this API with implemented services.
+      responses:
+        '200':
+          description: Geo Processes Manager API for OneAtlas Playground.
+
+  #
+  # Process list and creation
+  #
+  /api/v1/processes/{projectId}:
+    get:
+      parameters:
+        - in: path
+          name: projectId
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Playground project ID.
+        - in: query
+          name: family
+          required: false
+          schema:
+            type: string
+          description: Filter processes by family.
+        - in: query
+          name: keywords
+          required: false
+          schema:
+            type: string
+          description: Filter processes by keywords as coma separated string.
+        - in: query
+          name: organization
+          required: false
+          schema:
+            type: string
+          description: Filter processes by organization.
+        - name: page
+          in: query
+          description: "Page number. Default: 1."
+          required: false
+          schema:
+            type: integer
+        - name: size
+          in: query
+          description: "Page size. Default: 10. Max: 100."
+          required: false
+          schema:
+            type: integer
+      tags:
+        - catalog
+      summary: List all available process services
+      description: |
+        Return the list of all registered process services that are available
+        for current user
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Processes'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      tags:
+        - catalog
+      summary: Register a new process service
+      description: Register a process service for further execution
+      parameters:
+        - in: path
+          name: projectId
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Playground project ID.
+      requestBody:
+        description: |
+          Process description
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProcessRef'
+      responses:
+        '201':
+          description: Process has been registered
+          headers:
+            Location:
+              schema:
+                type: string
+              description: URI of the created process
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcessDescribe'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '405':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  #
+  # Process management
+  #
+  '/api/v1/processes/{projectId}/{processId}':
+    get:
+      tags:
+        - catalog
+      summary: Find process by ID
+      description: Return a single process
+      parameters:
+        - in: path
+          name: projectId
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Playground project ID.
+        - name: processId
+          in: path
+          description: ID of process to return
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcessDescribe'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      tags:
+        - catalog
+      summary: Update an existing process service
+      description: Update an existing process service
+      parameters:
+        - in: path
+          name: projectId
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Playground project ID.
+        - name: processId
+          in: path
+          description: ID of process to return
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        description: |
+          Process description
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProcessRef'
+      responses:
+        '201':
+          description: Process has been updated
+          headers:
+            Location:
+              schema:
+                type: string
+              description: URI of the updated process
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcessDescribe'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '405':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      tags:
+        - catalog
+      summary: Delete a process
+      description: |
+        Definitively remove a process service from the platform. Note : This
+        command will need great care as we do not want to remove a process
+        which has associated jobs. Some preventive checks should be made
+        here, the process itself should only be "marked for deletion" until
+        we are sure we can remove it.
+      parameters:
+        - in: path
+          name: projectId
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Playground project ID.
+        - name: processId
+          in: path
+          description: Process ID to delete
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '202':
+          description: Process marked for deletion
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcessSummary'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  #
+  # Job list for all processes
+  #
+  /api/v1/jobs/{projectId}:
+    get:
+      tags:
+        - jobs
+      summary: List available jobs
+      description: Return the list of all available jobs for this context
+      parameters:
+        - in: path
+          name: projectId
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Playground project ID.
+        - name: page
+          in: query
+          description: "Page number. Default: 1."
+          required: false
+          schema:
+            type: integer
+        - name: size
+          in: query
+          description: "Page size. Default: 10. Max: 100."
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Jobs'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  #
+  # Job list and creation for one process
+  #
+  '/api/v1/processes/{projectId}/{processId}/jobs':
+    get:
+      tags:
+        - jobs
+      summary: List process' jobs
+      description: Return the list of all process' jobs
+      parameters:
+        - in: path
+          name: projectId
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Playground project ID.
+        - name: processId
+          in: path
+          description: ID of process to get input return
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: page
+          in: query
+          description: "Page number. Default: 1."
+          required: false
+          schema:
+            type: string
+        - name: size
+          in: query
+          description: "Page size. Default: 10. Max: 100."
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Jobs'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      tags:
+        - jobs
+      summary: Request for a job execution
+      description: Make a job request that should be queued for future execution
+      parameters:
+        - in: path
+          name: projectId
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Playground project ID.
+        - name: processId
+          in: path
+          description: ID of process to get input return
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - in: header
+          name: X-Correlation-ID
+          description: System wide request identifier.
+          schema:
+            type: string
+        - in: header
+          name: X-ADS-Debug
+          description: Enable debug mode.
+          schema:
+            type: boolean
+      responses:
+        '201':
+          description: Job request queued
+          headers:
+            Location:
+              schema:
+                type: string
+              description: URI of the job process
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobDescribe'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '405':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      requestBody:
+        description: |
+          Process input parameters as defined by the JSON Schema in the input
+          attribute of the description resource.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Input'
+
+  #
+  # Job management
+  #
+  '/api/v1/processes/{projectId}/{processId}/jobs/{jobId}':
+    get:
+      tags:
+        - jobs
+      summary: Find jobs by ID
+      description: Returns a single job
+      parameters:
+        - in: path
+          name: projectId
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Playground project ID.
+        - name: processId
+          in: path
+          description: ID of job's process
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: jobId
+          in: path
+          description: ID of job to return
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobDescribe'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      tags:
+        - jobs
+      summary: Delete a job
+      description: Kill any running job associated to this id and delete execution details
+      parameters:
+        - in: path
+          name: projectId
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Playground project ID.
+        - name: processId
+          in: path
+          description: ID of job's process
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: jobId
+          in: path
+          description: ID of job to delete
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '202':
+          description: Job marked for deletion
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobSummary'
+        '204':
+          description: Job killed and removed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobDescribe'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  #
+  # Job technical metadata
+  #
+  '/api/v1/processes/{projectId}/{processId}/jobs/{jobId}/technical':
+    get:
+      tags:
+        - jobs
+      summary: Get a job's technical metadatas.
+      description: Returns a job's technical metadatas description.
+      parameters:
+        - in: path
+          name: projectId
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Playground project ID.
+        - name: processId
+          in: path
+          description: ID of job's process
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: jobId
+          in: path
+          description: ID of job to return
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Metadatas'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  #
+  # Job task list
+  #
+  '/api/v1/processes/{projectId}/{processId}/jobs/{jobId}/tasks':
+    get:
+      tags:
+        - jobs
+      summary: List job's task
+      description: Return the list of all registered tasks for current job
+      parameters:
+        - in: path
+          name: projectId
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Playground project ID.
+        - name: processId
+          in: path
+          description: ID of tasks' process
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: jobId
+          in: path
+          description: ID of tasks' job
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: status
+          in: query
+          description: Status
+          required: false
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: "Page number. Default: 1."
+          required: false
+          schema:
+            type: string
+        - name: size
+          in: query
+          description: "Page size. Default: 10. Max: 100."
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tasks'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  #
+  # Job task informations
+  #
+  '/api/v1/processes/{projectId}/{processId}/jobs/{jobId}/tasks/{taskId}':
+    get:
+      tags:
+        - jobs
+      summary: Find task by ID
+      description: Returns a single task
+      parameters:
+        - in: path
+          name: projectId
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Playground project ID.
+        - name: processId
+          in: path
+          description: ID of task's process
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: jobId
+          in: path
+          description: ID of task's job
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: taskId
+          in: path
+          description: ID of task to return
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskDescribe'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+#
+# Components
+#
+components:
+
+  #
+  # Security
+  #
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  #
+  # Responses
+  #
+  responses:
+    OutputResponse:
+      description: |
+        Process output as defined in the output attribute of the description resource.
+    
+    ResultCatalog:
+      description: |
+        Extension to the GeoJSON schema.
+
+  #
+  # Schemas
+  #
+  schemas:
+
+    #
+    # Processes schema
+    #
+    Processes:
+      type: object
+      properties:
+        processes:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProcessSummary'
+        count:
+          type: integer
+          example: 1
+        total:
+          type: integer
+          example: 1
+        _links:
+          $ref: '#/components/schemas/NavLinks'
+
+    #
+    # ProcessRef schema
+    #
+    ProcessRef:
+      description: |
+        Reference to a new process (docker image or external instance that
+        exposes a valid describe API endpoint).
+      type: object
+      required:
+        - type
+        - reference
+      properties:
+        type:
+          description: Reference type
+          type: string
+          enum:
+            - dockerImage
+            - externalInstance
+          example: dockerImage
+        reference:
+          description: Reference value
+          type: string
+          example: 'eu.gcr.io/myproject/cat-detection:latest'
+
+    #
+    # ProcessSummary schema
+    #
+    ProcessSummary:
+      description: |
+        Process summary.
+      type: object
+      required:
+        - id
+        - name
+        - title
+        - family
+        - version
+        - description
+        - organization
+        - email
+      properties:
+        id:
+          description: Unique identifier of the process (usually an uuid).
+          type: string
+          format: uuid
+          example: 15c61933-0b06-442c-8bab-723b2b41f570
+        name:
+          description: Technical name of the process. May be the Docker image name.
+          type: string
+          example: 'eu.gcr.io/myproject/cat-detection:latest'
+        title:
+          description: The title of the process.
+          type: string
+          example: Cat detection
+        family:
+          description: The process family.
+          type: string
+          example: object-detection
+        version:
+          description: The version of the process.
+          type: string
+          example: 1
+        description:
+          description: Gives a description of the process.
+          type: string
+          example: Detect cats on tiles
+        organization:
+          description: Identifier of the organization or entity publishing the process.
+          type: string
+          example: Airbus DS
+        email:
+          description: Contact email.
+          type: string
+          example: cat-detection@airbus.com
+        keywords:
+          description: List of keywords.
+          type: array
+          items:
+            type: string
+          example:
+            - cat
+            - dog
+        _links:
+          $ref: '#/components/schemas/ItemLinks'
+
+    #
+    # ProcessDescribe schema
+    #
+    ProcessDescribe:
+      description: |
+        Process description.
+      type: object
+      required:
+        - id
+        - name
+        - title
+        - family
+        - version
+        - description
+        - organization
+        - email
+        - resources
+        - input
+        - output
+        - asynchronous
+        - _links
+      properties:
+        id:
+          description: Unique identifier of the process (usually an uuid).
+          type: string
+          format: uuid
+          example: 15c61933-0b06-442c-8bab-723b2b41f570
+        name:
+          description: Technical name of the process. May be the Docker image name.
+          type: string
+          example: 'eu.gcr.io/myproject/cat-detection:latest'
+        title:
+          description: The title of the process.
+          type: string
+          example: Cat detection
+        family:
+          description: The process family.
+          type: string
+          example: object-detection
+        version:
+          description: The version of the process.
+          type: string
+          example: 1
+        description:
+          description: Gives a description of the process.
+          type: string
+          example: Detect cats on tiles
+        organization:
+          description: Identifier of the organization or entity publishing the process.
+          type: string
+          example: Airbus DS
+        email:
+          description: Contact email.
+          type: string
+          example: cat-detection@airbus.com
+        keywords:
+          description: List of keywords.
+          type: array
+          items:
+            type: string
+          example:
+            - cat
+            - dog
+        template:
+          description: Template name for predefined interfaces.
+          type: string
+          example: cat-detection
+        resources:
+          description: Hardware resources needed for process execution.
+          $ref: '#/components/schemas/Resources'
+        input:
+          description: Process execution inpout interface (JSON Schema).
+          $ref: '#/components/schemas/InputSchema'
+        output:
+          description: Process execution output interface.
+          $ref: '#/components/schemas/Output'
+        config:
+          description: Process execution configuration interface.
+          type: object
+          format: application/schema+json
+        asynchronous:
+          description: True if asynchronous mode provided.
+          type: boolean
+          default: false
+          example: false
+        _links:
+          $ref: '#/components/schemas/ProcessLinks'
+
+    #
+    # Resources schema
+    #
+    Resources:
+      description: |
+        Hardware resources needed to execute the process service.
+      type: object
+      required:
+        - cpu
+        - ram
+      properties:
+        cpu:
+          description: |
+            Number of CPU cores/vCores/hyperthreads.
+            Fractional requests are allowed. 0.5 requests for half of one CPU.
+            The expression 0.1 is equivalent to the expression 100m, which can be read as “one hundred millicpu”.
+          type: string
+          example: 2
+        cpuArch:
+          description: CPU architecture, the default value is amd64.
+          type: string
+          enum: [amd64, arm64]
+          example: amd64
+        cpuPlatform:
+          description: Minimum CPU microarchitecture platform.
+          type: string
+          example: Haswell
+        gpu:
+          description: Number of GPU cores.
+          type: integer
+          example: 0
+        memory:
+          description: |
+            Memory requirements are expressed in bytes as a plain integer
+            or as a fixed-point integer using one of these suffixes: E, P, T, G, M, K.
+            You can also use the power-of-two equivalents: Ei, Pi, Ti, Gi, Mi, Ki.
+            For example, the following represent roughly the same value: 128974848, 129e6, 129M, 123Mi
+          type: string
+          example: 2097152 # 2 Gb
+
+    #
+    # Output schema
+    #
+    Output:
+      description: |
+        Output interface definition.
+      type: object
+      required:
+        - description
+        - contents
+      properties:
+        description:
+          description: A description of the interface.
+          type: string
+          example: Tile object detection output
+        headers:
+          description: |
+            Maps a header name to its definition. RFC7230 states header names
+            are case insensitive. If a response header is defined with
+            the name "Content-Type", it SHALL be ignored.
+          type: object
+        content:
+          description: |
+            A list of all possible contents as a map with key as content type
+
+            (MIME type) and value as object (json schema) or string
+            (description)
+
+            for contents that do not need an extra definition (as for image/jpeg
+
+            or application/geo+json).
+
+
+            If a content is of type JSON (key as application/json) the value
+            might
+
+            be a JSON Schema object with ADS metadata extensions.
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/MediaTypeObject'
+          example:
+            application/geo+json: {}
+            image/png: {}
+        links:
+          description: |
+            A map of operations links that can be followed from the response.
+            The key of the map is a short name for the link, following
+            the naming constraints of the names for Component Objects.
+          type: object
+
+    #
+    # MediaTypeObject schema
+    #
+    MediaTypeObject:
+      description: |
+        Each Media Type Object provides schema and examples for the media type
+        identified by its key.
+      type: object
+      required:
+        - schema
+      properties:
+        schema:
+          description: The schema defining the type used for the request body.
+          type: object
+        example:
+          description: |
+            Example of the media type. The example object SHOULD be in the
+            correct
+
+            format as specified by the media type. The example object is
+            mutually
+
+            exclusive of the examples object. Furthermore, if referencing a
+            schema
+
+            which contains an example, the example value SHALL override the
+            example
+
+            provided by the schema.
+          type: object
+        examples:
+          description: |
+            Examples of the media type. Each example object SHOULD match the
+            media
+
+            type and specified schema if present. The examples object is
+            mutually
+
+            exclusive of the example object. Furthermore, if referencing a
+            schema
+
+            which contains an example, the examples value SHALL override the
+            example
+
+            provided by the schema.
+          type: string
+          additionalProperties:
+            type: object
+        encoding:
+          description: |
+            A map between a property name and its encoding information. The key,
+            being
+
+            the property name, MUST exist in the schema as a property. The
+            encoding
+
+            object SHALL only apply to requestBody objects when the media type
+            is multipart
+
+            or application/x-www-form-urlencoded.
+          type: string
+          additionalProperties:
+            type: string
+
+    #
+    # InputSchema schema
+    #
+    InputSchema:
+      description: |
+        Process execution input interface.
+        JSON Schema object with ADS metadata extensions.
+      type: object
+      format: application/schema+json
+      example:
+        {
+          "$schema": "http://json-schema.org/draft-06/schema#",
+          "title": "tile-object-detection-input",
+          "description": "Geo Process API input schema for tile object detection",
+          "type": "object",
+          "required": [
+            "zoom",
+            "tile"
+          ],
+          "properties": {
+            "zoom": {
+              "description": "Tile zoom level",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 20
+            },
+            "tile": {
+              "description": "The tile image base64 encoded, may be JPEG or PNG format",
+              "type": "string",
+              "contentEncoding": "base64"
+            }
+          }
+        }
+
+    #
+    # Input schema
+    #
+    Input:
+      description: |
+        Process execution input payload (compliant with process.input json
+        schema).
+      type: object
+      format: application/json
+      example:
+        zoom: 16
+        tile: dGlsZXRvcHJvY2Vzcw==
+
+    #
+    # Jobs schema
+    #
+    Jobs:
+      type: object
+      required:
+        - jobs
+        - _links
+      properties:
+        jobs:
+          type: array
+          items:
+            $ref: '#/components/schemas/JobSummary'
+        count:
+          type: integer
+          example: 1
+        total:
+          type: integer
+          example: 1
+        _links:
+          $ref: '#/components/schemas/NavLinks'
+
+    #
+    # JobSummary schema
+    #
+    JobSummary:
+      type: object
+      required:
+        - processId
+        - id
+        - creationDate
+      properties:
+        creationDate:
+          type: string
+          format: date-time
+          example: "2017-07-21T17:32:28Z"
+        startDate:
+          type: string
+          format: date-time
+          example: "2017-07-21T17:32:28Z"
+        endDate:
+          type: string
+          format: date-time
+          example: "2017-07-21T17:32:28Z"
+        processId:
+          type: string
+          format: uuid
+          example: 15c61933-0b06-442c-8bab-723b2b41f570
+        id:
+          type: string
+          format: uuid
+          example: bb4358f0-30f2-11e8-b467-0ed5f89f718b
+        nbTasks:
+          type: integer
+          example: 4
+        nbTasksPerStatus:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaskCountByStatus'
+        _links:
+          $ref: '#/components/schemas/ItemLinks'
+
+    #
+    # JobDescribe schema
+    #
+    JobDescribe:
+      type: object
+      required:
+        - processId
+        - id
+        - creationDate
+        - status
+      properties:
+        creationDate:
+          type: string
+          format: date-time
+          example: "2017-07-21T17:32:28Z"
+        startDate:
+          type: string
+          format: date-time
+          example: "2017-07-21T17:32:28Z"
+        endDate:
+          type: string
+          format: date-time
+          example: "2017-07-21T17:32:28Z"
+        processId:
+          type: string
+          format: uuid
+          example: 15c61933-0b06-442c-8bab-723b2b41f570
+        id:
+          type: string
+          format: uuid
+          example: bb4358f0-30f2-11e8-b467-0ed5f89f718b
+        status:
+          $ref: '#/components/schemas/Status'
+        message:
+          type: string
+          example: process image 12345
+        nbTasks:
+          type: integer
+          example: 4
+        nbTasksPerStatus:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaskCountByStatus'
+        userMetadatas:
+          $ref: '#/components/schemas/Metadatas'
+        input:
+          $ref: '#/components/schemas/Input'
+        asynchronous:
+          description: True if asynchronous mode provided.
+          type: boolean
+          default: false
+          example: false
+        _links:
+          $ref: '#/components/schemas/JobLinks'
+
+    #
+    # TaskCountByStatus schema
+    #
+    TaskCountByStatus:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 4
+        status:
+          description: Status of this tasks.
+          type: string
+          default: UNKNOWN
+          enum:
+            - UNKNOWN
+            - ACCEPTED
+            - RUNNING
+            - FAILED
+            - SUCCEEDED
+            - CANCELLED
+            - PAUSED
+          example: SUCCEEDED
+
+    #
+    # Metadatas schema
+    #
+    Metadatas:
+      type: array
+      items:
+        type: object
+        additionalProperties:
+          type: string
+
+    #
+    # Tasks schema
+    #
+    Tasks:
+      type: object
+      required:
+        - tasks
+        - _links
+      properties:
+        tasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaskSummary'
+        count:
+          type: integer
+          example: 1
+        total:
+          type: integer
+          example: 1
+        _links:
+          $ref: '#/components/schemas/NavLinks'
+
+    #
+    # TaskDescribe schema
+    #
+    TaskDescribe:
+      type: object
+      required:
+        - processId
+        - jobId
+        - id
+        - creationDate
+        - status
+      properties:
+        creationDate:
+          type: string
+          format: date-time
+          example: "2017-07-21T17:32:28Z"
+        startDate:
+          type: string
+          format: date-time
+          example: "2017-07-21T17:32:28Z"
+        endDate:
+          type: string
+          format: date-time
+          example: "2017-07-21T17:32:28Z"
+        processId:
+          type: string
+          format: uuid
+          example: 15c61933-0b06-442c-8bab-723b2b41f570
+        jobId:
+          type: string
+          format: uuid
+          example: bb4358f0-30f2-11e8-b467-0ed5f89f718b
+        id:
+          type: string
+          format: uuid
+          example: d77efb2c-30f3-11e8-b467-0ed5f89f718b
+        status:
+          $ref: '#/components/schemas/TaskStatus'
+        message:
+          type: string
+          example: process tile 234617
+        asynchronous:
+          description: True if asynchronous mode provided.
+          type: boolean
+          default: false
+          example: false
+        userMetadatas:
+          type: array
+          items:
+            type: object
+            additionalProperties:
+              type: string
+        _links:
+          $ref: '#/components/schemas/ItemLinks'
+
+    #
+    # TaskSummary schema
+    #
+    TaskSummary:
+      type: object
+      required:
+        - processId
+        - jobId
+        - id
+        - creationDate
+      properties:
+        creationDate:
+          type: string
+          format: date-time
+          example: "2017-07-21T17:32:28Z"
+        startDate:
+          type: string
+          format: date-time
+          example: "2017-07-21T17:32:28Z"
+        endDate:
+          type: string
+          format: date-time
+          example: "2017-07-21T17:32:28Z"
+        processId:
+          type: string
+          format: uuid
+          example: 15c61933-0b06-442c-8bab-723b2b41f570
+        jobId:
+          type: string
+          format: uuid
+          example: bb4358f0-30f2-11e8-b467-0ed5f89f718b
+        id:
+          type: string
+          format: uuid
+          example: d77efb2c-30f3-11e8-b467-0ed5f89f718b
+        status:
+          $ref: '#/components/schemas/Status'
+        _links:
+          $ref: '#/components/schemas/ItemLinks'
+
+    #
+    # Status schema
+    #
+    Status:
+      description: |
+        Status of a process execution
+      type: object
+      required:
+        - status
+        - progress
+      properties:
+        status:
+          description: Status of this execution.
+          type: string
+          default: UNKNOWN
+          enum:
+            - UNKNOWN
+            - ACCEPTED
+            - RUNNING
+            - FAILED
+            - SUCCEEDED
+            - CANCELLED
+            - PAUSED
+          example: SUCCEEDED
+        progress:
+          description: Progress in % of this execution.
+          type: integer
+          example: 100
+
+    #
+    # TaskStatus schema
+    #
+    TaskStatus:
+      type: object
+      required:
+        - status
+        - progress
+      properties:
+        errorMsg:
+          type: string
+          example: unable to get tile 54689
+        modifiedAt:
+          type: integer
+          format: int64
+          example: 1522067884
+        node:
+          $ref: '#/components/schemas/Node'
+        stats:
+          $ref: '#/components/schemas/Stats'
+        status:
+          description: Status of this execution.
+          type: string
+          default: UNKNOWN
+          enum:
+            - UNKNOWN
+            - ACCEPTED
+            - RUNNING
+            - FAILED
+            - SUCCEEDED
+            - CANCELLED
+            - PAUSED
+          example: RUNNING
+        progress:
+          description: Progress in % of this execution.
+          type: integer
+          example: 89
+
+    #
+    # Node schema
+    #
+    Node:
+      type: object
+      properties:
+        containerId:
+          type: string
+          example: f3f31194706e
+
+    #
+    # Stats schema
+    #
+    Stats:
+      type: object
+      properties:
+        duration:
+          type: integer
+          format: int64
+          example: 125
+
+    #
+    # NavLinks schema
+    #
+    NavLinks:
+      description: |
+        Links to related resources.
+      type: object
+      required:
+        - self
+      properties:
+        self:
+          description: Current page reference.
+          $ref: '#/components/schemas/Reference'
+        next:
+          description: Next page reference.
+          $ref: '#/components/schemas/Reference'
+        prev:
+          description: Previous page reference
+          $ref: '#/components/schemas/Reference'
+        first:
+          description: First page reference.
+          $ref: '#/components/schemas/Reference'
+        last:
+          description: Last page reference
+          $ref: '#/components/schemas/Reference'
+
+    #
+    # ItemLinks schema
+    #
+    ItemLinks:
+      description: |
+        Links for single resource.
+      type: object
+      required:
+        - self
+      properties:
+        self:
+          description: Current resource reference.
+          $ref: '#/components/schemas/Reference'
+        list:
+          description: List similar resource references.
+          $ref: '#/components/schemas/Reference'
+
+    #
+    # ProcessLinks schema
+    #
+    ProcessLinks:
+      description: |
+        Links for single process.
+      type: object
+      required:
+        - self
+      properties:
+        self:
+          description: Current resource reference.
+          $ref: '#/components/schemas/Reference'
+        list:
+          description: List similar resource references.
+          $ref: '#/components/schemas/Reference'
+        jobs:
+          description: List of associated jobs.
+          $ref: '#/components/schemas/Reference'
+        runNewJob:
+          description: POST ressource to launch a job for this process.
+          $ref: '#/components/schemas/Reference'
+        update:
+          description: PUT ressource to update this process.
+          $ref: '#/components/schemas/Reference'
+        delete:
+          description: DELETE ressource to delete this process.
+          $ref: '#/components/schemas/Reference'
+
+    #
+    # JobLinks schema
+    #
+    JobLinks:
+      description: |
+        Links for single job.
+      type: object
+      required:
+        - self
+      properties:
+        self:
+          description: Current resource reference.
+          $ref: '#/components/schemas/Reference'
+        list:
+          description: List similar resource references.
+          $ref: '#/components/schemas/Reference'
+        tasks:
+          description: List of associated tasks.
+          $ref: '#/components/schemas/Reference'
+        runNewJob:
+          description: POST ressource to launch a new job for this process.
+          $ref: '#/components/schemas/Reference'
+        delete:
+          description: DELETE ressource to delete this job.
+          $ref: '#/components/schemas/Reference'
+        result:
+          description: GET process result as described by the process description.
+          $ref: '#/components/responses/OutputResponse'
+        resultCatalog:
+          description: GET result catalog.
+          $ref: '#/components/responses/ResultCatalog'
+
+    #
+    # Reference schema
+    #
+    Reference:
+      description: |
+        Reference object.
+      type: object
+      required:
+        - href
+      properties:
+        relation:
+          description: Description of the relation.
+          type: string
+          example: myrelation
+        href:
+          description: Determine the target URI of the related resource.
+          type: string
+          format: uri
+          example: |
+            http://myservice.com/api/v1/processes/15c61933-0b06-442c-8bab-723b2b41f570
+        type:
+          description: Expected content type of the response of the reference.
+          type: string
+          example: application/json
+        method:
+          description: |
+            HTTP verb to distinguish between several possible actions on the
+            same ressource. GET if omitted.
+          $ref: '#/components/schemas/ReferenceMethod'
+
+    #
+    # ReferenceMethod schema
+    #
+    ReferenceMethod:
+      description: |
+        HTTP verbs to access resources.
+      type: string
+      enum:
+        - GET
+        - POST
+        - PUT
+        - DELETE
+      example: GET
+
+    #
+    # Error schema
+    #
+    Error:
+      description: |
+        Error returned when request fails
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          description: End user error description.
+          type: string
+          example: Something went wrong!
+        hint:
+          description: Internal / developper error message (no trace).
+          type: string
+          example: Class CatDetection threw an exception on line 125
+        correlationId:
+          description: System request identifier from request header.
+          type: string
+          example: run-1258
+        timestamp:
+          description: Error timestamp.
+          type: string
+          format: date-time
+          example: "2017-07-21T17:32:28Z"
