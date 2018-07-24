@@ -47,7 +47,7 @@ tags:
       Defines the main entry point of the service.
   - name: Synchronous
     description: |
-      Mandtory resources for the synchronous mode.
+      Mandatory resources for the synchronous mode.
       Endpoints may be specific to each implementation.
       Referenced via the _links attribute of the describe resource.
   - name: Asynchronous
@@ -366,7 +366,7 @@ paths:
             default: ''
     get:
       tags:
-        - optional
+        - Optional
       summary: Get instance configuration parameters
       description: |
         Implementation specific.
@@ -390,7 +390,7 @@ paths:
                 $ref: '#/components/schemas/Error'
     put:
       tags:
-        - optional
+        - Optional
       summary: Set instance configuration parameters
       description: |
         Implementation specific.
@@ -427,7 +427,7 @@ paths:
             default: ''
     get:
       tags:
-        - optional
+        - Optional
       summary: Low level version description
       description: |
         Implementation specific.
@@ -448,7 +448,7 @@ paths:
             default: ''
     get:
       tags:
-        - optional
+        - Optional
       summary: Check if the service is alive
       description: |
         The response is a HTTP status code 200 containing in the body 'OK'.
@@ -468,7 +468,7 @@ paths:
             default: ''
     get:
       tags:
-        - optional
+        - Optional
       summary: Execution usage metrics
       description: |
         Implementation specific.
