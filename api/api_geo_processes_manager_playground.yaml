@@ -34,19 +34,28 @@ info:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
   version: 1.0.0
+  x-logo:
+    url: https://www.intelligence-airbusds.com/files/pmedia/public/r2421_9_airbus_rgb.png
+
+#
+# Servers
+#
+servers:
+  - url: https://process.api.playground.intelligence-airbusds.com
+    description: OneAtlas Playground production server
 
 #
 # Tags
 #
 tags:
-  - name: mandatory
+  - name: Mandatory
     description: |
       Mandatory resources.
       Defines the main entry point of the service.
-  - name: catalog
+  - name: Catalog
     description: |
       Processes catalog.
-  - name: jobs
+  - name: Jobs
     description: |
       Processes execution management.
 
@@ -66,7 +75,7 @@ paths:
   /api/v1/openapi:
     get:
       tags:
-        - mandatory
+        - Mandatory
       summary: Open API specification of this service in YAML format
       description: |
         Returns Open API specification of this service in YAML format.
@@ -119,7 +128,7 @@ paths:
           schema:
             type: integer
       tags:
-        - catalog
+        - Catalog
       summary: List all available process services
       description: |
         Return the list of all registered process services that are available
@@ -157,7 +166,7 @@ paths:
                 $ref: '#/components/schemas/Error'
     post:
       tags:
-        - catalog
+        - Catalog
       summary: Register a new process service
       description: Register a process service for further execution
       parameters:
@@ -219,7 +228,7 @@ paths:
   '/api/v1/processes/{processId}':
     get:
       tags:
-        - catalog
+        - Catalog
       summary: Find process by ID
       description: Return a single process
       parameters:
@@ -270,7 +279,7 @@ paths:
                 $ref: '#/components/schemas/Error'
     put:
       tags:
-        - catalog
+        - Catalog
       summary: Update an existing process service
       description: Update an existing process service
       parameters:
@@ -334,7 +343,7 @@ paths:
                 $ref: '#/components/schemas/Error'
     delete:
       tags:
-        - catalog
+        - Catalog
       summary: Delete a process
       description: |
         Definitively remove a process service from the platform. Note : This
@@ -395,7 +404,7 @@ paths:
   /api/v1/jobs:
     get:
       tags:
-        - jobs
+        - Jobs
       summary: List available jobs
       description: Return the list of all available jobs for this context
       parameters:
@@ -450,7 +459,7 @@ paths:
   '/api/v1/processes/{processId}/jobs':
     get:
       tags:
-        - jobs
+        - Jobs
       summary: List process' jobs
       description: Return the list of all process' jobs
       parameters:
@@ -513,7 +522,7 @@ paths:
                 $ref: '#/components/schemas/Error'
     post:
       tags:
-        - jobs
+        - Jobs
       summary: Request for a job execution
       description: Make a job request that should be queued for future execution
       parameters:
@@ -592,7 +601,7 @@ paths:
   '/api/v1/processes/{processId}/jobs/{jobId}':
     get:
       tags:
-        - jobs
+        - Jobs
       summary: Find jobs by ID
       description: Returns a single job
       parameters:
@@ -650,7 +659,7 @@ paths:
                 $ref: '#/components/schemas/Error'
     delete:
       tags:
-        - jobs
+        - Jobs
       summary: Delete a job
       description: Kill any running job associated to this id and delete execution details
       parameters:
@@ -719,7 +728,7 @@ paths:
   '/api/v1/processes/{processId}/jobs/{jobId}/technical':
     get:
       tags:
-        - jobs
+        - Jobs
       summary: Get a job's technical metadatas.
       description: Returns a job's technical metadatas description.
       parameters:
@@ -782,7 +791,7 @@ paths:
   '/api/v1/processes/{processId}/jobs/{jobId}/tasks':
     get:
       tags:
-        - jobs
+        - Jobs
       summary: List job's task
       description: Return the list of all registered tasks for current job
       parameters:
@@ -863,7 +872,7 @@ paths:
   '/api/v1/processes/{processId}/jobs/{jobId}/tasks/{taskId}':
     get:
       tags:
-        - jobs
+        - Jobs
       summary: Find task by ID
       description: Returns a single task
       parameters:
