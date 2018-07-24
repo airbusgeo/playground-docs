@@ -20,28 +20,37 @@ info:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
   version: 1.0.0
+  x-logo:
+    url: https://www.intelligence-airbusds.com/files/pmedia/public/r2421_9_airbus_rgb.png
+
+#
+# Servers
+#
+servers:
+  - url: https://data.api.playground.intelligence-airbusds.com
+    description: OneAtlas Playground production server
 
 #
 # Tags
 #
 tags:
-  - name: mandatory
+  - name: Mandatory
     description: |
       Mandatory resources.
       Defines the main entry point of the service.
-  - name: projects
+  - name: Projects
     description: |
       Project management.
-  - name: datasets
+  - name: Datasets
     description: |
       Dataset management.
-  - name: zones
-    description: |
-      Zone management.
-  - name: tags
-    description: |
-      Tag management.
-  - name: records
+  # - name: Zones
+  #   description: |
+  #     Zone management.
+  # - name: Tags
+  #   description: |
+  #     Tag management.
+  - name: Records
     description: |
       Record management.
 
@@ -61,7 +70,7 @@ paths:
   /api/v1/openapi:
     get:
       tags:
-        - mandatory
+        - Mandatory
       summary: Open API specification of this service in YAML format
       description: |
         Returns Open API specification of this service in YAML format.
@@ -82,14 +91,14 @@ paths:
           required: false
           schema:
             type: string
-        - name: size
+        - name: itemsPerPage
           in: query
-          description: "Page size. Default: 10. Max: 100."
+          description: "Page size. Default: 10, max: 100."
           required: false
           schema:
             type: string
       tags:
-        - projects
+        - Projects
       summary: List all available projects
       description: |
         Return the list of all projects that are available
@@ -129,11 +138,11 @@ paths:
   #
   # Dataset list and creation
   #
-  /api/v1/datasets/{projectId}:
+  /api/v1/datasets:
     get:
       parameters:
         - name: projectId
-          in: path
+          in: query
           description: Project ID
           required: true
           schema:
@@ -145,14 +154,14 @@ paths:
           required: false
           schema:
             type: integer
-        - name: size
+        - name: itemsPerPage
           in: query
-          description: "Page size. Default: 10. Max: 100."
+          description: "Page size. Default: 10, max: 100."
           required: false
           schema:
             type: integer
       tags:
-        - datasets
+        - Datasets
       summary: List all available datasets
       description: |
         Return the list of all datasets for the given project
@@ -190,14 +199,14 @@ paths:
     post:
       parameters:
         - name: projectId
-          in: path
+          in: query
           description: Project ID
           required: true
           schema:
             type: string
             format: uuid
       tags:
-        - datasets
+        - Datasets
       summary: Add a new dataset
       description: Add a new dataset
       requestBody:
@@ -248,16 +257,9 @@ paths:
   #
   # Dataset management
   #
-  '/api/v1/datasets/{projectId}/{datasetId}':
+  '/api/v1/datasets/{datasetId}':
     get:
       parameters:
-        - name: projectId
-          in: path
-          description: Project ID
-          required: true
-          schema:
-            type: string
-            format: uuid
         - name: datasetId
           in: path
           description: ID of dataset to return
@@ -265,8 +267,15 @@ paths:
           schema:
             type: string
             format: uuid
+        - name: projectId
+          in: query
+          description: Project ID
+          required: true
+          schema:
+            type: string
+            format: uuid
       tags:
-        - datasets
+        - Datasets
       summary: Find dataset by ID
       description: Return a single dataset
       responses:
@@ -302,13 +311,6 @@ paths:
                 $ref: '#/components/schemas/Error'
     put:
       parameters:
-        - name: projectId
-          in: path
-          description: Project ID
-          required: true
-          schema:
-            type: string
-            format: uuid
         - name: datasetId
           in: path
           description: ID of dataset to return
@@ -316,8 +318,15 @@ paths:
           schema:
             type: string
             format: uuid
+        - name: projectId
+          in: query
+          description: Project ID
+          required: true
+          schema:
+            type: string
+            format: uuid
       tags:
-        - datasets
+        - Datasets
       summary: Update an existing dataset
       description: Update an existing dataset
       requestBody:
@@ -366,13 +375,6 @@ paths:
                 $ref: '#/components/schemas/Error'
     delete:
       parameters:
-        - name: projectId
-          in: path
-          description: Project ID
-          required: true
-          schema:
-            type: string
-            format: uuid
         - name: datasetId
           in: path
           description: Dataset ID to delete
@@ -380,8 +382,15 @@ paths:
           schema:
             type: string
             format: uuid
+        - name: projectId
+          in: query
+          description: Project ID
+          required: true
+          schema:
+            type: string
+            format: uuid
       tags:
-        - datasets
+        - Datasets
       summary: Delete a dataset
       description: |
         Definitively remove a dataset from the platform.
@@ -420,297 +429,297 @@ paths:
   #
   # Record list and creation for one record
   #
-  '/api/v1/records/{projectId}/{datasetId}':
-    get:
-      tags:
-        - records
-      summary: List all records
-      description: Return the list of all records
-      parameters:
-        - name: projectId
-          in: path
-          description: Project ID
-          required: true
-          schema:
-            type: string
-            format: uuid
-        - name: datasetId
-          in: path
-          description: Dataset ID
-          required: true
-          schema:
-            type: string
-            format: uuid
-        - name: page
-          in: query
-          description: "Page number. Default: 1."
-          required: false
-          schema:
-            type: string
-        - name: size
-          in: query
-          description: "Page size. Default: 10. Max: 100."
-          required: false
-          schema:
-            type: string
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Records'
-        '400':
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-    post:
-      tags:
-        - records
-      summary: Create a record
-      description: Create a record
-      parameters:
-        - name: projectId
-          in: path
-          description: Project ID
-          required: true
-          schema:
-            type: string
-            format: uuid
-        - name: datasetId
-          in: path
-          description:  Dataset ID
-          required: true
-          schema:
-            type: string
-            format: uuid
-        - in: header
-          name: X-Correlation-ID
-          description: System wide request identifier.
-          schema:
-            type: string
-        - in: header
-          name: X-ADS-Debug
-          description: Enable debug mode.
-          schema:
-            type: boolean
-      responses:
-        '201':
-          description: Record added
-          headers:
-            Location:
-              schema:
-                type: string
-              description: URI of the record
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RecordDescribe'
-        '400':
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '405':
-          description: Invalid input
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-      requestBody:
-        description: Record description
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/RecordDescribe'
+  # /api/v1/records/{datasetId}:
+  #   get:
+  #     tags:
+  #       - Records
+  #     summary: List all records
+  #     description: Return the list of all records
+  #     parameters:
+  #       - name: datasetId
+  #         in: path
+  #         description: Dataset ID
+  #         required: true
+  #         schema:
+  #           type: string
+  #           format: uuid
+  #       - name: projectId
+  #         in: query
+  #         description: Project ID
+  #         required: true
+  #         schema:
+  #           type: string
+  #           format: uuid
+  #       - name: page
+  #         in: query
+  #         description: "Page number. Default: 1."
+  #         required: false
+  #         schema:
+  #           type: string
+  #       - name: itemsPerPage
+  #         in: query
+  #         description: "Page size. Default: 10, max: 100."
+  #         required: false
+  #         schema:
+  #           type: string
+  #     responses:
+  #       '200':
+  #         description: successful operation
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/Records'
+  #       '400':
+  #         description: Bad request
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/Error'
+  #       '401':
+  #         description: Unauthorized
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/Error'
+  #       '403':
+  #         description: Forbidden
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/Error'
+  #       '404':
+  #         description: Not Found
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/Error'
+  #   post:
+  #     tags:
+  #       - Records
+  #     summary: Create a record
+  #     description: Create a record
+  #     parameters:
+  #       - name: datasetId
+  #         in: path
+  #         description:  Dataset ID
+  #         required: true
+  #         schema:
+  #           type: string
+  #           format: uuid
+  #       - name: projectId
+  #         in: query
+  #         description: Project ID
+  #         required: true
+  #         schema:
+  #           type: string
+  #           format: uuid
+  #       - in: header
+  #         name: X-Correlation-ID
+  #         description: System wide request identifier.
+  #         schema:
+  #           type: string
+  #       - in: header
+  #         name: X-ADS-Debug
+  #         description: Enable debug mode.
+  #         schema:
+  #           type: boolean
+  #     responses:
+  #       '201':
+  #         description: Record added
+  #         headers:
+  #           Location:
+  #             schema:
+  #               type: string
+  #             description: URI of the record
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/RecordDescribe'
+  #       '400':
+  #         description: Bad request
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/Error'
+  #       '401':
+  #         description: Unauthorized
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/Error'
+  #       '403':
+  #         description: Forbidden
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/Error'
+  #       '404':
+  #         description: Not Found
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/Error'
+  #       '405':
+  #         description: Invalid input
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/Error'
+  #     requestBody:
+  #       description: Record description
+  #       required: true
+  #       content:
+  #         application/json:
+  #           schema:
+  #             $ref: '#/components/schemas/RecordDescribe'
 
   #
   # Record management
   #
-  '/api/v1/records/{projectId}/{datasetId}/{recordId}':
-    get:
-      tags:
-        - records
-      summary: Find record by ID
-      description: Returns a single record
-      parameters:
-        - name: projectId
-          in: path
-          description: Project ID
-          required: true
-          schema:
-            type: string
-            format: uuid
-        - name: datasetId
-          in: path
-          description: Dataset ID
-          required: true
-          schema:
-            type: string
-            format: uuid
-        - name: recordId
-          in: path
-          description: ID of record to return
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RecordDescribe'
-        '400':
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-    delete:
-      tags:
-        - records
-      summary: Delete a record
-      description: Delete a record
-      parameters:
-        - name: projectId
-          in: path
-          description: Project ID
-          required: true
-          schema:
-            type: string
-            format: uuid
-        - name: datasetId
-          in: path
-          description: Dataset ID
-          required: true
-          schema:
-            type: string
-            format: uuid
-        - name: recordId
-          in: path
-          description: ID of record to delete
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '202':
-          description: Record deleted
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RecordSummary'
-        '204':
-          description: Record deleted
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RecordDescribe'
-        '400':
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+  # /api/v1/records/{datasetId}/{recordId}:
+  #   get:
+  #     tags:
+  #       - Records
+  #     summary: Find record by ID
+  #     description: Returns a single record
+  #     parameters:
+  #       - name: datasetId
+  #         in: path
+  #         description: Dataset ID
+  #         required: true
+  #         schema:
+  #           type: string
+  #           format: uuid
+  #       - name: recordId
+  #         in: path
+  #         description: ID of record to return
+  #         required: true
+  #         schema:
+  #           type: string
+  #           format: uuid
+  #       - name: projectId
+  #         in: query
+  #         description: Project ID
+  #         required: true
+  #         schema:
+  #           type: string
+  #           format: uuid
+  #     responses:
+  #       '200':
+  #         description: successful operation
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/RecordDescribe'
+  #       '400':
+  #         description: Bad request
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/Error'
+  #       '401':
+  #         description: Unauthorized
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/Error'
+  #       '403':
+  #         description: Forbidden
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/Error'
+  #       '404':
+  #         description: Not Found
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/Error'
+  #   delete:
+  #     tags:
+  #       - Records
+  #     summary: Delete a record
+  #     description: Delete a record
+  #     parameters:
+  #       - name: datasetId
+  #         in: path
+  #         description: Dataset ID
+  #         required: true
+  #         schema:
+  #           type: string
+  #           format: uuid
+  #       - name: recordId
+  #         in: path
+  #         description: ID of record to delete
+  #         required: true
+  #         schema:
+  #           type: string
+  #           format: uuid
+  #       - name: projectId
+  #         in: query
+  #         description: Project ID
+  #         required: true
+  #         schema:
+  #           type: string
+  #           format: uuid
+  #     responses:
+  #       '202':
+  #         description: Record deleted
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/RecordSummary'
+  #       '204':
+  #         description: Record deleted
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/RecordDescribe'
+  #       '400':
+  #         description: Bad request
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/Error'
+  #       '401':
+  #         description: Unauthorized
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/Error'
+  #       '403':
+  #         description: Forbidden
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/Error'
+  #       '404':
+  #         description: Not Found
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/Error'
 
   #
   # Record export
   #
-  '/api/v1/records/{projectId}/{datasetId}/export':
+  '/api/v1/records/{datasetId}/export':
     get:
       tags:
-        - records
+        - Records
       summary: Export records
       description: Export records. datasetId or jobId has to be specified in the query.
       parameters:
-        - name: projectId
+        - name: datasetId
           in: path
-          description: Project ID
+          description: Dataset ID
           required: true
           schema:
             type: string
             format: uuid
-        - name: datasetId
-          in: path
-          description: Dataset ID
+        - name: projectId
+          in: query
+          description: Project ID
           required: true
           schema:
             type: string
@@ -945,130 +954,142 @@ components:
     #
     # Records schema
     #
-    Records:
-      type: object
-      properties:
-        processes:
-          type: array
-          items:
-            $ref: '#/components/schemas/RecordSummary'
-        count:
-          type: integer
-          example: 1
-        total:
-          type: integer
-          example: 1
-        _links:
-          $ref: '#/components/schemas/NavLinks'
+    # Records:
+    #   type: object
+    #   properties:
+    #     processes:
+    #       type: array
+    #       items:
+    #         $ref: '#/components/schemas/RecordSummary'
+    #     count:
+    #       type: integer
+    #       example: 1
+    #     total:
+    #       type: integer
+    #       example: 1
+    #     _links:
+    #       $ref: '#/components/schemas/NavLinks'
 
     #
     # RecordSummary schema
     #
-    RecordSummary:
-      type: object
-      required:
-        - recordId
-        - datasetId
-        - jobId
-        - creationDate
-        - tags
-        - state
-      properties:
-        recordId:
-          description: Unique identifier of the record.
-          type: string
-          example: bb4358f0-30f2-11e8-b467-0ed5f89f718b
-        datasetId:
-          description: Unique identifier of the dataset.
-          type: string
-          example: bb4358f0-30f2-11e8-b467-0ed5f89f718b
-        jobId:
-          description: Unique identifier of the job.
-          type: string
-          example: 15c61933-0b06-442c-8bab-723b2b41f570
-        creationDate:
-          description: Date of the creation of this record.
-          type: string
-          format: date-time
-          example: '2017-07-21T17:32:28Z'
-        tags:
-          description: List of tags.
-          type: array
-          items:
-            type: string
-          example: "['ship']"
-        state:
-          description: State of the record.
-          $ref: '#/components/schemas/RecordState'
-        _links:
-          $ref: '#/components/schemas/ItemLinks'
+    # RecordSummary:
+    #   type: object
+    #   required:
+    #     - recordId
+    #     - datasetId
+    #     - jobId
+    #     - creationDate
+    #     - tags
+    #     - state
+    #   properties:
+    #     recordId:
+    #       description: Unique identifier of the record.
+    #       type: string
+    #       example: bb4358f0-30f2-11e8-b467-0ed5f89f718b
+    #     datasetId:
+    #       description: Unique identifier of the dataset.
+    #       type: string
+    #       example: bb4358f0-30f2-11e8-b467-0ed5f89f718b
+    #     jobId:
+    #       description: Unique identifier of the job.
+    #       type: string
+    #       example: 15c61933-0b06-442c-8bab-723b2b41f570
+    #     creationDate:
+    #       description: Date of the creation of this record.
+    #       type: string
+    #       format: date-time
+    #       example: '2017-07-21T17:32:28Z'
+    #     tags:
+    #       description: List of tags.
+    #       type: array
+    #       items:
+    #         type: string
+    #       example: "['ship']"
+    #     state:
+    #       description: State of the record.
+    #       $ref: '#/components/schemas/RecordState'
+    #     _links:
+    #       $ref: '#/components/schemas/ItemLinks'
 
     #
     # RecordDescribe schema
     #
-    RecordDescribe:
-      type: object
-      required:
-        - recordId
-        - datasetId
-        - jobId
-        - creationDate
-        - tags
-        - state
-        - geom
-        - sourceIds
-      properties:
-        recordId:
-          description: Unique identifier of the record.
-          type: string
-          example: bb4358f0-30f2-11e8-b467-0ed5f89f718b
-        datasetId:
-          description: Unique identifier of the dataset.
-          type: string
-          example: bb4358f0-30f2-11e8-b467-0ed5f89f718b
-        jobId:
-          description: Unique identifier of the job.
-          type: string
-          example: 15c61933-0b06-442c-8bab-723b2b41f570
-        creationDate:
-          description: Date of the creation of this record.
-          type: string
-          format: date-time
-          example: '2017-07-21T17:32:28Z'
-        tags:
-          description: List of tags.
-          type: array
-          items:
-            type: string
-          example: ['ship']
-        state:
-          description: State of the record.
-          $ref: '#/components/schemas/RecordState'
-        geom:
-          description: Geometry of the record as GeoJSON.
-          type: object
-        sourceIds:
-          description: Source image of the record.
-          type: array
-          items:
-            type: string
-          example: ['DS_SPOT7_201806191033345_FR1_FR1_SV1_SV1_W003N37_01790']
-        _links:
-          $ref: '#/components/schemas/RecordLinks'
+    # RecordDescribe:
+    #   type: object
+    #   required:
+    #     - recordId
+    #     - datasetId
+    #     - jobId
+    #     - creationDate
+    #     - tags
+    #     - state
+    #     - geom
+    #     - sourceIds
+    #   properties:
+    #     recordId:
+    #       description: Unique identifier of the record.
+    #       type: string
+    #       example: bb4358f0-30f2-11e8-b467-0ed5f89f718b
+    #     datasetId:
+    #       description: Unique identifier of the dataset.
+    #       type: string
+    #       example: bb4358f0-30f2-11e8-b467-0ed5f89f718b
+    #     jobId:
+    #       description: Unique identifier of the job.
+    #       type: string
+    #       example: 15c61933-0b06-442c-8bab-723b2b41f570
+    #     creationDate:
+    #       description: Date of the creation of this record.
+    #       type: string
+    #       format: date-time
+    #       example: '2017-07-21T17:32:28Z'
+    #     tags:
+    #       description: List of tags.
+    #       type: array
+    #       items:
+    #         type: string
+    #       example: ['ship']
+    #     state:
+    #       description: State of the record.
+    #       $ref: '#/components/schemas/RecordState'
+    #     geom:
+    #       description: Geometry of the record as GeoJSON.
+    #       type: object
+    #     sourceIds:
+    #       description: Source image of the record.
+    #       type: array
+    #       items:
+    #         type: string
+    #       example: ['DS_SPOT7_201806191033345_FR1_FR1_SV1_SV1_W003N37_01790']
+    #     _links:
+    #       $ref: '#/components/schemas/RecordLinks'
 
     #
     # RecordState schema
     #
-    RecordState:
-      description: State of a record.
+    # RecordState:
+    #   description: State of a record.
+    #   type: string
+    #   enum:
+    #     - PREDICTED
+    #     - MODIFIED
+    #     - ADDED
+    #     - DELETED
+    #     - VERIFIED
+    #   example: ADDED
+
+    #
+    # ExportType schema
+    #
+    ExportType:
+      description: |
+        Export type.
       type: string
       enum:
-        - PREDICTED
-        - MODIFIED
-        - ADDED
-        - DELETED
-        - VERIFIED
-      example: ADDED
+        - GeoJSON
+        - KML
+      example: GeoJSON
 
     #
     # NavLinks schema
@@ -1183,34 +1204,34 @@ components:
     #
     # RecordLinks schema
     #
-    RecordLinks:
-      description: |
-        Links for single record.
-      type: object
-      required:
-        - self
-      properties:
-        self:
-          description: Current resource reference.
-          $ref: '#/components/schemas/Reference'
-        list:
-          description: List similar resource references.
-          $ref: '#/components/schemas/Reference'
-        zone:
-          description: Associated zone.
-          $ref: '#/components/schemas/Reference'
-        tags:
-          description: List of associated tags.
-          $ref: '#/components/schemas/Reference'
-        job:
-          description: Associated job.
-          $ref: '#/components/schemas/Reference'
-        update:
-          description: PUT ressource to update this record.
-          $ref: '#/components/schemas/Reference'
-        delete:
-          description: DELETE ressource to delete this record.
-          $ref: '#/components/schemas/Reference'
+    # RecordLinks:
+    #   description: |
+    #     Links for single record.
+    #   type: object
+    #   required:
+    #     - self
+    #   properties:
+    #     self:
+    #       description: Current resource reference.
+    #       $ref: '#/components/schemas/Reference'
+    #     list:
+    #       description: List similar resource references.
+    #       $ref: '#/components/schemas/Reference'
+    #     zone:
+    #       description: Associated zone.
+    #       $ref: '#/components/schemas/Reference'
+    #     tags:
+    #       description: List of associated tags.
+    #       $ref: '#/components/schemas/Reference'
+    #     job:
+    #       description: Associated job.
+    #       $ref: '#/components/schemas/Reference'
+    #     update:
+    #       description: PUT ressource to update this record.
+    #       $ref: '#/components/schemas/Reference'
+    #     delete:
+    #       description: DELETE ressource to delete this record.
+    #       $ref: '#/components/schemas/Reference'
 
     #
     # Reference schema
@@ -1241,18 +1262,6 @@ components:
             HTTP verb to distinguish between several possible actions on the
             same ressource. GET if omitted.
           $ref: '#/components/schemas/ReferenceMethod'
-
-    #
-    # ExportType schema
-    #
-    ExportType:
-      description: |
-        Export type.
-      type: string
-      enum:
-        - GeoJSON
-        - KML
-      example: GeoJSON
 
     #
     # ReferenceMethod schema
