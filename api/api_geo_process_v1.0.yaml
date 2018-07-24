@@ -27,6 +27,8 @@ info:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
   version: 1.0.1
+  x-logo:
+    url: https://www.intelligence-airbusds.com/files/pmedia/public/r2421_9_airbus_rgb.png
 
 #
 # External docs
@@ -39,21 +41,21 @@ externalDocs:
 # Tags
 #
 tags:
-  - name: mandatory
+  - name: Mandatory
     description: |
       Mandatory resources.
       Defines the main entry point of the service.
-  - name: synchronous
+  - name: Synchronous
     description: |
       Mandtory resources for the synchronous mode.
       Endpoints may be specific to each implementation.
       Referenced via the _links attribute of the describe resource.
-  - name: asynchronous
+  - name: Asynchronous
     description: |
       Mandatory resources for the asynchronous mode.
       Endpoints may be specific to each implementation.
       Referenced via the result of the process execution resource.
-  - name: optional
+  - name: Optional
     description: |
       Optional, implementation specific resources for low level
       description and monitoring.
@@ -70,7 +72,7 @@ paths:
   /api/v1/openapi:
     get:
       tags:
-        - mandatory
+        - Mandatory
       summary: Open API specification of this service in YAML format
       description: |
         Returns Open API specification of this service in YAML format.
@@ -85,7 +87,7 @@ paths:
   /api/v1/describe:
     get:
       tags:
-        - mandatory
+        - Mandatory
       summary: Describes process service
       description: |
         Returns the description of the process.
@@ -115,8 +117,8 @@ paths:
             default: ''
     post:
       tags:
-        - synchronous
-        - asynchronous
+        - Synchronous
+        - Asynchronous
       summary: Launch process execution
       description: |
         Execute the process.
@@ -194,7 +196,7 @@ paths:
           format: uuid
     delete:
       tags:
-        - asynchronous
+        - Asynchronous
       summary: Cancel the given job execution
       operationId: delete_job
       responses:
@@ -222,7 +224,7 @@ paths:
           format: uuid
     get:
       tags:
-        - asynchronous
+        - Asynchronous
       summary: Retrieve execution status
       description: |
         Retrieve the process status and available results if succeded.
@@ -260,7 +262,7 @@ paths:
           format: uuid
     get:
       tags:
-        - asynchronous
+        - Asynchronous
       summary: Get job results
       description: |
         Retrieve results of the given job.
@@ -278,7 +280,7 @@ paths:
                 $ref: '#/components/schemas/Error'
     delete:
       tags:
-        - asynchronous
+        - Asynchronous
       summary: Delete all results
       description: |
         Delete all results.
@@ -318,7 +320,7 @@ paths:
           type: string
     get:
       tags:
-        - asynchronous
+        - Asynchronous
       summary: Retrieve a result
       description: |
         Retrieve a result from its id.
@@ -336,7 +338,7 @@ paths:
                 $ref: '#/components/schemas/Error'
     delete:
       tags:
-        - asynchronous
+        - Asynchronous
       summary: Delete a result
       description: |
         Delete a result from its id.
