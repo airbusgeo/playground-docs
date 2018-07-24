@@ -17,7 +17,7 @@ Using an existing dataset :
 ```json
 {
     "name": "My job on HongKong",
-    "sourceId": "DS_SPOT7_201806191033345_FR1_FR1_SV1_SV1_W003N37_01790",
+    "imageId": "DS_SPOT7_201806191033345_FR1_FR1_SV1_SV1_W003N37_01790",
     "geom": {
         "type": "Polygon",
         "coordinates": [[
@@ -38,7 +38,7 @@ While creating a new dataset :
 ```json
 {
     "name": "My job on HongKong",
-    "sourceId": "DS_SPOT7_201806191033345_FR1_FR1_SV1_SV1_W003N37_01790",
+    "imageId": "DS_SPOT7_201806191033345_FR1_FR1_SV1_SV1_W003N37_01790",
     "geom": {
         "type": "Polygon",
         "coordinates": [[

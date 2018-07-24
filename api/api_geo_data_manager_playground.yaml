@@ -729,7 +729,11 @@ paths:
           description: Export type
           required: true
           schema:
-            $ref: '#/components/schemas/ExportType'
+            type: string
+            enum:
+              - GeoJSON
+              - KML
+            example: GeoJSON
         - name: jobId
           in: query
           description: Job ID to filter export to a job.
@@ -1078,18 +1082,6 @@ components:
     #     - DELETED
     #     - VERIFIED
     #   example: ADDED
-
-    #
-    # ExportType schema
-    #
-    ExportType:
-      description: |
-        Export type.
-      type: string
-      enum:
-        - GeoJSON
-        - KML
-      example: GeoJSON
 
     #
     # NavLinks schema

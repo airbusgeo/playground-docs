@@ -17,8 +17,8 @@ Using an existing dataset :
 ```json
 {
     "name": "My job on HongKong",
-    "sourceId1": "DS_SPOT7_201806191033345_FR1_FR1_SV1_SV1_W003N37_01790",
-    "sourceId2": "DS_SPOT6_201806181039596_FR1_FR1_SV1_SV1_W002N38_01871",
+    "imageId1": "DS_SPOT7_201806191033345_FR1_FR1_SV1_SV1_W003N37_01790",
+    "imageId2": "DS_SPOT6_201806181039596_FR1_FR1_SV1_SV1_W002N38_01871",
     "geom": {
         "type": "Polygon",
         "coordinates": [[
@@ -39,8 +39,8 @@ While creating a new dataset :
 ```json
 {
     "name": "My job on HongKong",
-    "sourceId1": "DS_SPOT7_201806191033345_FR1_FR1_SV1_SV1_W003N37_01790",
-    "sourceId2": "DS_SPOT6_201806181039596_FR1_FR1_SV1_SV1_W002N38_01871",
+    "imageId1": "DS_SPOT7_201806191033345_FR1_FR1_SV1_SV1_W003N37_01790",
+    "imageId2": "DS_SPOT6_201806181039596_FR1_FR1_SV1_SV1_W002N38_01871",
     "geom": {
         "type": "Polygon",
         "coordinates": [[
