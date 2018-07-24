@@ -5,8 +5,8 @@
     "type" : "object",
     "required": [
         "name",
-        "sourceId1",
-        "sourceId2",
+        "imageId1",
+        "imageId2",
         "geom"
     ],
     "properties": {
@@ -14,12 +14,12 @@
             "description": "Job name",
             "type": "string"
         },
-        "sourceId1": {
-            "description": "Image 1 source ID",
+        "imageId1": {
+            "description": "Image 1 ID",
             "type": "string"
         },
-        "sourceId2": {
-            "description": "Image 2 source ID",
+        "imageId2": {
+            "description": "Image 2 ID",
             "type": "string"
         },
         "geom": {
@@ -46,11 +46,15 @@
             "type": "string"
         },
         "datasetId": {
-            "description": "Dataset ID, if the dataset already exists (exclusive with datasetName)",
+            "description": "Result dataset ID, if the dataset already exists (exclusive with datasetName)",
             "type": "string"
         },
         "datasetName": {
-            "description": "Dataset name, to create a new dataset (exclusive with datasetId)",
+            "description": "Result dataset name, to create a new dataset (exclusive with datasetId)",
+            "type": "string"
+        },
+        "maskDatasetId": {
+            "description": "Dataset ID used as image mask",
             "type": "string"
         }
     },
