@@ -18,6 +18,7 @@ gunicorn==19.7.1
 # web framework
 Flask==0.12.2
 werkzeug==0.12.2
+futures==3.2.0
 
 # image processing
 Pillow==5.0.0

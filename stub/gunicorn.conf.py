@@ -15,8 +15,7 @@
 """Gunicorn (http server) configuration.
 """
 
-import multiprocessing
-
-worker_class = 'sync'
-workers = multiprocessing.cpu_count() * 2 + 1
-#timeout = 60
+workers = 1
+worker_class = 'gthread'
+threads = 5
+timeout = 60
