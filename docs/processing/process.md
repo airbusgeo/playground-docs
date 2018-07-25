@@ -4,7 +4,7 @@ OneAtlas Playground is a cloud environment to process images provided as tiles (
 
 # Implementing Geo Process Web-Service API
 
-The process has to provide a REST web-service that implements the [Geo Process API](geo_process_api.md) official API. This API is an open specification that enables inter-operability of algorithms.
+The process has to provide a REST web-service that implements the [Geo Process API](../airbus_ds/geo_process_api.md) official API. This API is an open specification that enables inter-operability of algorithms.
 
 In OneAtlas Playground **all processes are synchronous**. This means that *the asynchronous interface of the Geo Process API is not used*. In a nutshell, only the following services must be implemented.
 
@@ -29,14 +29,18 @@ This service executes the process. The type of input data is described by the in
 OneAtlas Playground defines several templates for the *describe* service.
 Using the provided templates will facilitate the integration of a custom processes in OenAtlas Playground.
 
-Templates are defined for the two main kind of processes that are supported by OneAtlas Playgroud:
+Templates are defined for the two main kind of processes that are supported by OneAtlas Playground:
 
-* [Object Detection](object_detection.md)
-* [Change Detection](change_detection.md)
+* [Object Detection](../playground/process_object_detection.md)
+* [Change Detection](../playground/process_change_detection.md)
 
 # Details about input
 
-Tiles are 8 bits RGB images of 256x256 pixels. To this you can add a padding of up to 256 pixels. As the results the maximum size of a tile is 768x768 pxeils. Tiles are base64 encoded in a JSON document passed in the request body.
+Tiles are 8 bits RGB images of 256x256 pixels.
+
+The process can ask for a padding of up to 256 pixels in the config endpoint. As a results the maximum size of a tile is 768x768 pixels.
+
+Tiles are base64 encoded in a JSON document passed in the request body of the jobs endpoint.
 
 # Details about output
 
@@ -54,6 +58,6 @@ When process output is defined as [GeoJSON](https://en.wikipedia.org/wiki/GeoJSO
 * the input tile image is 300x300
 * the detected change in green of 20x15
 
-The result is `[[100, 100], [120, 100], [120, 115], [100, 115]]`
+The expected geometry is : `[[0, 0], [20, 0], [20, 15], [0, 15]]`
 
 ![Feature geometry example](../images/feature-geometry-sample.jpeg)

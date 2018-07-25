@@ -1,0 +1,227 @@
+openapi: 3.0.0
+
+#
+# Info
+#
+info:
+  title: Authentication API
+  description: |
+    This document describes the OneAtlas Playground "Authentication API" specification.
+    
+    In order to access Playground APIs a client application shall be authenticated
+    using the OAuth2 protocol.
+    As Playground OAuth2 is managed by Google, thus you have to authenticate using
+    a Google account.
+    
+    Authentication procedure shall follow these steps:
+    
+    1. Get device credentials by calling step1 endpoint
+    2. Authenticate with your Google account by caling the 'verification_url' returned by step1
+    3. Get access token by calling step2 endpoint
+    4. Refresh token when it has expired by calling refresh endpoint
+  contact:
+    name: Airbus Defence and Space
+    url: 'https://www.airbus.com/'
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+  x-logo:
+    url: https://www.intelligence-airbusds.com/files/pmedia/public/r2421_9_airbus_rgb.png
+
+#
+# External docs
+#
+externalDocs:
+  description: OneAtlas Playground Documentation
+  url: 'http://playground-docs.readthedocs.io'
+
+#
+# Servers
+#
+servers:
+  - url: https://playground.intelligence-airbusds.com
+    description: OneAtlas Playground production server
+
+#
+# Tags
+#
+tags:
+  - name: Authentication
+    description: |
+      Authentication
+
+#
+# Paths
+#
+paths:
+
+  #
+  # OAuth2 step1
+  #
+  /oauth2/step1:
+    get:
+      tags:
+        - Authentication
+      summary: Authentication step 1
+      description: |
+        Returns device and user identifiers.
+      responses:
+        '200':
+          description: OAuth device and user identifiers.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Step1'
+
+  #
+  # OAuth2 step2
+  #
+  /oauth2/step2:
+    get:
+      tags:
+        - Authentication
+      summary: Authentication step 2
+      description: |
+        Returns access token.
+      parameters:
+        - name: device
+          in: query
+          description: Content of 'device_code' returned by step 1
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OAuth access token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Step2'
+
+  #
+  # OAuth2 refresh
+  #
+  /oauth2/refresh:
+    get:
+      tags:
+        - Authentication
+      summary: Authentication refresh token
+      description: |
+        Returns refreshed token.
+      parameters:
+        - name: refresh_token
+          in: query
+          description: Content of 'refresh_token' returned by step 2
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OAuth access token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Refresh'
+
+#
+# Components
+#
+components:
+
+  #
+  # Schemas
+  #
+  schemas:
+
+    #
+    # Step1 schema
+    #
+    Step1:
+      description: |
+        OAuth step 1 response.
+      type: object
+      required:
+        - device_code
+        - user_code
+        - expires_in
+        - interval
+        - verification_url
+      properties:
+        device_code:
+          type: string
+          example: |
+            AH-1Ng0TrbGETLtHdJO2CUPCJxZIAwV246_SpmwqQGsTvgJ4ldD_yK0EeSYz2boI4eWEbmbp66Js6UgAgZED4-fEqY_NzLOjyQ
+        user_code:
+          type: string
+          example: LSKV-FTDK
+        expires_in:
+          type: integer
+          example: 1800
+        interval:
+          type: integer
+          example: 5
+        verification_url:
+          type: string
+          format: url
+          example: https://www.google.com/device
+
+    #
+    # Step2 schema
+    #
+    Step2:
+      description: |
+        OAuth step 2 response.
+      type: object
+      required:
+        - access_token
+        - token_code
+        - expires_in
+        - refresh_token
+        - id_token
+      properties:
+        access_token:
+          type: string
+          example: |
+            ya29.GlsCBopWtDc5Gr4kRqNMzhaAEreE_poYQxCEL8EbfGFFekFghAyYVlf9Hp5OO9w23cOxTjchYm8QLkrA5jWa3C_G5Y9gr5_MdwV2d7UCDuAerjfq6eItViGwJG6A
+        token_code:
+          type: string
+          example: Bearer
+        expires_in:
+          type: integer
+          example: 3600
+        refresh_token:
+          type: string
+          example: 1/ReE4xPBUtM89rtDgIFimea7Zh57B_FiUN_WD4K_Twxr5OoOBl2IdrilGZU92AQmA
+        id_token:
+          type: string
+          example: |
+            eyJhbGciOiJSUzI1NiIsImtpZCI6ImM2YWY3Y2FhMDg5NWZkMDFlNzc4ZGNlYWE3YTc5ODgzNDdkOGYyNWMifQ.eyJhenAiOiI5NzU3Njk4NDE5NjctNDloNGtyOHQxcmZqYmdlc2kwcTV1YWI5c2ZsbjEzMjguYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI5NzU3Njk4NDE5NjctNDloNGtyOHQxcmZqYmdlc2kwcTV1YWI5c2ZsbjEzMjguYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDIxOTUwNzMyNDA1MDU0NzY1MjgiLCJoZCI6Imdlb2FwaS1haXJidXNkcy5jb20iLCJlbWFpbCI6ImJlbm9pdC5nYXJyaWd1ZXNAZ2VvYXBpLWFpcmJ1c2RzLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJhdF9oYXNoIjoiQ2E3Sk5IZHEya3p0REFsNF9OZVFWQSIsImV4cCI6MTUzMjQ0NDc3MCwiaXNzIjoiaHR0cHM6Ly9hY2NvdW50cy5nb29nbGUuY29tIiwiaWF0IjoxNTMyNDQxMTcwLCJuYW1lIjoiQmVub2l0IEdhcnJpZ3VlcyIsInBpY3R1cmUiOiJodHRwczovL2xoNS5nb29nbGV1c2VyY29udGVudC5jb20vLVNENTl5OHRrVGpFL0FBQUFBQUFBQUFJL0FBQUFBQUFBQUFBL0FBbm5ZN3J2OTNKRmlpUDM4QzZTd2RvQVo1X0Q0OERuM0Evczk2LWMvcGhvdG8uanBnIiwiZ2l2ZW5fbmFtZSI6IkJlbm9pdCIsImZhbWlseV9uYW1lIjoiR2FycmlndWVzIiwibG9jYWxlIjoiZW4tR0IifQ.UnwCnVMxATuV8pZRO4KtdCTBMZHx7okNQ2FrMo-zUiLVX3Sj4I-uTJoeLB0J1wJIBTWqa6H1PMunkcdGozwjLjTbQ4hjfVSZHzqvdtvya3IpxomnxhOPoSvcZoL0U7_BffAqDafRi9T4iRoPJ0R1OJiB7oo6iV_nPuYrNhSTl-6vnSo_IuVSkdF_sov3asPmEofzUZATM2vQIykP_MUFXZoT_88taMVcBJ02xj9_jPuzesErXNeofkcPQLiLsn-Qtiz7Ed5Da1rUDoX5rkE5PKTd75ejssh6XmkPkXQ7mldygX2LX2YFHrQ30ZZZ10dgY3nWPYldTtyf-_LnOjAJvA
+
+    #
+    # Refresh schema
+    #
+    Refresh:
+      description: |
+        OAuth refresh response.
+      type: object
+      required:
+        - access_token
+        - token_code
+        - expires_in
+        - id_token
+      properties:
+        access_token:
+          type: string
+          example: |
+            ya29.GlsCBopWtDc5Gr4kRqNMzhaAEreE_poYQxCEL8EbfGFFekFghAyYVlf9Hp5OO9w23cOxTjchYm8QLkrA5jWa3C_G5Y9gr5_MdwV2d7UCDuAerjfq6eItViGwJG6A
+        token_code:
+          type: string
+          example: Bearer
+        expires_in:
+          type: integer
+          example: 3600
+        id_token:
+          type: string
+          example: |
+            eyJhbGciOiJSUzI1NiIsImtpZCI6ImM2YWY3Y2FhMDg5NWZkMDFlNzc4ZGNlYWE3YTc5ODgzNDdkOGYyNWMifQ.eyJhenAiOiI5NzU3Njk4NDE5NjctNDloNGtyOHQxcmZqYmdlc2kwcTV1YWI5c2ZsbjEzMjguYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI5NzU3Njk4NDE5NjctNDloNGtyOHQxcmZqYmdlc2kwcTV1YWI5c2ZsbjEzMjguYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDIxOTUwNzMyNDA1MDU0NzY1MjgiLCJoZCI6Imdlb2FwaS1haXJidXNkcy5jb20iLCJlbWFpbCI6ImJlbm9pdC5nYXJyaWd1ZXNAZ2VvYXBpLWFpcmJ1c2RzLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJhdF9oYXNoIjoiQ2E3Sk5IZHEya3p0REFsNF9OZVFWQSIsImV4cCI6MTUzMjQ0NDc3MCwiaXNzIjoiaHR0cHM6Ly9hY2NvdW50cy5nb29nbGUuY29tIiwiaWF0IjoxNTMyNDQxMTcwLCJuYW1lIjoiQmVub2l0IEdhcnJpZ3VlcyIsInBpY3R1cmUiOiJodHRwczovL2xoNS5nb29nbGV1c2VyY29udGVudC5jb20vLVNENTl5OHRrVGpFL0FBQUFBQUFBQUFJL0FBQUFBQUFBQUFBL0FBbm5ZN3J2OTNKRmlpUDM4QzZTd2RvQVo1X0Q0OERuM0Evczk2LWMvcGhvdG8uanBnIiwiZ2l2ZW5fbmFtZSI6IkJlbm9pdCIsImZhbWlseV9uYW1lIjoiR2FycmlndWVzIiwibG9jYWxlIjoiZW4tR0IifQ.UnwCnVMxATuV8pZRO4KtdCTBMZHx7okNQ2FrMo-zUiLVX3Sj4I-uTJoeLB0J1wJIBTWqa6H1PMunkcdGozwjLjTbQ4hjfVSZHzqvdtvya3IpxomnxhOPoSvcZoL0U7_BffAqDafRi9T4iRoPJ0R1OJiB7oo6iV_nPuYrNhSTl-6vnSo_IuVSkdF_sov3asPmEofzUZATM2vQIykP_MUFXZoT_88taMVcBJ02xj9_jPuzesErXNeofkcPQLiLsn-Qtiz7Ed5Da1rUDoX5rkE5PKTd75ejssh6XmkPkXQ7mldygX2LX2YFHrQ30ZZZ10dgY3nWPYldTtyf-_LnOjAJvA
