@@ -197,14 +197,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
     post:
-      parameters:
-        - name: projectId
-          in: query
-          description: Project ID
-          required: true
-          schema:
-            type: string
-            format: uuid
       tags:
         - Datasets
       summary: Add a new dataset
@@ -216,7 +208,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/DatasetDescribe'
+              $ref: '#/components/schemas/DatasetInput'
       responses:
         '201':
           description: Dataset has been registered
@@ -318,13 +310,6 @@ paths:
           schema:
             type: string
             format: uuid
-        - name: projectId
-          in: query
-          description: Project ID
-          required: true
-          schema:
-            type: string
-            format: uuid
       tags:
         - Datasets
       summary: Update an existing dataset
@@ -336,7 +321,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/DatasetDescribe'
+              $ref: '#/components/schemas/DatasetInput'
       responses:
         '201':
           description: Dataset has been updated
@@ -895,7 +880,7 @@ components:
           type: string
           format: uuid
           example: 15c61933-0b06-442c-8bab-723b2b41f570
-        projecId:
+        projectId:
           description: Unique identifier of the project.
           type: string
           format: uuid
@@ -934,7 +919,7 @@ components:
           type: string
           format: uuid
           example: 15c61933-0b06-442c-8bab-723b2b41f570
-        projecId:
+        projectId:
           description: Unique identifier of the project.
           type: string
           format: uuid
@@ -954,6 +939,32 @@ components:
           example: '2017-07-21T17:32:28Z'
         _links:
           $ref: '#/components/schemas/DatasetLinks'
+
+    #
+    # DatasetInput schema
+    #
+    DatasetInput:
+      description: |
+        Dataset creation and update.
+      type: object
+      required:
+        - projectId
+        - name
+        - description
+      properties:
+        projectId:
+          description: Unique identifier of the project.
+          type: string
+          format: uuid
+          example: 22c61933-0b06-442c-8bab-723b2b41f570
+        name:
+          description: Name of the dataset.
+          type: string
+          example: 'Ship detection v1.1'
+        description:
+          description: Description of the dataset.
+          type: string
+          example: 'Ship detection v1.1'
 
     #
     # Records schema
