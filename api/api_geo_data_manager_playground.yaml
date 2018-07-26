@@ -811,7 +811,7 @@ components:
     Projects:
       type: object
       properties:
-        processes:
+        projects:
           type: array
           items:
             $ref: '#/components/schemas/ProjectSummary'
@@ -863,7 +863,7 @@ components:
     Datasets:
       type: object
       properties:
-        processes:
+        datasets:
           type: array
           items:
             $ref: '#/components/schemas/DatasetSummary'
@@ -961,7 +961,7 @@ components:
     # Records:
     #   type: object
     #   properties:
-    #     processes:
+    #     records:
     #       type: array
     #       items:
     #         $ref: '#/components/schemas/RecordSummary'
