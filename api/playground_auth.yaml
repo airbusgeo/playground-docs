@@ -41,7 +41,7 @@ externalDocs:
 #
 servers:
   - url: https://playground.intelligence-airbusds.com
-    description: OneAtlas Playground production server
+    description: OneAtlas Playground
 
 #
 # Tags

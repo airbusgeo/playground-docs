@@ -41,8 +41,8 @@ info:
 # Servers
 #
 servers:
-  - url: https://process.api.playground.intelligence-airbusds.com
-    description: OneAtlas Playground production server
+  - url: https://playground.intelligence-airbusds.com
+    description: OneAtlas Playground
 
 #
 # Tags
