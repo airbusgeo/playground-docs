@@ -105,3 +105,17 @@ The result in this case would be:
 
 ```
 
+## Unsuccessful Output
+
+The service should return a body of the following format if it wishes to inform of a permanent processing error for the current image:
+
+```json
+{
+	"message":"a goblin ate my GPU!",
+	"hint":"(optional) message to prevent this error from happening again"
+}
+```
+
+If the service is unable to produce a result or a correctly formatted error, the 408, 423, 429, 500, 502, 503 and 504 HTTP
+return codes will be interpreted as transient errors and will be retried in a later subsequent request. All other HTTP
+status codes will be interpreted as permanent.
