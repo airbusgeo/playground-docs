@@ -60,3 +60,4 @@ pages:
     - Validation: web/validation.md
     - Processing: web/processing.md
     - Jobs: web/job.md
+  - GeoPaas APIs: geopaas/index.md
