@@ -37,8 +37,7 @@ This endpoint should accept POST requests and will receive requests containing a
 ```json
 {
 	"resolution": 0.5,
-	"tileFormat": "image/jpeg",
-	"tile": "base64encodedimagedata"
+	"tiles": ["base64encodedimagedata"]
 }
 ```
 
@@ -47,10 +46,10 @@ This endpoint should accept POST requests and will receive requests containing a
 ```json
 {
 	"resolution": 0.5,
-	"tile1Format": "image/jpeg",
-	"tile1": "base64encodedimagedatafortile1",
-	"tile2Format": "image/jpeg",
-	"tile2": "base64encodedimagedatafortile2"
+	"tiles": [
+		"base64encodedimagedatafortile1",
+		"base64encodedimagedatafortile2"
+	]
 }
 ```
 
