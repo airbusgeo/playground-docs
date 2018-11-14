@@ -7,7 +7,6 @@ info:
   title: Geo Data Manager API for OneAtlas Playground
   description: |
     Airbus Defence and Space "Geo Data Manager" API specification for OneAtlas Playground.
-
     The data manager is reponsible for managing datasets, zones, tags and records.
     - A dataset gather zones, jobs and records.
     - A zone corresponds to an AOI (Area of Interest) on selected image(s).
@@ -27,8 +26,8 @@ info:
 # Servers
 #
 servers:
-  - url: https://playground.intelligence-airbusds.com
-    description: OneAtlas Playground
+  - url: https://api.playground-prod.airbusds-geo.com
+    description: OneAtlas Playground production server
 
 #
 # Tags
@@ -44,16 +43,15 @@ tags:
   - name: Datasets
     description: |
       Dataset management.
-  # - name: Zones
-  #   description: |
-  #     Zone management.
+  - name: Zones
+    description: |
+      Zone management.
   # - name: Tags
   #   description: |
   #     Tag management.
   - name: Records
     description: |
       Record management.
-
 #
 # Security
 #
@@ -412,6 +410,142 @@ paths:
                 $ref: '#/components/schemas/Error'
 
   #
+  # Zone list and creation
+  #
+  /api/v1/zones:
+    get:
+      parameters:
+        - name: projectId
+          in: query
+          description: Project ID
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: page
+          in: query
+          description: "Page number. Default: 1."
+          required: false
+          schema:
+            type: integer
+        - name: itemsPerPage
+          in: query
+          description: "Page size. Default: 10, max: 100."
+          required: false
+          schema:
+            type: integer
+        - name: datasetId
+          in: query
+          description: Dataset ID
+          required: false
+          schema:
+            type: string
+            format: uuid
+        - name: status
+          in: query
+          description: status of the zone.
+          required: false
+          schema:
+            type: string
+            enum:
+              - PENDING
+              - LABELLIZED
+              - RESERVED
+            example: LABELLIZED
+      tags:
+        - Zones
+      summary: List all available zones
+      description: |
+        Return the list of all zones for the given project
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Zones'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  
+  #
+  # Zone management
+  #
+  '/api/v1/zones/{zoneId}':
+    get:
+      parameters:
+        - name: zoneId
+          in: path
+          description: ID of zone to return
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: projectId
+          in: query
+          description: Project ID
+          required: true
+          schema:
+            type: string
+            format: uuid
+      tags:
+        - Zones
+      summary: Find zone by ID
+      description: Return a single zone
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ZoneDescribe'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  #
   # Record list and creation for one record
   #
   # /api/v1/records/{datasetId}:
@@ -716,9 +850,9 @@ paths:
           schema:
             type: string
             enum:
-              - GeoJSON
-              - KML
-            example: GeoJSON
+              - geojson
+              - kml
+            example: geojson
         - name: jobId
           in: query
           description: Job ID to filter export to a job.
@@ -860,6 +994,25 @@ components:
           example: 1
         _links:
           $ref: '#/components/schemas/NavLinks'
+    
+    #
+    # Zones schema
+    #
+    Zones:
+      type: object
+      properties:
+        zones:
+          type: array
+          items:
+            $ref: '#/components/schemas/ZoneSummary'
+        count:
+          type: integer
+          example: 1
+        total:
+          type: integer
+          example: 1
+        _links:
+          $ref: '#/components/schemas/NavLinks'
 
     #
     # DatasetSummary schema
@@ -965,6 +1118,140 @@ components:
           description: Description of the dataset.
           type: string
           example: 'Ship detection v1.1'
+
+
+    #
+    # ZoneSummary schema
+    #
+    ZoneSummary:
+      description: |
+        Zone summary.
+      type: object
+      required:
+        - zoneId
+        - datasetId
+        - name
+        - creationDate
+        - status
+        - imageIds
+        - geom
+      properties:
+        zoneId:
+          description: Unique identifier of the zone.
+          type: string
+          format: uuid
+          example: 15c61933-0b06-442c-8bab-723b2b41f570
+        datasetId:
+          description: Unique identifier of the dataset.
+          type: string
+          format: uuid
+          example: 22c61933-0b06-442c-8bab-723b2b41f570
+        name:
+          description: Name of the zone.
+          type: string
+          example: 'South Africa'
+        creationDate:
+          type: string
+          format: date-time
+          example: '2017-07-21T17:32:28Z'
+        status:
+          type: string
+          enum:
+            - PENDING
+            - LABELLIZED
+            - RESERVED
+          example: LABELLIZED
+        imageIds:
+          description: identifier for each image of the zone.
+          type: array
+          items:
+            type: string
+          example: ['3c4f2100a26f7f20cb04be0a8a56e0203aeb66c3']
+        geom:
+          description: Geometry of the zone as GeoJSON.
+          type: object
+        _links:
+          $ref: '#/components/schemas/ItemLinks'
+
+    #
+    # ZoneDescribe schema
+    #
+    ZoneDescribe:
+      description: |
+        Zone description.
+      type: object
+      required:
+        - zoneId
+        - datasetId
+        - name
+        - creationDate
+        - status
+        - imageIds
+        - geom
+      properties:
+        zoneId:
+          description: Unique identifier of the zone.
+          type: string
+          format: uuid
+          example: 15c61933-0b06-442c-8bab-723b2b41f570
+        datasetId:
+          description: Unique identifier of the dataset.
+          type: string
+          format: uuid
+          example: 22c61933-0b06-442c-8bab-723b2b41f570
+        name:
+          description: Name of the zone.
+          type: string
+          example: 'South Africa'
+        creationDate:
+          description: Creation date fo the zone.
+          type: string
+          format: date-time
+          example: '2017-07-21T17:32:28Z'
+        status:
+          type: string
+          enum:
+            - PENDING
+            - LABELLIZED
+            - RESERVED
+          example: LABELLIZED
+        imageIds:
+          description: identifier for each image of the zone.
+          type: array
+          items:
+            type: string
+          example: ['3c4f2100a26f7f20cb04be0a8a56e0203aeb66c3']
+        geom:
+          description: Geometry of the zone as GeoJSON.
+          type: object
+        _links:
+          $ref: '#/components/schemas/ItemLinks'
+
+    #
+    # ZoneStatus schema
+    #
+    ZoneStatus:
+      description: |
+        Zone status.
+      type: string
+      enum:
+        - PENDING
+        - LABELLIZED
+        - RESERVED
+      example: LABELLIZED
+
+
+    #
+    # RecordExportType schema
+    #
+    RecordExportType:
+      description: |
+        Record export type.
+      type: string
+      enum:
+        - geojson
+        - kml
+      example: geojson
 
     #
     # Records schema
@@ -1188,14 +1475,14 @@ components:
         zones:
           description: List of associated zones.
           $ref: '#/components/schemas/Reference'
-        tags:
-          description: List of associated tags.
-          $ref: '#/components/schemas/Reference'
+        #tags:
+        #  description: List of associated tags.
+        #  $ref: '#/components/schemas/Reference'
         jobs:
           description: List of associated jobs.
           $ref: '#/components/schemas/Reference'
-        records:
-          description: List of associated records.
+        recordsAsGeojson:
+          description: Download a zip file of GeoJSON records.
           $ref: '#/components/schemas/Reference'
         update:
           description: PUT ressource to update this dataset.
