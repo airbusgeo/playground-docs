@@ -443,7 +443,7 @@ paths:
             format: uuid
         - name: status
           in: query
-          description: status of the zone.
+          description: Status of the zone. See ZoneStatus definition.
           required: false
           schema:
             type: string
@@ -845,7 +845,7 @@ paths:
             format: uuid
         - name: type
           in: query
-          description: Export type
+          description: Export type. See RecordExportType definition.
           required: true
           schema:
             type: string
@@ -1155,6 +1155,7 @@ components:
           format: date-time
           example: '2017-07-21T17:32:28Z'
         status:
+          description: Zonr status. See ZoneStatus definition.
           type: string
           enum:
             - PENDING
@@ -1209,6 +1210,7 @@ components:
           format: date-time
           example: '2017-07-21T17:32:28Z'
         status:
+          description: Zone status. See ZoneStatus definition.
           type: string
           enum:
             - PENDING
@@ -1483,6 +1485,8 @@ components:
           $ref: '#/components/schemas/Reference'
         recordsAsGeojson:
           description: Download a zip file of GeoJSON records.
+            The zip archive contains one file per zone.
+            Only zones with 'LABELLIZED' status are exported.
           $ref: '#/components/schemas/Reference'
         update:
           description: PUT ressource to update this dataset.
