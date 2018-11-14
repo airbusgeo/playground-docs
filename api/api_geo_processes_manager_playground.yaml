@@ -18,10 +18,8 @@ info:
     or delegated to the process manager which is also specific to the geo process
     manager implementation. Workflow implementation is not covered by this API.
 
-    Results can be retrieved using another API. The job provides two optional links
-    that allows the client to:
-    - retrieve the full result of the job processing according to process output description,
-    - get a result catalog that provides links to navigate in the process output chunks
+    Results can be retrieved using another API. The job provides a link that allows the client
+    to retrieve the full result of the job processing according.
 
     This Playground specific implementation adds the concept of project and dataset to the 
     generic Airbus Defence and Space API by extended it.
@@ -37,12 +35,14 @@ info:
   x-logo:
     url: https://www.intelligence-airbusds.com/files/pmedia/public/r2421_9_airbus_rgb.png
 
+
 #
 # Servers
 #
 servers:
-  - url: https://playground.intelligence-airbusds.com
-    description: OneAtlas Playground
+  - url: https://api.playground-prod.airbusds-geo.com
+    description: OneAtlas Playground production server
+
 
 #
 # Tags
@@ -366,6 +366,12 @@ paths:
             type: string
             format: uuid
           description: Playground project ID.
+        - name: datasetId
+          in: query
+          description: id of a dataset
+          required: false
+          schema:
+            type: string
       responses:
         '202':
           description: Process marked for deletion
@@ -427,6 +433,12 @@ paths:
           required: false
           schema:
             type: integer
+        - name: datasetId
+          in: query
+          description: id of a dataset
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           description: successful operation
@@ -951,18 +963,6 @@ components:
       bearerFormat: JWT
 
   #
-  # Responses
-  #
-  responses:
-    OutputResponse:
-      description: |
-        Process output as defined in the output attribute of the description resource.
-    
-    ResultCatalog:
-      description: |
-        Extension to the GeoJSON schema.
-
-  #
   # Schemas
   #
   schemas:
@@ -1059,6 +1059,7 @@ components:
         email:
           description: Contact email.
           type: string
+          format: email
           example: cat-detection@airbus.com
         keywords:
           description: List of keywords.
@@ -1125,6 +1126,7 @@ components:
         email:
           description: Contact email.
           type: string
+          format: email
           example: cat-detection@airbus.com
         keywords:
           description: List of keywords.
@@ -1342,7 +1344,7 @@ components:
             "tile": {
               "description": "The tile image base64 encoded, may be JPEG or PNG format",
               "type": "string",
-              "contentEncoding": "base64"
+              "format": "base64"
             }
           }
         }
@@ -1812,12 +1814,9 @@ components:
         delete:
           description: DELETE ressource to delete this job.
           $ref: '#/components/schemas/Reference'
-        result:
-          description: GET process result as described by the process description.
-          $ref: '#/components/responses/OutputResponse'
-        resultCatalog:
-          description: GET result catalog.
-          $ref: '#/components/responses/ResultCatalog'
+        recordsAsGeojson:
+          description: Download a GeoJSON file of generated records.
+          $ref: '#/components/schemas/Reference'
 
     #
     # Reference schema
