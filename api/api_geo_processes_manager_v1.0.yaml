@@ -370,6 +370,12 @@ paths:
           required: false
           schema:
             type: integer
+        - name: datasetId
+          in: query
+          description: id of a dataset
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           description: successful operation
@@ -948,6 +954,7 @@ components:
         email:
           description: Contact email.
           type: string
+          format: email
           example: cat-detection@airbus.com
         keywords:
           description: List of keywords.
@@ -1014,6 +1021,7 @@ components:
         email:
           description: Contact email.
           type: string
+          format: email
           example: cat-detection@airbus.com
         keywords:
           description: List of keywords.
@@ -1688,6 +1696,9 @@ components:
           $ref: '#/components/schemas/Reference'
         delete:
           description: DELETE ressource to delete this job.
+          $ref: '#/components/schemas/Reference'
+        recordsAsGeojson:
+          description: Download a GeoJSON file of generated records.
           $ref: '#/components/schemas/Reference'
 
     #
