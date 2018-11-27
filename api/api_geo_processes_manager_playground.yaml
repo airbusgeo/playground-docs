@@ -1814,6 +1814,9 @@ components:
         delete:
           description: DELETE ressource to delete this job.
           $ref: '#/components/schemas/Reference'
+        zone:
+          description: Get associated zone.
+          $ref: '#/components/schemas/Reference'
         recordsAsGeojson:
           description: Download a GeoJSON file of generated records.
           $ref: '#/components/schemas/Reference'
