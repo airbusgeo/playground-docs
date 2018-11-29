@@ -1,17 +1,17 @@
-# Introduction
-
-This section provides generic Airbus Defence and Space API specifications.
 
 These APIs are common to all entities (subsidiary, business units) of Airbus DS.
 
-# APIs
-
 The following APIs are provided:
 
-#### Geo Process API
+* Geo Process API
+* Geo Processes Manager API
 
-To be implemented by image processing algorithms.
+Definition provided on [Airbus DS GitHub](https://github.com/AirbusDefenceAndSpace/geoprocessing-api) repository.
 
-#### Geo Processes Manager API
+# Geo Process API
 
-Processing algorithms management and job execution.
+REST API to be implemented by image processing algorithms.
+
+# Geo Processes Manager API
+
+REST API for processing algorithms management and job execution.
