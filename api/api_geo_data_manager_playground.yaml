@@ -26,7 +26,7 @@ info:
 # Servers
 #
 servers:
-  - url: https://api.playground-prod.airbusds-geo.com
+  - url: https://api.playground.airbusds-geo.com
     description: OneAtlas Playground production server
 
 #
