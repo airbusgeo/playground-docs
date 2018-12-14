@@ -303,7 +303,14 @@ paths:
       parameters:
         - name: datasetId
           in: path
-          description: ID of dataset to return
+          description: ID of dataset to update
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: projectId
+          in: query
+          description: Project ID
           required: true
           schema:
             type: string
@@ -540,6 +547,70 @@ paths:
                 $ref: '#/components/schemas/Error'
         '404':
           description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      parameters:
+        - name: zoneId
+          in: path
+          description: ID of zone to update
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: projectId
+          in: query
+          description: Project ID
+          required: true
+          schema:
+            type: string
+            format: uuid
+      tags:
+        - Zones
+      summary: Update an existing zone
+      description: Update an existing zone
+      requestBody:
+        description: |
+          Zone description
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ZoneUpdate'
+      responses:
+        '201':
+          description: Zone has been updated
+          headers:
+            Location:
+              schema:
+                type: string
+              description: URI of the updated zone
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ZoneDescribe'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '405':
+          description: Invalid input
           content:
             application/json:
               schema:
@@ -1228,6 +1299,31 @@ components:
           type: object
         _links:
           $ref: '#/components/schemas/ItemLinks'
+
+    #
+    # ZoneUpdate schema
+    #
+    ZoneUpdate:
+      description: |
+        Zone update.
+      type: object
+      properties:
+        name:
+          description: Name of the zone.
+          type: string
+          example: 'Toulouse'
+        description:
+          description: Description of the zone.
+          type: string
+          example: 'Toulouse area'
+        status:
+          description: Zone status
+          type: string
+          enum:
+            - PENDING
+            - LABELLIZED
+            - RESERVED
+          example: LABELLIZED
 
     #
     # ZoneStatus schema
