@@ -47,12 +47,16 @@ pages:
     - (optional) Deploy on GCE: processing/deploy_gce.md
     - (optional) Deploy on GKE: processing/deploy_gke.md
     - Sample application: processing/sample.md
-  # - Playground usage:
-  #   - Web interface: web/interface.md
-  #   - Datasets: web/dataset.md
-  #   - Validation: web/validation.md
-  #   - Processing: web/processing.md
-  #   - Jobs: web/job.md
+  - Playground usage:
+    - Web interface: web/interface.md
+    - Project : web/project.md
+    - Datasets: web/dataset.md
+    - Jobs: web/job.md
+    - Zone : web/zone.md
+    - Compare : web/compare.md
+    - Import / Export : web/import_export.md
+    - Metrics : web/metrics.md
+    - Use Case: web/usecase.md
   - Exported Data:
     - One Atlas: parsing/one-atlas-data.md
     - Export Data Format: parsing/parsing.md
