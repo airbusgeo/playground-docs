@@ -1649,6 +1649,8 @@ components:
           example: '2017-07-21T17:32:28Z'
         status:
           $ref: '#/components/schemas/ExportStatus'
+        _links:
+          $ref: '#/components/schemas/ItemLinks'
 
     #
     # ExportDescribe schema
