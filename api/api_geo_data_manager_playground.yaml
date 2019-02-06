@@ -52,6 +52,9 @@ tags:
   - name: Records
     description: |
       Record management.
+  - name: Exports
+    description: |
+      Export management.
 #
 # Security
 #
@@ -419,7 +422,7 @@ paths:
   #
   # Zone list and creation
   #
-  /api/v1/zones:
+  '/api/v1/zones':
     get:
       parameters:
         - name: projectId
@@ -966,6 +969,263 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
+
+  #
+  # Export management
+  #
+  '/api/v1/exports':
+    get:
+      tags:
+        - Exports
+      summary: List all available exports
+      description: Return the list of all exports for the given project
+      parameters:
+        - name: projectId
+          in: query
+          description: Project ID
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: page
+          in: query
+          description: "Page number. Default: 1."
+          required: false
+          schema:
+            type: integer
+        - name: itemsPerPage
+          in: query
+          description: "Page size. Default: 10, max: 100."
+          required: false
+          schema:
+            type: integer
+        - name: exportType
+          in: query
+          description: Export type. See ExportType definition.
+          required: false
+          schema:
+            type: string
+            format: uuid
+            enum:
+              - Dataset
+              - Job
+            example: LABELLIZED
+        - name: status
+          in: query
+          description: Status of the zone. See ExportStatus definition.
+          required: false
+          schema:
+            type: string
+            enum:
+              - PENDING
+              - RUNNING
+              - SUCCEEDED
+            example: RUNNING
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exports'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  
+  
+  '/api/v1/exports/{exportId}':
+    get:
+      tags:
+        - Exports
+      summary: Find export by ID
+      description: Return a single export
+      parameters:
+        - name: exportId
+          in: path
+          description: ID of export to return
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: projectId
+          in: query
+          description: Project ID
+          required: true
+          schema:
+            type: string
+            format: uuid
+      
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ZoneDescribe'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  
+  '/api/v1/exports/dataset/{datasetId}':  
+    post:
+      tags:
+        - Exports
+      summary: Create a new dataset export
+      description: Create a new export
+      parameters:
+        - name: datasetId
+          in: path
+          description: dataset ID
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        description: Export description
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExportInput'
+      responses:
+        '201':
+          description: Export has been registered
+          headers:
+            Location:
+              schema:
+                type: string
+              description: URI of the created dataset
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExportDescribe'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '405':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  
+  '/api/v1/exports/job/{jobId}':  
+    post:
+      tags:
+        - Exports
+      summary: Create a new job export
+      description: Create a new export
+      parameters:
+        - name: jobId
+          in: path
+          description: job ID
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        description: Export description
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExportInput'
+      responses:
+        '201':
+          description: Export has been registered
+          headers:
+            Location:
+              schema:
+                type: string
+              description: URI of the created dataset
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExportDescribe'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '405':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
 #
 # Components
 #
@@ -1076,6 +1336,25 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ZoneSummary'
+        count:
+          type: integer
+          example: 1
+        total:
+          type: integer
+          example: 1
+        _links:
+          $ref: '#/components/schemas/NavLinks'
+    
+    #
+    # Exports schema
+    #
+    Exports:
+      type: object
+      properties:
+        exports:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExportSummary'
         count:
           type: integer
           example: 1
@@ -1226,7 +1505,7 @@ components:
           format: date-time
           example: '2017-07-21T17:32:28Z'
         status:
-          description: Zonr status. See ZoneStatus definition.
+          description: Zone status. See ZoneStatus definition.
           type: string
           enum:
             - PENDING
@@ -1337,6 +1616,121 @@ components:
         - LABELLIZED
         - RESERVED
       example: LABELLIZED
+
+
+    #
+    # ExportSummary schema
+    #
+    ExportSummary:
+      description: |
+        Export summary.
+      type: object
+      required:
+        - exportId
+        - exportType
+        - name
+        - creationDate
+        - status
+      properties:
+        exportId:
+          description: Unique identifier of the export.
+          type: string
+          format: uuid
+          example: 15c61933-0b06-442c-8bab-723b2b41f570
+        exportType:
+          $ref: '#/components/schemas/ExportType'
+        name:
+          description: Name of the export.
+          type: string
+          example: 'South Africa'
+        creationDate:
+          type: string
+          format: date-time
+          example: '2017-07-21T17:32:28Z'
+        status:
+          $ref: '#/components/schemas/ExportStatus'
+
+    #
+    # ExportDescribe schema
+    #
+    ExportDescribe:
+      description: |
+        Export description.
+      type: object
+      required:
+        - exportId
+        - exportType
+        - name
+        - creationDate
+        - status
+        - gsUrl
+        - httpUrl
+      properties:
+        exportId:
+          description: Unique identifier of the export.
+          type: string
+          format: uuid
+          example: 15c61933-0b06-442c-8bab-723b2b41f570
+        exportType:
+          $ref: '#/components/schemas/ExportType'
+        name:
+          description: Name of the export.
+          type: string
+          example: 'South Africa'
+        creationDate:
+          type: string
+          format: date-time
+          example: '2017-07-21T17:32:28Z'
+        status:
+          $ref: '#/components/schemas/ExportStatus'
+        _links:
+          $ref: '#/components/schemas/ExportLinks'
+
+    #
+    # ExportInput schema
+    #
+    ExportInput:
+      description: |
+        Export creation.
+      type: object
+      required:
+        - name
+        - projectId
+      properties:
+        name:
+          description: Name of the export.
+          type: string
+          example: 'Ship detection v1.1'
+        projectId:
+          description: Unique identifier of the project.
+          type: string
+          format: uuid
+          example: 22c61933-0b06-442c-8bab-723b2b41f570
+
+    #
+    # ExportType schema
+    #
+    ExportType:
+      description: |
+        Export type.
+      type: string
+      enum:
+        - Dataset
+        - Job
+      example: Dataset
+
+    #
+    # ExportStatus schema
+    #
+    ExportStatus:
+      description: |
+        Export status.
+      type: string
+      enum:
+        - PENDING
+        - RUNNING
+        - SUCCEEDED
+      example: RUNNING
 
 
     #
@@ -1589,6 +1983,29 @@ components:
           $ref: '#/components/schemas/Reference'
         delete:
           description: DELETE ressource to delete this dataset.
+          $ref: '#/components/schemas/Reference'
+
+    #
+    # ExportLinks schema
+    #
+    ExportLinks:
+      description: |
+        Links for single export.
+      type: object
+      required:
+        - self
+      properties:
+        self:
+          description: Current resource reference.
+          $ref: '#/components/schemas/Reference'
+        list:
+          description: List similar resource references.
+          $ref: '#/components/schemas/Reference'
+        gsUrl:
+          description: Google Storage URL of the bucket.
+          $ref: '#/components/schemas/Reference'
+        httpUrl:
+          description: HTTP URL of the bucket
           $ref: '#/components/schemas/Reference'
 
     #
