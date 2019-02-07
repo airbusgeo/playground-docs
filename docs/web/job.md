@@ -25,6 +25,10 @@ When this step is done, you have two possibilies :
 
 - **Choose a zone**. For that you have to click on "Select or Drop file" and import a local GeoJSON file (max 100 Mo and one polygon). ![Jobs Zone Selection](/images/web_ui/jobs_new_zoneimport.png)
 
+Example of GeoJSON file format for the import (keep just the **geometry** part) :
+
+![GeoJSON file](/images/web_ui/jobs_new_GeoJSONfile.png)
+
 If you want to select a zone to apply the processC click on ![Jobs Edit](/images/web_ui/jobs_new_edit.png). Or you can apply the process on full image.
 
 For selecting a zone : on the map you have access to tools for **drawing zone**.
