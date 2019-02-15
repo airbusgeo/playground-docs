@@ -132,6 +132,14 @@ You can choose the color and spacing for grid lines.
 
 Select this button : ![New Tag](/images/web_ui/datasets_newtag.png)
 
+<span style="color:#800000">**To Add a comment on a record :**</span>
+
+You have to select a record. Then you can add a comment with "Record Informations" section :
+
+![Comment](/images/web_ui/dataset_comment.png)
+
+You can see your comment when you put your mouse on the record.
+
 #### <span style="color:red">2. Change Detection</span>
 
 For object detection you have to choose just one image but for change detection you need two images. The interface is different : ![Change Detection Interface](/images/web_ui/datasets_changedetection_interface.png)

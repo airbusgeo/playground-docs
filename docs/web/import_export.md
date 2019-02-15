@@ -21,34 +21,37 @@ You have to :
 
 -----------------
 
-This section enables you to export data.
+This section enables you to export data. 
 
 ## Export Creation
+
+You have to click on **New Export** :
 
 ![New Export](/images/web_ui/export_new.png)
 
 You have to :
 
-1. Choose a type between : **Tile**, **Mask**, **Thumbnail**, **Vector**, **Zone**. Then you have to choose the corresponding features, you can see the table below for more details.
+1. Choose the type of your export between : **Tile**, **Mask**, **Thumbnail**, **Vector**, **Zone**, **Job**, **Dataset**. Then you have to choose the corresponding features, you can see the table below for more details.
 2. Choose an Export Name
-3. Choose an existing dataset (or several)
-4. Click on "Submit"
+3. Click on "Submit"
 
 **_Types Features :_**
 
-|               |Projection       |Zoom             |Padding          |
-| ------------- |: -------------: |: -------------: |: -------------: |
-|Tile           |![O](/images/web_ui/1.png)|![O](/images/web_ui/1.png)|![O](/images/web_ui/1.png)|
-|Mask           |![1](/images/web_ui/2.png)|![O](/images/web_ui/1.png)|![1](/images/web_ui/2.png)|
-|Thumbnail      |![1](/images/web_ui/2.png)|![1](/images/web_ui/2.png)|![O](/images/web_ui/1.png)|
-|Vector         |![O](/images/web_ui/1.png)|![1](/images/web_ui/2.png)|![1](/images/web_ui/2.png)|
-|Zone           |![O](/images/web_ui/1.png)|![1](/images/web_ui/2.png)|![1](/images/web_ui/2.png)|
+|               |Projection       |Zoom             |Padding          |Job              |Dataset          |
+| ------------- |: -------------: |: -------------: |: -------------: |: -------------: |: -------------: |
+|Tile           |![O](/images/web_ui/1.png)|![O](/images/web_ui/1.png)|![O](/images/web_ui/1.png)|![1](/images/web_ui/2.png)|![O](/images/web_ui/1.png)|
+|Mask           |![1](/images/web_ui/2.png)|![O](/images/web_ui/1.png)|![1](/images/web_ui/2.png)|![1](/images/web_ui/2.png)|![O](/images/web_ui/1.png)|
+|Thumbnail      |![1](/images/web_ui/2.png)|![1](/images/web_ui/2.png)|![O](/images/web_ui/1.png)|![1](/images/web_ui/2.png)|![O](/images/web_ui/1.png)|
+|Vector         |![O](/images/web_ui/1.png)|![1](/images/web_ui/2.png)|![1](/images/web_ui/2.png)|![1](/images/web_ui/2.png)|![O](/images/web_ui/1.png)|
+|Zone           |![O](/images/web_ui/1.png)|![1](/images/web_ui/2.png)|![1](/images/web_ui/2.png)|![1](/images/web_ui/2.png)|![O](/images/web_ui/1.png)|
+|Dataset        |![1](/images/web_ui/2.png)|![1](/images/web_ui/2.png)|![1](/images/web_ui/2.png)|![1](/images/web_ui/2.png)|![O](/images/web_ui/1.png)|
+|Job            |![1](/images/web_ui/2.png)|![1](/images/web_ui/2.png)|![1](/images/web_ui/2.png)|![0](/images/web_ui/1.png)|![1](/images/web_ui/2.png)|
 
-## Export List
+Then, you have to return on Export List :
 
 ![Export View](/images/web_ui/export_view.png)
 
-You can see the export list, with the Information column you can access to the main informations about an export and if you want to download this export you can lick on ![More](/images/web_ui/datasets_more.png), and choose between :
+You can see the export list, with the Information column you can access to the main informations about an export and if you want to download this export you can click on ![More](/images/web_ui/datasets_more.png), and choose between :
 
 - Copy GS url
 - Copy HTTP url
