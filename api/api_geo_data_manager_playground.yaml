@@ -1020,6 +1020,7 @@ paths:
               - PENDING
               - RUNNING
               - SUCCEEDED
+              - FAILED
             example: RUNNING
       responses:
         '200':
@@ -1082,7 +1083,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ZoneDescribe'
+                $ref: '#/components/schemas/ExportDescribe'
         '400':
           description: Bad request
           content:
@@ -1638,7 +1639,12 @@ components:
           format: uuid
           example: 15c61933-0b06-442c-8bab-723b2b41f570
         exportType:
-          $ref: '#/components/schemas/ExportType'
+          description: Export type. See ExportType definition.
+          type: string
+          enum:
+            - Dataset
+            - Job
+          example: Dataset
         name:
           description: Name of the export.
           type: string
@@ -1648,7 +1654,14 @@ components:
           format: date-time
           example: '2017-07-21T17:32:28Z'
         status:
-          $ref: '#/components/schemas/ExportStatus'
+          description: Export status. See ExportStatus definition.
+          type: string
+          enum:
+            - PENDING
+            - RUNNING
+            - SUCCEEDED
+            - FAILED
+          example: RUNNING
         _links:
           $ref: '#/components/schemas/ItemLinks'
 
@@ -1674,7 +1687,12 @@ components:
           format: uuid
           example: 15c61933-0b06-442c-8bab-723b2b41f570
         exportType:
-          $ref: '#/components/schemas/ExportType'
+          description: Export type. See ExportType definition.
+          type: string
+          enum:
+            - Dataset
+            - Job
+          example: Dataset
         name:
           description: Name of the export.
           type: string
@@ -1684,7 +1702,14 @@ components:
           format: date-time
           example: '2017-07-21T17:32:28Z'
         status:
-          $ref: '#/components/schemas/ExportStatus'
+          description: Export status. See ExportStatus definition.
+          type: string
+          enum:
+            - PENDING
+            - RUNNING
+            - SUCCEEDED
+            - FAILED
+          example: RUNNING
         _links:
           $ref: '#/components/schemas/ExportLinks'
 
@@ -1732,6 +1757,7 @@ components:
         - PENDING
         - RUNNING
         - SUCCEEDED
+        - FAILED
       example: RUNNING
 
 
