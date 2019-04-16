@@ -9,6 +9,7 @@ You can switch between all of your project here :
 
 This section enables you to :
 
+- See the [taxonomy](interface.md "Definition") associated to the project
 - See the description of your project
 - Modify the description of your project
 - Download a csv file about the statistics of your project

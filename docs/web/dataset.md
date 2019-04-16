@@ -46,18 +46,19 @@ This option enables you to modify the dataset. If you want to edit the dataset o
 <span style="color:#800000">**To Select one or more records :**</span>
 ![Select record](/images/web_ui/datasets_selectrecord.png)
 
-If you select **more than one record** with different tags or with several tags : You can see the associated tags, click on "Remove tag(s)"
-![Select record](/images/web_ui/dataset_selectrecord.png)
-
-Then, you can see in orange the tags which are in the selection of records :
-![Select record](/images/web_ui/dataset_selectrecord2.png)
-
 <span style="color:#800000">**To Draw a record :**</span>
 
-You have to select one or more tag(s):
-![Draw record](/images/web_ui/datasets_drawrecord.png)
+![Select record](/images/web_ui/dataset_selectrecord.png)
 
-Or, you can select a record. The tag selected will be updated.
+<p style='text-align: justify;'>To draw a record you have to select one or more tag(s). For that you need to open the "Tags" section.</p>
+
+<!--![Draw record](/images/web_ui/datasets_drawrecord.png)-->
+
+<p style='text-align: justify;'>You can see the taxonomy associated, if you want to see all of the tags of this taxonomy you can click on the name of your taxonomy (here it is "Airbus Taxonomy"). You can change de visibility of the tags with the checks.</p>
+
+<p style='text-align: justify;'>To select a tag for the creation record you have to click on "Select tag(s)". That will open a pop up to select tag(s).</p>
+<!--![record ](/images/web_ui/dataset_tag_selection.png)-->
+<p style='text-align: justify;'>Or, you can select an existing record. The tag selected will be updated.</p>
 
 Then, you have to draw with tools :
 
@@ -79,8 +80,6 @@ A ghost of the selected record is under the mouse. Click to create the same reco
 
 ![Duplication3](/images/web_ui/datasets_duplication3.png)
 ![Duplication5](/images/web_ui/datasets_duplicationmult2.png)
-
-<!---->
 
 Also while duplicating, you can **rotate** the ghost :
 
@@ -128,9 +127,10 @@ Then,
 
 You can choose the color and spacing for grid lines.
 
-<span style="color:#800000">**To Add a new tag :**</span>
+<span style="color:#800000">**To Update tags :**</span>
 
-Select this button : ![New Tag](/images/web_ui/datasets_newtag.png)
+<p style='text-align: justify;'>You can select one or more tag(s). Then you can see the selected tags in creation section. If you want to add modifications, you can click on "Manage tag(s)". This button open a pop-up where you can add or remove tag(s) with checks.</p>
+![update tag](/images/web_ui/dataset_tag_setting.png)
 
 <span style="color:#800000">**To Add a comment on a record :**</span>
 

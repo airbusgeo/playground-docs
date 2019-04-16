@@ -56,6 +56,7 @@ pages:
     - Compare : web/compare.md
     - Import / Export : web/import_export.md
     - Metrics : web/metrics.md
+    - Taxonomy : web/taxonomy.md
     - Use Case: web/usecase.md
   - Exported Data:
     - One Atlas: parsing/one-atlas-data.md
