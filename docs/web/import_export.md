@@ -57,3 +57,21 @@ You can see the export list, with the Information column you can access to the m
 - Copy HTTP url
 
 With these URL you can access to the export (with a bucket).
+
+##### Exported data for each type of exports
+
+![Export Data](/images/web_ui/infos_exports.png)
+
+For more details you can see the global structure of any export individually :
+
+<span style="color:#800000">Tile Export </span>
+
+![Tile Export](/images/web_ui/tile_export.png)
+
+<span style="color:#800000">Dataset Export </span>
+
+![Dataset Export](/images/web_ui/dataset_export.png)
+
+<span style="color:#800000">Job Export </span>
+
+![Job Export](/images/web_ui/job_export.png)
