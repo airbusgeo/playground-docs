@@ -29,4 +29,4 @@ geojson==2.3.0
 numpy==1.14.0
 
 # deep learning
-tensorflow==1.2.0
+tensorflow==1.12.1

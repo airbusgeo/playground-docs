@@ -1,6 +1,6 @@
-site_name: OneAtlas Playground Documentation
+site_name: Intelligence Playground Documentation
 site_url: http://playground-docs.readthedocs.io/
-site_author: OneAtlas Playground
+site_author: Airbus DS Intelligence
 repo_url: http://github.com/airbusgeo/playground-docs/
 
 theme: readthedocs
@@ -24,30 +24,12 @@ extra_javascript:
 markdown_extensions:
   - admonition
 
-copyright: 'Copyright &copy; 2018 - Airbus Defence and Space - Intelligence'
+copyright: 'Copyright &copy; 2019 - Airbus Defence and Space - Intelligence'
 
-pages:
-  - OneAtlas Playground: index.md
-  - Playground APIs:
-    - Introduction: playground/apis.md
-    # - Geo Process API: playground/geo_process_api.md
-    # - Object detection process template: playground/process_object_detection.md
-    # - Change detection process template: playground/process_change_detection.md
-    - Authentication API: playground/auth.md
-    - Geo Processes Manager API: playground/geo_processes_manager.md
-    # - Object detection job template: playground/job_object_detection.md
-    # - Change detection job template: playground/job_change_detection.md
-    - Geo Data Manager API: playground/geo_data_manager.md
-    # - Geo Search & Product API: playground/geo_search_product.md
-  - GeoPaaS APIs: geopaas/index.md
-  - Create a custom process:
-    - Create a custom process: processing/process.md
-    - Build a container image: processing/docker.md
-    - Use from in OneAtlas Playground: processing/use.md
-    - (optional) Deploy on GCE: processing/deploy_gce.md
-    - (optional) Deploy on GKE: processing/deploy_gke.md
-    - Sample application: processing/sample.md
-  - Playground usage:
+nav:
+  - Intelligence Playground: index.md
+  - Web Interface:
+    - Introduction: web/index.md
     - Web interface: web/interface.md
     - Project : web/project.md
     - Datasets: web/dataset.md
@@ -58,11 +40,32 @@ pages:
     - Metrics : web/metrics.md
     - Taxonomy : web/taxonomy.md
     - Use Case: web/usecase.md
-  - Exported Data:
-    - One Atlas: parsing/one-atlas-data.md
+    - Available Data: parsing/one-atlas-data.md
     - Export Data Format: parsing/parsing.md
-  - Airbus DS Geo Processing APIs: airbus_ds/apis.md
-    # - Introduction: airbus_ds/apis.md
-    # - Geo Process API: airbus_ds/geo_process_api.md
-    # - Geo Processes Manager API: airbus_ds/geo_processes_manager_api.md
-    # - Airbus DS JSON Schema metadata extensions: airbus_ds/ads_json_extensions.md
+  - Developer APIs:
+    - Introduction: playground/apis.md
+    - Geo Process API: playground/geo_process_api.md
+    - Object detection process template: playground/process_object_detection.md
+    - Change detection process template: playground/process_change_detection.md
+    - Authentication API: playground/auth.md
+    - Geo Processes Manager API: playground/geo_processes_manager.md
+    - Object detection job template: playground/job_object_detection.md
+    - Change detection job template: playground/job_change_detection.md
+    - Geo Data Manager API: playground/geo_data_manager.md
+    - Geo Search & Product API: playground/geo_search_product.md
+  - Create a custom process:
+    - Introduction: geopaas/intro.md
+    - End-points for Playground: geopaas/specs.md
+    - Expected output: geopaas/output.md
+    - When you are ready: geopaas/ready.md
+    #- Create a custom process: processing/process.md
+    #- Build a container image: processing/docker.md
+    #- Use from in OneAtlas Playground: processing/use.md
+    #- Sample application: processing/sample.md
+  #- References: 
+    #- GeoPaaS APIs: geopaas/index.md
+    #- Airbus DS Processing APIs: airbus_ds/apis.md
+    #- Geo Process API: airbus_ds/geo_process_api.md
+    #- Geo Processes Manager API: airbus_ds/geo_processes_manager_api.md
+    #- processing/packaging.md
+    #- Airbus DS JSON Schema metadata extensions: airbus_ds/ads_json_extensions.md

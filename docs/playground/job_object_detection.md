@@ -1,6 +1,6 @@
 # Introduction
 
-[Geo Processes Manager API](geo_processes_manager_playground.md) template specification for OneAtlas Playground object detection class of processes.
+[Geo Processes Manager API](geo_processes_manager.md) template specification for OneAtlas Playground object detection class of processes.
 
 # Job endpoint
 
