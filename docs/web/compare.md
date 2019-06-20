@@ -13,5 +13,4 @@ To compare two zones :
 
 ![Reference Zone](/images/web_ui/compare_zone1.png) ![Zone to Compare](/images/web_ui/compare_zone2.png)
 
-You can choose the tags you want to have on your map.
-![Compare Tags](/images/web_ui/compare_tags.png)
+You can choose the tags you want to have on your map with "Tags" section.

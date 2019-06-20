@@ -17,11 +17,7 @@ Steps to create a ground truth :
 ![Interface Datasets](/images/web_ui/usecase_dataset.png)
 
 - Draw a zone with drawing zone tools. You can see the [Dataset Page](dataset.md "Dataset Page") for further details.
-- Create one or more tags (Tags settings), you can choose the colors of them, for that you have to click on the existings color and choose the new.
-
-![Tags colors](/images/web_ui/usecase_tagscolors.png)
-
-- Select one or more tag to apply
+- Select one or more tag to apply. You can see the [Dataset Page](dataset.md "Dataset Page") for further details.
 - Choose a tool in drawing feature(s). You can see the [Dataset Page](dataset.md "Dataset Page") for further details.
 
 ![Ground Truth Result](/images/web_ui/usecase1.png)
