@@ -40,17 +40,32 @@ If you want to rename your zone, you can see the [Zone Page](zone.md "Zone Page"
 
 #### From Dataset List or Job list
 
-This section enables you to change the status of a zone or a record. You can draw zones or records in this section too. You can access to this function in dataset list or job list.
+This section enables you to change the status of a record. The edition of records or zones is not possible in this interface. You can access to this function in dataset list or job list.
 
-![Validate](/images/web_ui/datasets_validate1.png)
+Validation interface :
+![Validation interface](/images/web_ui/validation_interface.png)
 
-<p style='text-align: justify;'><span style="color:#5472AE">Zone setting</span> - You can change the statusof the selected zone and more precisely you can choose between Pending, Labellized or Reserved :</p>
+There is always one record selected. You can validate or invalidate the state of a record.The style of a valid record is green and for invalid records that's red. Some tools are given to help you for validation work :
 
-![Validate Zone Settings](/images/web_ui/datasets_validate3.png)
+1 - **Color** :
+If you want to update the color of records (without state valid or invalid) for better view.
 
-<p style='text-align: justify;'><span style="color:#5472AE">Records State</span> - You can select a record and see his state (added, predicted, modified, verified, invalid...). Then, you can change this state between verified (Validate button) and invalid (Invalidate button) :</p>
+2 - **Selection footprint** :
+To deactivate he selection footprint for better view.
 
-![Validate Records State](/images/web_ui/datasets_validate2.png)
+3- **Shortcuts** :
+To help you with keyboard shortcuts.
+
+4 - **"Auto Next" option** :
+Active : to jump automatically to the following record.
+Deactive : to stay focus on the record after validation action.
+
+5 - **Focus** :
+If you move on the map and if you click on this button, the map focus automatically on the selected record.
+
+6 - **Arrows** :
+To jump to the following record if you deactive the "auto next" option or if you don't want to validate or invalidate the record now.
+
 
 #### States Definitions
 
@@ -59,5 +74,3 @@ This section enables you to change the status of a zone or a record. You can dra
 <span style="color:#800000">MODIFIED</span> - if you do modifications on the structure of your record <br/>
 <span style="color:#800000">VERIFIED</span> - Validate, if your record has this state you can't change anything (add tag, delete tag, modify the structure of the record, delete the record...) in Edit section<br/>
 <span style="color:#800000">INVALID</span> - Invalidate<br/>
-
-![Warning](/images/web_ui/warning.png)The state change if you merge two records with different state.
