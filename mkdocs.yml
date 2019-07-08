@@ -53,6 +53,10 @@ pages:
     - Change detection job template: playground/job_change_detection.md
     - Geo Data Manager API: playground/geo_data_manager.md
     - Geo Search & Product API: playground/geo_search_product.md
+    - Example of Scripts: 
+      - Common steps - Connection + Build Header: playground/connection_build_header_step.md
+      - I - Launch Jobs Batch: playground/launch_jobs_batch.md
+      - II - Import Zones in the Playground: playground/import_zones_in_Playground.md
   - Create a custom process:
     - Introduction: geopaas/intro.md
     - End-points for Playground: geopaas/specs.md
