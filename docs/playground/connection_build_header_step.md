@@ -13,9 +13,7 @@ To launch jobs batch, you need to have a token for the authentification. You can
 When you have access to your refresh token :
 
 ``` python
-
 ACCESS_TOKEN = get_access_token()
-
 ```
 
 The get_access_token method enables you to create a connection :
@@ -30,16 +28,13 @@ def get_access_token():
     assert 'access_token' in content.keys(), 'No access_token field in reponse'
     access_token = content['access_token']
     return access_token
-
 ```
 
 The second step : **Build headers**
 
 ``` python
-
 HEADERS = {
     'Authorization': 'Bearer {}'.format(ACCESS_TOKEN),
     'Content-Type': 'application/json'
 }
-
 ```

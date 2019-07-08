@@ -60,8 +60,6 @@ For this example you need to have one (or more) json file, the dataset_id and th
       }
     ]
   }
-
-
 ```
 
 ##### 1 - Implementation
@@ -95,9 +93,9 @@ Then you read the files :
 
 ```python
 for root, subdirs, files in os.walk(jsondir):
-    for filename in files:
-        processes, zones = get_data('{filepath}'.format(filepath=os.path.join(root, filename)))
-        jobs_progress = {}
+  for filename in files:
+    processes, zones = get_data('{filepath}'.format(filepath=os.path.join(root, filename)))
+    jobs_progress = {}
 ```
 
 ##### 3. Launch Import Request
@@ -109,37 +107,36 @@ payload = build_payload(dataset, import_file, count)
 job = launch_request(payload)
 count+=1
 if job.status_code == 200:
-    content = json.loads(job.content)
+  content = json.loads(job.content)
 else:
-    print('Job failed. Error {status_code}: {reason}'.format(status_code=job.status_code, reason=job.reason))
+  print('Job failed. Error {status_code}: {reason}'.format(status_code=job.status_code, reason=job.reason))
 ```
 
 **First step** : The build_payload method enables you to get your imported data (zones and records) :
 
 ```python
 def build_payload(dataset, import_file, count):
-    payload = {}
-    payload["dataset_id"] = dataset['id']
-    payload["name"] = '{number} - {zone_name} - {dataset_name}'.format(
-        number=count,
-        zone_name=import_file['features'][0]['properties']['name'][0:60],
-        dataset_name=dataset['name']
-    )
-    payload["filename"] = import_file['features'][0]['properties']['name']+'.json'
-    b64_import_file = base64.b64encode(json.dumps(import_file).encode())
-    payload["file"] = b64_import_file.decode('UTF-8')
-    return payload
-
+  payload = {}
+  payload["dataset_id"] = dataset['id']
+  payload["name"] = '{number} - {zone_name} - {dataset_name}'.format(
+    number=count,
+    zone_name=import_file['features'][0]['properties']['name'][0:60],
+    dataset_name=dataset['name']
+  )
+  payload["filename"] = import_file['features'][0]['properties']['name']+'.json'
+  b64_import_file = base64.b64encode(json.dumps(import_file).encode())
+  payload["file"] = b64_import_file.decode('UTF-8')
+  return payload
 ```
 
 **Second step** : The launch_request method enables you to send the request with the imported data (POST request) :
 
 ```python
 def launch_request(payload):
-    response = requests.post(
-        url=PLAYGROUND_IMPORT_URL,
-        data=json.dumps(payload),
-        headers=HEADERS)
-    return response
-    pass
+  response = requests.post(
+    url=PLAYGROUND_IMPORT_URL,
+    data=json.dumps(payload),
+    headers=HEADERS)
+  return response
+  pass
 ```
