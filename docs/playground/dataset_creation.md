@@ -4,7 +4,7 @@
 
 ##### Input Data :
 
-For this example you need to have the project_id from an existing project.
+For this example you need to have the project_id of an existing project.
 You have to give the dataset informations : name and description.
 
 ##### 1 - Implementation
