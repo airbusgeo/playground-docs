@@ -32,7 +32,7 @@ description = input("Input the dataset description : ")
 
 ##### 3. Launch the POST request
 
-To launch your request you have to get all input data and ou have to put them in the method following method :
+To launch your request you have to get all input data and you have to put them in the following method :
 
 ```python
 response = create_new_dataset(project_id, dataset_name, description, HEADERS)
