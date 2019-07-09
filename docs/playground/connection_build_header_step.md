@@ -6,7 +6,7 @@ The first step : **Connection**
 
 ##### 1 - Authentification
 
-To launch jobs batch, you need to have a token for the authentification. You can see [Authentification API](auth.md) page for further details.
+To launch jobs batch, you need to have a token for the authentification. You can see *[Authentification API](auth.md)* page for further details.
 
 ##### 2 - Retrieve access token and build headers
 
@@ -19,7 +19,6 @@ ACCESS_TOKEN = get_access_token()
 The get_access_token method enables you to create a connection :
 
 ``` python
-
 def get_access_token():
     payload = {'refresh_token': REFRESH_TOKEN}
     response = requests.get('https://playground.intelligence-airbusds.com/oauth2/refresh', params=payload)

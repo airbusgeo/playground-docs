@@ -40,10 +40,6 @@ You have to :
 |               |Projection       |Zoom             |Padding          |Job              |Dataset          |
 | ------------- |: -------------: |: -------------: |: -------------: |: -------------: |: -------------: |
 |Tile           |![O](/images/web_ui/1.png)|![O](/images/web_ui/1.png)|![O](/images/web_ui/1.png)|![1](/images/web_ui/2.png)|![O](/images/web_ui/1.png)|
-|Mask           |![1](/images/web_ui/2.png)|![O](/images/web_ui/1.png)|![1](/images/web_ui/2.png)|![1](/images/web_ui/2.png)|![O](/images/web_ui/1.png)|
-|Thumbnail      |![1](/images/web_ui/2.png)|![1](/images/web_ui/2.png)|![O](/images/web_ui/1.png)|![1](/images/web_ui/2.png)|![O](/images/web_ui/1.png)|
-|Vector         |![O](/images/web_ui/1.png)|![1](/images/web_ui/2.png)|![1](/images/web_ui/2.png)|![1](/images/web_ui/2.png)|![O](/images/web_ui/1.png)|
-|Zone           |![O](/images/web_ui/1.png)|![1](/images/web_ui/2.png)|![1](/images/web_ui/2.png)|![1](/images/web_ui/2.png)|![O](/images/web_ui/1.png)|
 |Dataset        |![1](/images/web_ui/2.png)|![1](/images/web_ui/2.png)|![1](/images/web_ui/2.png)|![1](/images/web_ui/2.png)|![O](/images/web_ui/1.png)|
 |Job            |![1](/images/web_ui/2.png)|![1](/images/web_ui/2.png)|![1](/images/web_ui/2.png)|![0](/images/web_ui/1.png)|![1](/images/web_ui/2.png)|
 

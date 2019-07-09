@@ -2,8 +2,9 @@
 
 -----------------
 
-##### Input Data : 
-For this example you need to have one (or more) json file, the dataset_id and the dataset_name. That have to be an existing dataset. For the json files you have to give in the terminal the full folder path.
+##### Input Data :
+
+For this example you need to have one (or more) json file, the dataset_id and the dataset_name. That have to be an existing dataset. If you have not an existing dataset you can see the *[creation dataset page](dataset_creation.md)*. For the json files you have to give in the terminal the full folder path.
 
 *Example of file format*:
 
@@ -76,7 +77,7 @@ import base64
 PLAYGROUND_IMPORT_URL = 'https://import-service.playground.airbusds-geo.com/api/imports'
 ```
 
-**You have to execute the [common step](connection_build_header_step.md) (Connection & Build Headers).**
+**You have to execute the *[common step](connection_build_header_step.md)* (Connection & Build Headers).**
 
 ##### 2. Read config file
 

@@ -2,8 +2,9 @@
 
 -----------------
 
-##### Input Data : 
-For this example you need to have one (or more) json file. That have to be an existing dataset. For the json files you have to give in the terminal the **full** folder path.
+##### Input Data :
+
+For this example you need to have one (or more) json file. That have to be an existing dataset. If you have not an existing dataset you can see the *[creation dataset page](dataset_creation.md)*. For the json files you have to give in the terminal the **full** folder path.
 
 *Example of file format*:
 
@@ -53,7 +54,7 @@ import os
 PLAYGROUND_JOB_URL = 'https://api.playground.airbusds-geo.com/api/v1/processes/{processId}/jobs'
 ```
 
-**You have to execute the [common step](connection_build_header_step.md) (Connection & Build Headers).**
+**You have to execute the [common step]*(connection_build_header_step.md)* (Connection & Build Headers).**
 
 ##### 2. Read config file
 

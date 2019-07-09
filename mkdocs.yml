@@ -57,6 +57,8 @@ pages:
       - Common steps - Connection + Build Header: playground/connection_build_header_step.md
       - I - Launch Jobs Batch: playground/launch_jobs_batch.md
       - II - Import Zones in the Playground: playground/import_zones_in_Playground.md
+      - III - Export Zones from the Playground: playground/export_zones_from_playground.md
+      - IV - Create a new Dataset : playground/dataset_creation.md
   - Create a custom process:
     - Introduction: geopaas/intro.md
     - End-points for Playground: geopaas/specs.md
