@@ -7,7 +7,14 @@
 For this example you need to have the project_id and the dataset_id.
 You have to give the complete path of a json file to write all exported zones.
 
-##### 1 - Implementation
+**To get the project id and the dataset id :**
+
+It visible in the url page :
+
+- In the project page : https://playground.intelligence-airbusds.com/apps/**{project_id}**/datasets
+- In the object detection (or change detection) page : https://playground.intelligence-airbusds.com/apps/object-detection/**{project_id}**/edit/**{dataset_id}**
+
+##### 1. Implementation
 
 To use this script you need to these components and url :
 

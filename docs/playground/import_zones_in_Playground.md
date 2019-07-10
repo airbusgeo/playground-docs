@@ -4,7 +4,15 @@
 
 ##### Input Data :
 
-For this example you need to have one (or more) json file, the dataset_id and the dataset_name. That have to be an existing dataset. If you have not an existing dataset you can see the *[creation dataset page](dataset_creation.md)*. For the json files you have to give in the terminal the full folder path.
+For this example you need to have one (or more) json file, the dataset_id and the dataset_name. That have to be an existing dataset. If you have not an existing dataset you can see the *[creation dataset page](dataset_creation.md)*.
+
+**To get the dataset id :**
+
+It visible in the url page :
+
+- In the object detection (or change detection) page : https://playground.intelligence-airbusds.com/apps/object-detection/**{project_id}**/edit/**{dataset_id}**
+
+For the json files you have to give in the terminal the full folder path.
 
 *Example of file format*:
 
@@ -63,7 +71,7 @@ For this example you need to have one (or more) json file, the dataset_id and th
   }
 ```
 
-##### 1 - Implementation
+##### 1. Implementation
 
 To use this script you need to these components and url :
 

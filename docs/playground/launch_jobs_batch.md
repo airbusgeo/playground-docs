@@ -41,7 +41,7 @@ For this example you need to have one (or more) json file. That have to be an ex
 }
 ```
 
-##### 1 - Implementation
+##### 1. Implementation
 
 To use this script you need to these components and url :
 

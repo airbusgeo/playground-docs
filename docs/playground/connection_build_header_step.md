@@ -4,11 +4,11 @@
 
 The first step : **Connection**
 
-##### 1 - Authentification
+##### 1. Authentification
 
 To launch jobs batch, you need to have a token for the authentification. You can see *[Authentification API](auth.md)* page for further details.
 
-##### 2 - Retrieve access token and build headers
+##### 2. Retrieve access token and build headers
 
 When you have access to your refresh token :
 

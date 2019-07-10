@@ -7,7 +7,14 @@
 For this example you need to have the project_id of an existing project.
 You have to give the dataset informations : name and description.
 
-##### 1 - Implementation
+**To get the project id :**
+
+It visible in the url page :
+
+- In the project page : https://playground.intelligence-airbusds.com/apps/**{project_id}**/datasets
+- In the object detection (or change detection) page : https://playground.intelligence-airbusds.com/apps/object-detection/**{project_id}**/edit/**{dataset_id}**
+
+##### 1. Implementation
 
 To use this script you need to these components and url :
 
@@ -25,7 +32,7 @@ PLAYGOUND_DATASET_URL = "https://api.playground.airbusds-geo.com/api/v1/datasets
 With the *input* you enter all data what you need :
 
 ```python
-project_id = input("Input the project id f an existing project : ")
+project_id = input("Input the project id of an existing project : ")
 dataset_name = input("Input the dataset name : ")
 description = input("Input the dataset description : ")
 ```
