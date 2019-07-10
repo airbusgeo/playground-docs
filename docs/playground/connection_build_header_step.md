@@ -1,22 +1,16 @@
-<p style='text-align: center; color: red; font-size: 20px;'>Common steps : Connection & Build the headers</p>
+# Authentication
 
------------------
+To call any Playground APIs, you need to have a valid access token or a refresh token.
+Please, check the *[Authentification API](auth.md)* page for further details.
 
-The first step : **Connection**
+## Retrieve access token from refresh token
 
-##### 1. Authentification
-
-To launch jobs batch, you need to have a token for the authentification. You can see *[Authentification API](auth.md)* page for further details.
-
-##### 2. Retrieve access token and build headers
-
-When you have access to your refresh token :
-
+First, you need to store your refresh token :
 ``` python
-ACCESS_TOKEN = get_access_token()
+REFRESH_TOKEN = 'INSERT_YOUR_REFRESH_TOKEN_HERE'
 ```
 
-The get_access_token method enables you to create a connection :
+Then the following method enables you to use the refresh token to retrieve a valid access token:
 
 ``` python
 def get_access_token():
@@ -27,13 +21,24 @@ def get_access_token():
     assert 'access_token' in content.keys(), 'No access_token field in reponse'
     access_token = content['access_token']
     return access_token
+
+ACCESS_TOKEN = get_access_token()
 ```
 
-The second step : **Build headers**
+## Build headers
+
+The access token is directly used as an aurthorization token in the HTTP headers.
+In most case, the content is also JSON, so we define this as well.
 
 ``` python
 HEADERS = {
     'Authorization': 'Bearer {}'.format(ACCESS_TOKEN),
     'Content-Type': 'application/json'
 }
+```
+
+Then, include the HEADERS in any request to the Playground APIs.
+
+```
+response = requests.get('https://playground.intelligence-airbusds.com/api/projects', headers=HEADERS)
 ```

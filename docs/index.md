@@ -1,9 +1,8 @@
-![OneAtlas Playground](images/Intelligence_Playground_Logo.png "Intelligence Playground")
+![Intelligence Playground](images/Intelligence_Playground_Logo.png "Intelligence Playground")
 
-The Intelligence Playground is a Collaborative Platform to create and test Machine Learning algorithms on Satellite and Aerial Imagery.
+The Intelligence Playground is a Collaborative Platform to create and validate Machine Learning algorithms on Satellite and Aerial Imagery. Here is the link to the Intelligence Playground: [Playground](https://playground.intelligence-airbusds.com). It is currently only open to Airbus entities.
 
-Here is the link to the Intelligence Playground: [Playground](https://playground.intelligence-airbusds.com).
-If you are interested to get access to Airbus satellite imagery, you should check the OneAtlas Sandbox:  [Sandbox](https://sandbox.intelligence-airbusds.com/web/)
+If you are interested to get access to Airbus satellite imagery for prototype and evaluation, please check our OneAtlas Sandbox:  [Sandbox](https://sandbox.intelligence-airbusds.com/web/). Otherwise, check our online commercial service on [OneAtlas Data](https://oneatlas.airbus.com)
 
 Here, you will find documentation regarding:
 

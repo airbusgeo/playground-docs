@@ -8,17 +8,16 @@ info:
   description: |
     This document describes the OneAtlas Playground "Authentication API" specification.
     
-    In order to access Playground APIs a client application shall be authenticated
-    using the OAuth2 protocol.
-    As Playground OAuth2 is managed by Google, thus you have to authenticate using
-    a Google account.
+    In order to connect to the Playground APIs from a script, you need an OAuth2 access token. 
+    This means that a client application shall be authenticated using the OAuth2 protocol.
     
     Authentication procedure shall follow these steps:
     
-    1. Get device credentials by calling step1 endpoint
-    2. Authenticate with your Google account by caling the 'verification_url' returned by step1
-    3. Get access token by calling step2 endpoint
-    4. Refresh token when it has expired by calling refresh endpoint
+    1. Get the device credentials by calling the 'step1' endpoint below
+    2. Note the device_code and visit the verification_url.
+    3. Authenticate with your email and grant the access to the device i.e. script. 
+    4. Get the access token by calling 'step2' endpoint and passing the device_code
+    5. Refresh token when it has expired by calling 'refresh' endpoint
   contact:
     name: Airbus Defence and Space
     url: 'https://www.airbus.com/'

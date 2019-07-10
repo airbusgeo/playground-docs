@@ -19,7 +19,6 @@ body {
     background: #fafafa;
 }
 </style>
-
 <div id="swagger-ui"></div>
 
 <script src="../scripts/swagger-ui-bundle.js"> </script>

@@ -44,21 +44,21 @@ pages:
     - Export Data Format: parsing/parsing.md
   - Developer APIs:
     - Introduction: playground/apis.md
-    - Geo Process API: playground/geo_process_api.md
-    - Object detection process template: playground/process_object_detection.md
-    - Change detection process template: playground/process_change_detection.md
     - Authentication API: playground/auth.md
     - Geo Processes Manager API: playground/geo_processes_manager.md
     - Object detection job template: playground/job_object_detection.md
     - Change detection job template: playground/job_change_detection.md
     - Geo Data Manager API: playground/geo_data_manager.md
     - Geo Search & Product API: playground/geo_search_product.md
-    - Example of Scripts: 
-      - Common steps - Connection + Build Header: playground/connection_build_header_step.md
-      - I - Launch Jobs Batch: playground/launch_jobs_batch.md
-      - II - Import Zones in the Playground: playground/import_zones_in_Playground.md
-      - III - Export Zones from the Playground: playground/export_zones_from_playground.md
-      - IV - Create a new Dataset : playground/dataset_creation.md
+  - Example of Scripts: 
+    - Authentication: playground/connection_build_header_step.md
+    - Launch Jobs Batch: playground/launch_jobs_batch.md
+    - Import Zones in the Playground: playground/import_zones_in_Playground.md
+    - Export Zones from the Playground: playground/export_zones_from_playground.md
+    - Create a new Dataset : playground/dataset_creation.md
+    #- Geo Process API specifications: playground/geo_process_api.md
+    #- Object detection process template: playground/process_object_detection.md
+    #- Change detection process template: playground/process_change_detection.md
   - Create a custom process:
     - Introduction: geopaas/intro.md
     - End-points for Playground: geopaas/specs.md
@@ -75,3 +75,4 @@ pages:
     #- Geo Processes Manager API: airbus_ds/geo_processes_manager_api.md
     #- processing/packaging.md
     #- Airbus DS JSON Schema metadata extensions: airbus_ds/ads_json_extensions.md
+  - FAQ: faq.md
