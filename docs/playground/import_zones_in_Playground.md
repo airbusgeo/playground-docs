@@ -37,7 +37,6 @@ For the json files you have to give in the terminal the full folder path.
         "properties": {
           "image_id": "13df6070438089b7d7f2b531e5d4c14c88944a1b",
           "type": "zone",
-          "zone_id": "b68f79b3-ffa9-4620-b53a-74207b146fe1",
           "image_2_id": null,
           "name": "job_2019-03-14_Test new tags"
         }
@@ -58,13 +57,8 @@ For the json files you have to give in the terminal the full folder path.
         "type": "Feature",
         "properties": {
           "comment": null,
-          "width": 343.332341157831,
-          "length": 355.130359229856,
-          "angle": 270.0,
           "tags": "truck",
-          "record_id": "2223e9ba-4b2b-11e9-829f-0a580a2c52be",
-          "type": "record",
-          "surface": 121927.737650608
+          "type": "record"
         }
       }
     ]
@@ -101,10 +95,10 @@ folder = input("Input full path of folder containing files to import: ")
 Then you read the files :
 
 ```python
-for root, subdirs, files in os.walk(jsondir):
-  for filename in files:
-    processes, zones = get_data('{filepath}'.format(filepath=os.path.join(root, filename)))
-    jobs_progress = {}
+files = os.listdir(folder)
+for x in files:
+    with open('{}/{}'.format(folder, x)) as i:
+        import_file =  json.load(i)
 ```
 
 ##### 3. Launch Import Request
