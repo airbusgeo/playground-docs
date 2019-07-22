@@ -1,8 +1,8 @@
-<p style='text-align: center; color: red; font-size: 20px;'>To create a new dataset</p>
+# To create a new dataset
 
 -----------------
 
-##### Input Data :
+## Input Data
 
 For this example you need to have the project_id of an existing project.
 You have to give the dataset informations : name and description.
@@ -14,7 +14,7 @@ It visible in the url page :
 - In the project page : https://playground.intelligence-airbusds.com/apps/**{project_id}**/datasets
 - In the object detection (or change detection) page : https://playground.intelligence-airbusds.com/apps/object-detection/**{project_id}**/edit/**{dataset_id}**
 
-##### 1. Implementation
+## Implementation
 
 To use this script you need to these components and url :
 
@@ -27,7 +27,7 @@ PLAYGOUND_DATASET_URL = "https://api.playground.airbusds-geo.com/api/v1/datasets
 
 **You have to execute the [common step](connection_build_header_step.md) (Connection & Build Headers).**
 
-##### 2. Get "input" data
+## Get "input" data
 
 With the *input* you enter all data what you need :
 
@@ -37,7 +37,7 @@ dataset_name = input("Input the dataset name : ")
 description = input("Input the dataset description : ")
 ```
 
-##### 3. Launch the POST request
+## Launch the POST request
 
 To launch your request you have to get all input data and you have to put them in the following method :
 

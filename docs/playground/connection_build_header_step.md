@@ -39,6 +39,6 @@ HEADERS = {
 
 Then, include the HEADERS in any request to the Playground APIs.
 
-```
+```python
 response = requests.get('https://playground.intelligence-airbusds.com/api/projects', headers=HEADERS)
 ```

@@ -1,8 +1,8 @@
-<p style='text-align: center; color: red; font-size: 20px;'>To Import Zones in the Playground</p>
+# To Import Zones in the Playground
 
 -----------------
 
-##### Input Data :
+## Input Data
 
 For this example you need to have one (or more) json file, the dataset_id and the dataset_name. That have to be an existing dataset. If you have not an existing dataset you can see the *[creation dataset page](dataset_creation.md)*.
 
@@ -65,7 +65,7 @@ For the json files you have to give in the terminal the full folder path.
   }
 ```
 
-##### 1. Implementation
+## Implementation
 
 To use this script you need to these components and url :
 
@@ -81,7 +81,7 @@ PLAYGROUND_IMPORT_URL = 'https://import-service.playground.airbusds-geo.com/api/
 
 **You have to execute the *[common step](connection_build_header_step.md)* (Connection & Build Headers).**
 
-##### 2. Read config file
+## Read config file
 
 With the *input* you enter all data what you need :
 
@@ -101,7 +101,7 @@ for x in files:
         import_file =  json.load(i)
 ```
 
-##### 3. Launch Import Request
+## Launch Import Request
 
 For all files you launch your request in two steps :
 

@@ -75,4 +75,4 @@ pages:
     #- Geo Processes Manager API: airbus_ds/geo_processes_manager_api.md
     #- processing/packaging.md
     #- Airbus DS JSON Schema metadata extensions: airbus_ds/ads_json_extensions.md
-  - FAQ: faq.md
+  #- FAQ: faq.md

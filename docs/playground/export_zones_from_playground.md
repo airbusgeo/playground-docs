@@ -1,8 +1,8 @@
-<p style='text-align: center; color: red; font-size: 20px;'>To Export Zones from the Playground</p>
+# To Export Zones from the Playground
 
 -----------------
 
-##### Input Data :
+## Input Data
 
 For this example you need to have the project_id and the dataset_id.
 You have to give the complete path of a json file to write all exported zones.
@@ -14,7 +14,7 @@ It visible in the url page :
 - In the project page : https://playground.intelligence-airbusds.com/apps/**{project_id}**/datasets
 - In the object detection (or change detection) page : https://playground.intelligence-airbusds.com/apps/object-detection/**{project_id}**/edit/**{dataset_id}**
 
-##### 1. Implementation
+## Implementation
 
 To use this script you need to these components and url :
 
@@ -27,7 +27,7 @@ PLAYGROUND_API_URL = 'https://playground.intelligence-airbusds.com/api/zones?pro
 
 **You have to execute the *[common step](connection_build_header_step.md)* (Connection & Build Headers).**
 
-##### 2. Get "input" data
+## Get "input" data
 
 With the *input* you enter all data what you need :
 
@@ -40,7 +40,7 @@ dataset_id = input("Input dataset ID: ")
 output_path = input("Enter full output file path: ")
 ```
 
-##### 3. Launch Export Request
+## Launch Export Request
 
 You can launch your request with the PLAYGROUND_API_URL :
 
@@ -50,7 +50,7 @@ response = requests.get(PLAYGROUND_API_URL.format(projectId=project_id, datasetI
 assert response.status_code == 200, 'A problem occured during connection with the Playground'
 ```
 
-##### 4. Write exported zones in a json file
+## Write exported zones in a json file
 
 To write the exported zones in a file you use the output_path (in step 2).
 

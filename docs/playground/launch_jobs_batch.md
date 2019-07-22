@@ -1,8 +1,8 @@
-<p style='text-align: center; color: red; font-size: 20px;'>To Launch jobs Batch</p>
+# To Launch jobs Batch
 
 -----------------
 
-##### Input Data :
+## Input Data
 
 For this example you need to have one (or more) json file. That have to be an existing dataset. If you have not an existing dataset you can see the *[creation dataset page](dataset_creation.md)*. For the json files you have to give in the terminal the **full** folder path.
 
@@ -41,7 +41,7 @@ For this example you need to have one (or more) json file. That have to be an ex
 }
 ```
 
-##### 1. Implementation
+## Implementation
 
 To use this script you need to these components and url :
 
@@ -56,7 +56,7 @@ PLAYGROUND_JOB_URL = 'https://api.playground.airbusds-geo.com/api/v1/processes/{
 
 **You have to execute the [common step]*(connection_build_header_step.md)* (Connection & Build Headers).**
 
-##### 2. Read config file
+## Read config file
 
 With the *input* you enter the full folder path  :
 
@@ -73,7 +73,7 @@ for root, subdirs, files in os.walk(jsondir):
     jobs_progress = {}
 ```
 
-The get_data method enables you to get all processes and all zones witch are in the json file :
+The *get_data* method enables you to get all processes and all zones witch are in the json file :
 
 ```python
 def get_data(filepath):
@@ -89,7 +89,7 @@ def get_data(filepath):
   return data['processes'], data['zones']
 ```
 
-##### 3. Launch Jobs
+## Launch Jobs
 
 For all processes and for all zones you launch your request in two steps :
 
@@ -108,7 +108,7 @@ for process in processes:
     time.sleep(1)
 ```
 
-**First step** : The build_payload method enables you to create your job data with the process data and zone data :
+**First step** : The *build_payload* method enables you to create your job data with the process data and zone data :
 
 ```python
 def build_payload(process, zone):
@@ -128,7 +128,7 @@ def build_payload(process, zone):
   return payload
 ```
 
-**Second step** : The launch_job method enables you to send the request with the job data (POST request) :
+**Second step** : The *launch_job* method enables you to send the request with the job data (POST request) :
 
 ```python
 def launch_job(process, payload):
