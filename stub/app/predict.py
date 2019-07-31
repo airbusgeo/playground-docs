@@ -28,8 +28,16 @@ import shapely.geometry
 # matrix processing
 import numpy as np
 
-# deep learning
-import tensorflow as tf
+# import TensorFlow deep learning framework
+#import tensorflow as tf
+
+# OR import PyTorch
+#import torch
+#import torch.nn as nn
+#import torch.nn.functional as F
+
+#device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
 
 
 class PredictError(Exception):
@@ -61,57 +69,56 @@ class Predict(object):
         Args:
             logger (TYPE): the logger
         """
+        self.categories = {0: "no-class", 1: "object"}
         self.logger = logger
 
 
-    def process(self, zoom, tile_format, tile, mask=None, debug=False):
+    def process(self, resolution, tiles):
         """Process tile.
         
         Args:
-            zoom (integer): zoom level
-            tile_format (string): tile mime-type
-            tile (bytearray): tile
-            mask (bytearray): mask as 8 bits PNG
-            debug (boolean): debug mode
+            resolution (float): size on the ground of a pixel in meters
+            tiles (bytearray): array of tiles
+
         
         Returns:
             object: GeoJSON FeatureCollection
         """
-        self.logger.debug('Generate prediction')
+        if self.logger:
+            self.logger.debug('Generate prediction')
 
         try:
-            # convert tile from byte array to numpy array
-            img = Image.open(io.BytesIO(tile))
-            img = np.asarray(img, dtype=np.uint8)
+            # convert first tile from byte array to PIL image
+            img = Image.open(io.BytesIO(tiles[0]))
             
-            if mask is not None:
-                mask = Image.open(io.BytesIO(mask))
-                mask = np.asarray(mask, dtype=np.uint8)
-        
-            # process tile image
-            polygons, confidence = self._predict(img, mask)
+            # and optionaly to a numpy array
+            #img = np.asarray(img, dtype=np.uint8)
 
-            if debug:
-                self.logger.info('%d polygons found', len(polygons))
+            # run machine learning algorithm on tile image
+            results = self._predict(img)
+
+            if self.logger:
+                self.logger.info('%d polygons found', len(results))
 
             # create a GeoJSON
             features = []
-            for p in polygons:
+            for _, (p, confidence, category) in enumerate(results):
                 props = {
-                    "category": "test",
-                    "conficence": confidence
+                    "category": self.categories[category],
+                    "conficence": str(round(confidence, 4))
                 }
-                features.append(geojson.Feature(geometry=shapely.geometry.mapping(p), properties=props))
+                features.append(geojson.Feature(geometry=geojson.Polygon(p), properties=props))
             data = geojson.FeatureCollection(features)
 
         except Exception as error:
-            self.logger.exception(error)
-            raise PredictError(error.message)
+            if self.logger:
+                self.logger.exception(error)
+            raise PredictError(error)
 
         return data
 
 
-    def _predict(self, img, mask=None):
+    def _predict(self, img):
         """Process tile.
         
         Args:
@@ -121,8 +128,20 @@ class Predict(object):
         Returns:
             array: array of GeoJSON Features
         """
-        # TODO process tile image, each detected object is a polygon
-        polygons = []
-        confidence = 1.0
+        # TODO process tile image, each detected object is a polygon with category and confidence
+        img_width, img_height = img.size
+        margin_width = img_width // 4
+        margin_height = img_height // 4
 
-        return polygons, confidence
+        results = []
+        results.append(([
+                (margin_width, margin_height), 
+                (img_width - margin_width, margin_height), 
+                (img_width - margin_width, img_height - margin_height), 
+                (margin_width, img_height - margin_height), 
+                (margin_width, margin_height)],
+            0.9,
+            0))
+
+        return results
+

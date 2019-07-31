@@ -12,21 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# http server
-gunicorn==19.7.1
-
-# web framework
-Flask==0.12.3
-werkzeug==0.12.2
-futures==3.2.0
+# SANIC framework
+sanic
+sanic-openapi
 
 # image processing
-Pillow==5.0.0
-shapely==1.5.15
-geojson==2.3.0
+Pillow
+shapely
+geojson
 
 # matrix processing
-numpy==1.14.0
+numpy
 
-# deep learning
-tensorflow==1.12.1
+# select which deep learning framework you love
+#tensorflow
+#torch

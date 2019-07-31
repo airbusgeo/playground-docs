@@ -28,17 +28,16 @@ mkdir -p $WORKDIR
 echo "Create request"
 
 echo '{' > $REQUEST
-echo '  "zoom": "16",' >> $REQUEST
-echo '  "tileFormat": "image/png",' >> $REQUEST
-echo -n '  "tile": "' >> $REQUEST
+echo '  "resolution": 1.2,' >> $REQUEST
+echo -n '  "tiles": ["' >> $REQUEST
 cat $TILE | base64 >> $REQUEST
-echo '"' >> $REQUEST
+echo '"]' >> $REQUEST
 echo '}' >> $REQUEST
 
 # predict
 echo "Launch prediction"
 
-time curl -X POST http://$HOST:$PORT/api/jobs -d @$REQUEST --header "Content-Type: application/json" --header "X-Correlation-ID: 9876543210" --header "X-ADS-Debug: true"
+time curl -X POST http://$HOST:$PORT/api/v1/process -d @$REQUEST --header "Content-Type: application/json" --header "X-Correlation-ID: 9876543210" --header "X-ADS-Debug: true"
 
 # clean
 rm -rf $WORKDIR
