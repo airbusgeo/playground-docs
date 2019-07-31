@@ -12,4 +12,6 @@ If you wish to make your algorithm available in the Intelligence Playground but 
 
 # Deploy a processing as a Docker
 
-Alternatively, you can deliver to us a Docker image which implement the same API and end-points. In that case, you only have to provide the location of a Docker container in a Docker registry, OneAtlas Playground takes care of the rest! When you are ready, just provide the end-points to us by following [this page](ready.md).
+Alternatively, you can deliver to us a Docker image which implement the same API and end-points. In that case, you only have to provide the location of a Docker container in a Docker registry, the Intelligence Playground takes care of the rest! When you are ready, just provide the end-point URLs to us by following [this page](ready.md).
+
+For your convenience, we have provided a sample Docker application implementing this specification. You can check it up [here](https://github.com/airbusgeo/playground-docs/tree/master/stub).

@@ -1,4 +1,4 @@
-OneAtlas Playground allows partners to deploy their own tile processing algorithm.
+Intelligence Playground allows partners to deploy their own tile processing algorithm.
 The best way to do this is using a Docker image.
 
 # What is Docker

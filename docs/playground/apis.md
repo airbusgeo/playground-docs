@@ -4,7 +4,7 @@ Playground provided access to its services throw REST APIs.
 When available, Playground APIs are specialized implementations of the generic Airbus DS Geo APIs.
 This allows partners to migrate from Playground to other Airbus DS systems with minimal efforts.
 
-OneAtlas Playground uses and provides the following APIs.
+Intelligence Playground uses and provides the following APIs.
 
 <!-- ### Geo Process API
 

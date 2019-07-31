@@ -1,4 +1,4 @@
-# Using OneAtlas Playground Data
+# Using Intelligence Playground Data
 
 Content:
 

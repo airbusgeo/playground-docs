@@ -4,9 +4,9 @@ openapi: 3.0.0
 # Info
 #
 info:
-  title: Geo Processes Manager API for OneAtlas Playground
+  title: Geo Processes Manager API for Intelligence Playground
   description: |
-    Airbus Defence and Space "Geo Processes Manager" API specification for OneAtlas Playground.
+    Airbus Defence and Space "Geo Processes Manager" API specification for Intelligence Playground.
 
     The processes manager is reponsible for registering, monitoring and
     operating processes.
@@ -41,7 +41,7 @@ info:
 #
 servers:
   - url: https://api.playground.airbusds-geo.com
-    description: OneAtlas Playground production server
+    description: Intelligence Playground production server
 
 
 #
@@ -82,7 +82,7 @@ paths:
         Subset of this API with implemented services.
       responses:
         '200':
-          description: Geo Processes Manager API for OneAtlas Playground.
+          description: Geo Processes Manager API for Intelligence Playground.
 
   #
   # Process list and creation

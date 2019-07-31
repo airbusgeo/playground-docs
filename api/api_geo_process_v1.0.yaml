@@ -17,9 +17,9 @@ info:
     As been the only fixed endpoint with implementation specific data, /api/v1/describe contains the _links attribute that has to reference all implemented endpoints for the service.
     With this main service entry and the provided links it is possible for a client to discover and address others endpoints of the service.
 
-    OneAtlas Playground is an evaluation environment to test Geo Process on OneAtlas imagery from Airbus and Partners.
+    Intelligence Playground is an evaluation environment to test Geo Process on Intelligence imagery from Airbus and Partners.
     It is open on invitation only.
-    Registration should be done on OneAtlas Sandbox (https://www.intelligence-airbusds.com/sandbox).
+    Registration should be done on Intelligence Sandbox (https://www.intelligence-airbusds.com/sandbox).
   contact:
     name: Airbus Defence and Space
     url: 'https://www.airbus.com/'
@@ -34,7 +34,7 @@ info:
 # External docs
 #
 externalDocs:
-  description: OneAtlas Playground Documentation
+  description: Intelligence Playground Documentation
   url: 'http://playground-docs.readthedocs.io'
 
 #

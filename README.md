@@ -1,6 +1,6 @@
-# OneAtlas Playground
+# Intelligence Playground
 
-This project manages source code of the OneAtlas Playground documentation, samples, stubs and tools.
+This project manages source code of the Intelligence Playground documentation, samples, stubs and tools.
 
 * Documentation is automatically deployed on [Read the Docs](http://playground-docs.readthedocs.io/)
 * Sample processing program in [stub](http://github.com/airbusgeo/playground-docs/tree/master/stub)

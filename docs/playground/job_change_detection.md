@@ -1,6 +1,6 @@
 # Introduction
 
-[Geo Processes Manager API](geo_processes_manager.md) template specification for OneAtlas Playground change detection class of processes.
+[Geo Processes Manager API](geo_processes_manager.md) template specification for Intelligence Playground change detection class of processes.
 
 # Job endpoint
 

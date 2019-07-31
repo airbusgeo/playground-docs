@@ -1,6 +1,6 @@
-# OneAtlas Playground API
+# Intelligence Playground API
 
-API specifications for OneAtlas Playground.
+API specifications for Intelligence Playground.
 
 See [documentation](http://playground-docs.readthedocs.io/).
 
@@ -34,7 +34,7 @@ Templates are provided as JSON schemas for the following endpoints:
 
 ### Geo Processes Management API implementation and templates
 
-OneAtlas Playground adds the concept of project to the core Geo Processes Manager API by extending it.
+Intelligence Playground adds the concept of project to the core Geo Processes Manager API by extending it.
 
 Templates specifies Geo Processes Manager API job input for a kind of process.
 

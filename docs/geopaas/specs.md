@@ -19,6 +19,8 @@ This endpoint should accept POST requests and will receive requests containing a
 }
 ```
 
+If you want the end-point to support batching, it should be able to receive a single playload OR an array of payloads.
+
 ### Change-Detection Payloads
 
 ```json
@@ -30,3 +32,5 @@ This endpoint should accept POST requests and will receive requests containing a
 	]
 }
 ```
+
+If you want the end-point to support batching, it should be able to receive a single playload OR an array of payloads.

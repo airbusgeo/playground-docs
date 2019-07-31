@@ -1,12 +1,12 @@
 # Introduction
 
-OneAtlas Playground is a cloud environment to process images provided as tiles (in WMTS format). Processings can either be object detection, image segmentation or both as well as change detection. In that last case, the processing will apply on two tiles displaying the same location. If you wish to run your algorithm in OneAtlas Playground, you need to implement a specific API. 
+Intelligence Playground is a cloud environment to process images provided as tiles (in WMTS format). Processings can either be object detection, image segmentation or both as well as change detection. In that last case, the processing will apply on two tiles displaying the same location. If you wish to run your algorithm in Intelligence Playground, you need to implement a specific API. 
 
 # Implementing Geo Process Web-Service API
 
 The process has to provide a REST web-service that implements the [Geo Process API](../airbus_ds/geo_process_api.md) official API. This API is an open specification that enables inter-operability of algorithms.
 
-In OneAtlas Playground **all processes are synchronous**. This means that *the asynchronous interface of the Geo Process API is not used*. In a nutshell, only the following services must be implemented.
+In Intelligence Playground **all processes are synchronous**. This means that *the asynchronous interface of the Geo Process API is not used*. In a nutshell, only the following services must be implemented.
 
 **GET /api/v1/openapi**
 
@@ -14,11 +14,11 @@ This service returns the OpenAPI specification of the Geo Process API in YAML fo
 
 **GET /api/v1/describe**
 
-This service provides generic process informations to OneAtlas Playground.
+This service provides generic process informations to Intelligence Playground.
 
 **GET /config**
 
-This service provides specific informations to OneAtlas Playground.
+This service provides specific informations to Intelligence Playground.
 
 **POST /jobs**
 
@@ -26,10 +26,10 @@ This service executes the process. The type of input data is described by the in
 
 # Using Templates
 
-OneAtlas Playground defines several templates for the *describe* service.
+Intelligence Playground defines several templates for the *describe* service.
 Using the provided templates will facilitate the integration of a custom processes in OenAtlas Playground.
 
-Templates are defined for the two main kind of processes that are supported by OneAtlas Playground:
+Templates are defined for the two main kind of processes that are supported by Intelligence Playground:
 
 * [Object Detection](../playground/process_object_detection.md)
 * [Change Detection](../playground/process_change_detection.md)

@@ -2,7 +2,7 @@
 
 -----------------
 
-This section enables you to do an import in the OneAtlas Playground. You can see the import list :
+This section enables you to do an import in the Intelligence Playground. You can see the import list :
 ![Import Interface](/images/web_ui/import.png)
 
 To do **new import** click on "New import" button :

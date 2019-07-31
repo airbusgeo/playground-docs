@@ -1,4 +1,4 @@
-# Parsing OneAtlas Playground Data
+# Parsing Intelligence Playground Data
 
 The data exported from One Atlas Playground is following a specific file structure due to the way data is exported from the Platform. 
 
@@ -6,7 +6,7 @@ You will find below the necessary information that is needed to parse the data f
 
 ## Export filestructure
 
-The OneAtlas Playground exports its data with a certain format that can be represented with the following file structure:
+The Intelligence Playground exports its data with a certain format that can be represented with the following file structure:
 
 ```
 export-job-name

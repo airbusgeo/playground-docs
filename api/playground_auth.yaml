@@ -6,7 +6,7 @@ openapi: 3.0.0
 info:
   title: Authentication API
   description: |
-    This document describes the OneAtlas Playground "Authentication API" specification.
+    This document describes the Intelligence Playground "Authentication API" specification.
     
     In order to connect to the Playground APIs from a script, you need an OAuth2 access token. 
     This means that a client application shall be authenticated using the OAuth2 protocol.
@@ -32,7 +32,7 @@ info:
 # External docs
 #
 externalDocs:
-  description: OneAtlas Playground Documentation
+  description: Intelligence Playground Documentation
   url: 'http://playground-docs.readthedocs.io'
 
 #
@@ -40,7 +40,7 @@ externalDocs:
 #
 servers:
   - url: https://playground.intelligence-airbusds.com
-    description: OneAtlas Playground
+    description: Intelligence Playground
 
 #
 # Tags

@@ -4,9 +4,9 @@ openapi: 3.0.0
 # Info
 #
 info:
-  title: Geo Data Manager API for OneAtlas Playground
+  title: Geo Data Manager API for Intelligence Playground
   description: |
-    Airbus Defence and Space "Geo Data Manager" API specification for OneAtlas Playground.
+    Airbus Defence and Space "Geo Data Manager" API specification for Intelligence Playground.
     The data manager is reponsible for managing datasets, zones, tags and records.
     - A dataset gather zones, jobs and records.
     - A zone corresponds to an AOI (Area of Interest) on selected image(s).
@@ -27,7 +27,7 @@ info:
 #
 servers:
   - url: https://api.playground.airbusds-geo.com
-    description: OneAtlas Playground production server
+    description: Intelligence Playground production server
 
 #
 # Tags

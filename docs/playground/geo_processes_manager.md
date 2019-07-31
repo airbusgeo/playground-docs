@@ -43,7 +43,7 @@ window.onload = function() {
 
 # Object detection input
 
-Template specification for OneAtlas Playground object detection class of processes.
+Template specification for Intelligence Playground object detection class of processes.
 
 A JSON document that comply to the **object-detection** [input schema](https://raw.githubusercontent.com/airbusgeo/playground-docs/master/api/job-object-detection-input.json).
 
@@ -93,7 +93,7 @@ While creating a new dataset :
 
 # Change detection input
 
-Template specification for OneAtlas Playground change detection class of processes.
+Template specification for Intelligence Playground change detection class of processes.
 
 A JSON document that comply to the **change-detection** [input schema](https://raw.githubusercontent.com/airbusgeo/playground-docs/master/api/job-change-detection-input.json).
 

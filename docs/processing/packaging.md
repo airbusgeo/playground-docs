@@ -5,12 +5,12 @@ This section will:
 - Introduce the code prerequisites to interface a service with the playground
 - Provide you with a code example
 
-## Developing a predictor on OneAtlas Imagery
+## Developing a predictor on Intelligence Imagery
 
 !!!warning
-    The core concept of OneAtlas is that it can iterfaces itself with any service that from a **OneAtlas Tile** (which is a 256x256 px image at any zoom taken from any OneAtlas image) returns a result, preferably in **vector form**.
+    The core concept of Intelligence is that it can iterfaces itself with any service that from a **Intelligence Tile** (which is a 256x256 px image at any zoom taken from any Intelligence image) returns a result, preferably in **vector form**.
 
-Any service deployed on OneAtlas Playground will implement the following logic:
+Any service deployed on Intelligence Playground will implement the following logic:
 
 ```python
 # input_tile is a "Tile" requested by the API
@@ -24,7 +24,7 @@ You will be able to specify a zoom level and padding for your 256 x 256 tile but
 
 ### Wrapping
 
-Your predictor will be wrapped into a Flask application that will call the predictor when it receives Tiles to predict. The OneAtlas service deployment App will manage the Tile fetching and decoding as well as formatting the output to geojson.
+Your predictor will be wrapped into a Flask application that will call the predictor when it receives Tiles to predict. The Intelligence service deployment App will manage the Tile fetching and decoding as well as formatting the output to geojson.
 
 Basically, the Flask application will import the `predictor_package.predictor_module.predictor_class` and call it when it receives a Tile. It will then receive either a`playground_interfaces.PredictionResult`or a `geojson.FeatureCollection` and will pass the necessary information through google pubsub.
 
@@ -65,7 +65,7 @@ pip install https://storage.googleapis.com/oneatlas_playground_utils/playground_
 
 ## Code prerequisites
 
-Integrating a service on OneAtlas Playground requires developing a predictor compatible with the Playground Services App.
+Integrating a service on Intelligence Playground requires developing a predictor compatible with the Playground Services App.
 
 ```python
 Output = Predictor.predict(Input)

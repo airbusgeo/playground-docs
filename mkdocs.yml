@@ -66,7 +66,7 @@ pages:
     - When you are ready: geopaas/ready.md
     #- Create a custom process: processing/process.md
     #- Build a container image: processing/docker.md
-    #- Use from in OneAtlas Playground: processing/use.md
+    #- Use from in Intelligence Playground: processing/use.md
     #- Sample application: processing/sample.md
   #- References: 
     #- GeoPaaS APIs: geopaas/index.md
