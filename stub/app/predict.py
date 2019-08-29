@@ -102,12 +102,12 @@ class Predict(object):
 
             # create a GeoJSON
             features = []
-            for _, (p, confidence, category) in enumerate(results):
+            for _, (polygon, confidence, category) in enumerate(results):
                 props = {
                     "category": self.categories[category],
                     "confidence": str(round(confidence, 4))
                 }
-                features.append(geojson.Feature(geometry=geojson.Polygon(p), properties=props))
+                features.append(geojson.Feature(geometry=geojson.Polygon(polygon), properties=props))
             data = geojson.FeatureCollection(features)
 
         except Exception as error:
