@@ -132,16 +132,18 @@ class Predict(object):
         img_width, img_height = img.size
         margin_width = img_width // 4
         margin_height = img_height // 4
+        confidence = 0.9
+        class_id = 0
 
         results = []
-        results.append(([
+        results.append(([[
                 (margin_width, margin_height), 
                 (img_width - margin_width, margin_height), 
                 (img_width - margin_width, img_height - margin_height), 
                 (margin_width, img_height - margin_height), 
-                (margin_width, margin_height)],
-            0.9,
-            0))
+                (margin_width, margin_height)]],
+            confidence,
+            class_id))
 
         return results
 
