@@ -17,7 +17,7 @@ info:
     As been the only fixed endpoint with implementation specific data, /api/v1/describe contains the _links attribute that has to reference all implemented endpoints for the service.
     With this main service entry and the provided links it is possible for a client to discover and address others endpoints of the service.
 
-    The Intelligence Playground is an evaluation environment to test algorithms on OneAtlas imagery from Airbus and Partners.
+    The Intelligence Playground is an evaluation environment to test algorithms from Airbus and Partners on OneAtlas imagery .
   contact:
     name: Airbus Defence and Space
     url: 'https://www.airbus.com/'
@@ -354,67 +354,6 @@ paths:
                 $ref: '#/components/schemas/Error'
 
   #
-  # Instance configuration
-  #
-  /config:
-    servers:
-      - url: '/{customPath}'
-        variables:
-          customPath:
-            default: ''
-    get:
-      tags:
-        - Optional
-      summary: Get instance configuration parameters
-      description: |
-        Implementation specific.
-        Returns the configuration parameters specific to this instance.
-        May be different depending on site, platform or environment deployments.
-      operationId: get_config
-      responses:
-        '200':
-          description: |
-            Configuration parameters as defined by the JSON schema in the
-            _links/config attribute the describe service.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Config'
-        '500':
-          description: Internal error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-    put:
-      tags:
-        - Optional
-      summary: Set instance configuration parameters
-      description: |
-        Implementation specific.
-        Set the values of configuration parameters specific to this instance.
-        May be different depending on site, platform or environment deployments.
-      operationId: set_config
-      requestBody:
-        description: |
-          Configuration parameters as defined by the JSON schema in the
-          _links/config attribute the describe service.
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Config'
-      responses:
-        '200':
-          description: Configuration parameters.
-        '500':
-          description: Internal error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-
-  #
   # Instance versions
   #
   /version:
@@ -557,6 +496,8 @@ components:
         - description
         - organization
         - email
+        - requirements
+        - capabilities
         - resources
         - input
         - output
@@ -601,6 +542,12 @@ components:
           description: Template name for predefined interfaces.
           type: string
           example: cat-detection
+        requirements:
+          description: Requirements of the process service
+          $ref: '#/components/schemas/Requirements'
+        capabilities:
+          description: Capabilities of the process service
+          $ref: '#/components/schemas/Capabilities'
         resources:
           description: Hardware resources needed for process execution.
           $ref: '#/components/schemas/Resources'
@@ -647,12 +594,139 @@ components:
           default: false
           example: false
         batched:
-          description: True if batched mode provided.
+          description: True if batched mode provided i.e. capable of receiving an array of payloads
           type: boolean
           default: false
           example: false
         _links:
           $ref: '#/components/schemas/Links'
+
+    #
+    # Requirements schema
+    #
+    Requirements:
+      description: Description of the requirements of a processing service. 
+      type: object
+      required:
+        - tile_size
+
+      properties:
+        tile_size:
+          description: Expected size in pixels of the imagery tile that should be provided to the process service. The optimal value is the prefered size. The min and max parameters indicates the range of size in which the results are considered acceptable. If a strict tile size must be provided, all three numbers should be equals.
+          type: object
+          required:
+            - optimal
+            - min
+            - max
+          properties:
+            optimal:
+              description: Optimal size (in pixel) of the tile to be provided to the process service.
+              type: float
+              example: 768
+            min:
+              description: Minimal size (in pixel) of the tile to be provided to the process service.
+              type: float
+              example: 64
+            optimal:
+              description: Maximal size (in pixel) of the tile to be provided to the process service.
+              type: float
+              example: 2048   
+
+        overlap_size:
+          description: Expected overlap in pixels between two adjacent tiles of imagery.
+          type: int
+          example: 10
+          default: 0
+
+        number_of_images:
+          description: How many images are expected by the process service (usually 1 image for object detection and 2 for change detection)
+          type: int
+          default: 1
+
+        apply_fusion:
+          description: |
+            Defines how the output of the process service is to be fused with the results from the next overlapping tile.
+            If the value is NONE, no fusion is applied. This is the default behavior. If the value is something else than NONE,
+            then it indicates what should be done with the properties of the two fused objects.
+          type: string
+          default: NONE
+          enum:
+            - NONE
+            - SELECT_BASED_ON_CONFIDENCE
+            - SELECT_BASED_ON_AREA
+
+        max_concurrent_requests:
+          description: How many requests can the process service handle simultaneously.
+          type: int
+          default: 1
+
+        duration_estimate:
+          description: Estimated duration in seconds of process (with optimal hardware).
+          type: int
+          example: 720
+
+        supported_image_type:
+          description: The list of all image formats supported by the process service.
+          type: array
+          items:
+            $ref: '#/components/schemas/ImageFormat'
+
+        metadata:
+          description: The list of metadata that the process service need to receive with each payload.
+          type: object
+          additionalProperties: true		
+          properties:
+            incidenceAngle:
+              description: Angle between the angle of view of the image and the nadir
+              type: float
+              example: 4.57
+            sunElevation:
+              description: Angle between the horizon and the Sun direction at the time of image acquisition
+              type: float
+              example: 46.9
+            sunAzimuth:
+              description: Angle between the North and the Sun direction at the time of image acquisition
+              type: float
+              example: 173.5
+
+        resolution:
+          description: Resolution (in meters per pixel) of the imagery to be provided to process service. The optimal value is the prefered resolution. The min and max parameters indicates the range of resolution in which the results are considered acceptable. If a strict resolution must be provided, all three numbers should be equals.
+          type: object
+          required:
+            - optimal
+            - min
+            - max
+          properties:
+            optimal:
+              description: Optimal resolution (in meter per pixel) of the imagery to be provided to the process service.
+              type: float
+              example: 1.5
+            min:
+              description: Minimal resolution (in meter per pixel) of the imagery to be provided to the process service.
+              type: float
+              example: 0.5
+            optimal:
+              description: Maximal resolution (in meter per pixel) of the imagery to be provided to the process service.
+              type: float
+              example: 2.5
+
+    #
+    # Capabilities
+    #
+    Capabilities:
+      description: |
+        Description of the precise technical capabilities of the process service. 
+        type: object
+      required:
+        - 
+      properties:
+        disclaimer:
+          type: string
+          description: 
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tags'
 
     #
     # Resources schema
@@ -662,9 +736,18 @@ components:
         Hardware resources needed to execute the process service.
       type: object
       required:
-        - cpu
+        - gpu_enabled
+        - cpu_enabled
         - ram
       properties:
+        gpu_enabled:
+          description: Is the process service capable of managing GPU ?
+          type: boolean
+          example: true
+        cpu_enabled:
+          description: Is the process service capable of running on CPU only ?
+          type: boolean
+          example: true
         cpu:
           description: Number of CPU cores.
           type: integer
@@ -700,91 +783,187 @@ components:
           example: 10
 
     #
+    # ImageFormat schema
+    #
+    ImageFormat:
+      description: Description of the image formats supported by the process service.
+      type: object
+      required:
+        - bit_depth
+        - bands
+        - format
+      properties:
+        bit_depth:
+          description: Number of bits used to encode one pixel.
+          type: int
+          example: 8
+        bands:
+          description: Number and order of bands available for each pixel.
+          type: string
+          enum:
+            - P
+            - RGB
+            - RGBI
+        format:
+          description: Format in which the imagery is provided
+          type: string
+          enum:
+            - JPG
+            - JP2
+            - TIF
+            - PNG
+
+    #
+    # Tags schema
+    #
+
+    Tags:
+      type: object
+      description: A tag defining the class of the detected object
+      required:
+        - title
+      properties:
+        title:
+          type: string
+          description: The name of the tag usually a simple string i.e. 'cat'
+        description:
+          type: string
+          description: The precise description of this class i.e. for this process service 'cat' only applies to the domestic feline
+        _links:
+          $ref: '#/components/schemas/Links'
+
+    #
     # Output schema
     #
     Output:
-      description: |
-        Output interface definition.
+      description: Description of the output of the processing service. 
       type: object
       required:
-        - description
         - content
       properties:
         description:
-          description: A description of the interface.
+          description: The description of the format of the output.
           type: string
-          example: Tile object detection output
-        headers:
-          description: |
-            Maps a header name to its definition. RFC7230 states header names
-            are case insensitive. If a response header is defined with
-            the name "Content-Type", it SHALL be ignored.
-          type: object
+          enum:
+            - application/json
+            - image/png
         content:
-          description: |
-            A list of all possible contents as a map with key as content type
-            (MIME type) and value as object (json schema) or string (description)
-            for contents that do not need an extra definition (as for image/jpeg
-            or application/geo+json).
+          oneOf:
+            application/json:
+              schema:
+                - $ref: '#/components/schemas/as-GeoJSON'
+            image/png:
+              schema:
+                - $ref: '#/components/schemas/as-PNG'
 
-            If a content is of type JSON (key as application/json) the value might
-            be a JSON Schema object with ADS metadata extensions.
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/MediaTypeObject'
-          example:
-            {
-              "application/geo+json": {},
-              "image/png": {}
-            }
-        links:
-          description: |
-            A map of operations links that can be followed from the response.
-            The key of the map is a short name for the link, following
-            the naming constraints of the names for Component Objects.
-          type: object
 
     #
-    # Media Type Object schema
+    # as-GeoJSON schema
     #
-    MediaTypeObject:
-      description: |
-        Each Media Type Object provides schema and examples for the media type
-        identified by its key.
+
+    as-GeoJSON:
+      description: A GeoJSON FeatureCollection returning the results of the process service.
       type: object
-      required:
-        - schema
       properties:
-        schema:
-          description: The schema defining the type used for the request body.
-          type: object
-        example:
-          description: |
-            Example of the media type. The example object SHOULD be in the correct
-            format as specified by the media type. The example object is mutually
-            exclusive of the examples object. Furthermore, if referencing a schema
-            which contains an example, the example value SHALL override the example
-            provided by the schema.
-          type: object
-        examples:
-          description: |
-            Examples of the media type. Each example object SHOULD match the media
-            type and specified schema if present. The examples object is mutually
-            exclusive of the example object. Furthermore, if referencing a schema
-            which contains an example, the examples value SHALL override the example
-            provided by the schema.
+        type:
           type: string
-          additionalProperties:
-            type: object
-        encoding:
-          description: |
-            A map between a property name and its encoding information. The key, being
-            the property name, MUST exist in the schema as a property. The encoding
-            object SHALL only apply to requestBody objects when the media type is multipart
-            or application/x-www-form-urlencoded.
+          enum:
+          - FeatureCollection
+        features:
+          type: array
+          items:
+            $ref: '#/definitions/Detection'
+
+
+    #
+    # Detection schema
+    #
+
+    Detection:
+      type: object
+      description: A GeoJSON feature indicating one detection made by the process service.
+      required:
+        - geometry
+        - properties
+      properties:
+        geometry:
+          type: '#/components/schemas/Geometry'
+          description: The geometry corresponding to the detection expressed in latitude / longitude in WGS84 
+        properties:
+          type: object
+          description: The information associated to this specific detection
+          required:
+            - tags
+          properties:
+            confidence:
+              type: float
+              description: The confidence associated to this detection expressed as a value betwee 0.0 and 1.0 by the process service.
+              example: 0.7
+              default: 1.0
+            tags:
+              type: array
+              items:
+                type: string
+            confidence_per_tag: 
+              type: array
+              items:
+                type: array
+                items:
+                  oneOf:
+                    - type: string
+                    - type: float
+            length:
+              description: Length of the detected object in meters (if applicable).
+              type: float
+            width:
+              description: Width of the detected object in meters (if applicable).
+              type: float
+            area:
+              description: Surface of the detected object in squared meters.
+              type: float
+            heading:
+              description: Heading of the detected object in degrees from the North (if applicable).
+              type: float
+            height:
+              description: Height of the detected object on meters (if applicable).
+              type: float
+
+
+    #
+    # Simplified Geometry schema
+    #
+
+    Geometry:
+      type: object
+      description: GeoJSON feature
+      discriminator: type
+      required:
+        - type
+      externalDocs:
+        url: http://geojson.org/geojson-spec.html#geometry-objects
+      properties:
+        type:
           type: string
-          additionalProperties:
-            type: string
+          enum:
+            - Polygon
+          description: The geometry types supported in the output. Currently only polygons are supported.
+
+    #
+    # as-PNG schema
+    #
+
+    as-PNG:
+      description: A PNG image returning the results of the process service.
+      type: string
+      properties:
+        contentEncoding:
+          type: string
+          enum:
+          - base64
+        contentMediaType:
+          type: string
+          enum:
+            - image/png
 
     #
     # Links schema
@@ -826,19 +1005,6 @@ components:
         documentation:
           description: The target resource to retrieve the documentation of this process.
           $ref: '#/components/schemas/Reference'
-
-    #
-    # Config schema
-    #
-    Config:
-      description: |
-        Process instance configuration.
-
-        Implementation specific.
-
-        Described by the JSON schema in the _links/config attribute of the
-        describe service.
-      type: object
 
     #
     # Metrics schema
