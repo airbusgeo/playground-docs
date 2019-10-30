@@ -4,27 +4,27 @@ openapi: 3.0.0
 # Info
 #
 info:
-  title: Geo Process API
+  title: 'Tile Geo Process API'
   description: |
-    This document describes the Airbus Defence and Space "Geo Process" API specification.
-    Geo Process services that are provided to or from Airbus Defense and Space should implement this specification.
+    This document describes the Airbus DS Intelligence "Tile Geo Process" API specification. It is based on the Airbus Defense and Space "Geo Process" API specification but provides a more precise implementation. Tile Geo Process services that are provided to Airbus DS Intelligence must implement this specification.
 
-    The default execution mode for Geo Process Services is synchronous.
-    An optional asynchronous mode for long running processes and process that returns huge amount of data may be implemented.
+    The only execution mode for Geo Process Services is synchronous.
 
     This API provides two endpoints with a fixed path /api/v1/openapi and /api/v1/describe.
-    The path prefix for the others endpoints are implementation specific, for example the /jobs endpoint could be implemented at /jobs or /mypath/jobs or /api/v1/jobs.
+    The path prefix for the others endpoints are implementation specific, for example the /process endpoint could be implemented at /process or /mypath/process or /api/v1/process.
     As been the only fixed endpoint with implementation specific data, /api/v1/describe contains the _links attribute that has to reference all implemented endpoints for the service.
     With this main service entry and the provided links it is possible for a client to discover and address others endpoints of the service.
 
-    The Intelligence Playground is an evaluation environment to test algorithms from Airbus and Partners on OneAtlas imagery .
-  contact:
-    name: Airbus Defence and Space
-    url: 'https://www.airbus.com/'
+    The Intelligence Playground is an evaluation environment to test algorithms on OneAtlas imagery from Airbus and Partners.
+  version: "1.0.1"
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
-  version: 1.0.1
+
+  contact:
+    name: Airbus DS Intelligence
+    url: 'https://www.intelligence-airbusds.com/'
+
   x-logo:
     url: https://www.intelligence-airbusds.com/files/pmedia/public/r2421_9_airbus_rgb.png
 
@@ -48,11 +48,6 @@ tags:
       Mandatory resources for the synchronous mode.
       Endpoints may be specific to each implementation.
       Referenced via the _links attribute of the describe resource.
-  - name: Asynchronous
-    description: |
-      Mandatory resources for the asynchronous mode.
-      Endpoints may be specific to each implementation.
-      Referenced via the result of the process execution resource.
   - name: Optional
     description: |
       Optional, implementation specific resources for low level
@@ -107,7 +102,7 @@ paths:
   #
   # Job execution
   #
-  /jobs:
+  /process:
     servers:
       - url: '/{customPath}'
         variables:
@@ -116,30 +111,11 @@ paths:
     post:
       tags:
         - Synchronous
-        - Asynchronous
-      summary: Launch process execution
+      summary: Launch synchronous process execution on tile(s)
       description: |
-        Execute the process.
-
-        If synchronous process, the response contains a JSON object as defined
+        Execute the process as a synchronous process. The response contains a JSON object as defined
         in the output attribute of the description resource.
-
-        If asynchronous process, the response contains a Reference JSON object
-        containing the link to the job status resource. The client must call the
-        resource defined the link to get execution status then results when
-        available.
       operationId: process
-      parameters:
-        - in: header
-          name: X-Correlation-ID
-          description: System wide request identifier.
-          schema:
-            type: string
-        - in: header
-          name: X-ADS-Debug
-          description: Enable debug mode.
-          schema:
-            type: boolean
       requestBody:
         description: |
           Process input parameters as defined by the JSON Schema in the input
@@ -155,9 +131,7 @@ paths:
           content:
             application/json:
               schema:
-                oneOf:
-                  - $ref: '#/components/responses/OutputResponse'
-                  - $ref: '#/components/schemas/Reference'
+                $ref: '#/components/responses/OutputResponse'
         '400':
           $ref: '#/components/responses/InvalidInput'
         '500':
@@ -170,184 +144,6 @@ paths:
           description: |
             Service not available. Max number of simultaneous process execution
             reached.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-
-  #
-  # Asynchronous job management
-  #
-  '/jobs/{jobId}':
-    servers:
-      - url: '/{customPath}'
-        variables:
-          customPath:
-            default: ''
-    parameters:
-      - name: jobId
-        in: path
-        description: Job identifier
-        required: true
-        schema:
-          type: string
-          format: uuid
-    delete:
-      tags:
-        - Asynchronous
-      summary: Cancel the given job execution
-      operationId: delete_job
-      responses:
-        '204':
-          $ref: '#/components/responses/JobDeleted'
-        '404':
-          $ref: '#/components/responses/NotFound'
-
-  #
-  # Asynchronous job status
-  #
-  '/jobs/{jobId}/status':
-    servers:
-      - url: '/{customPath}'
-        variables:
-          customPath:
-            default: ''
-    parameters:
-      - name: jobId
-        in: path
-        description: Job identifier
-        required: true
-        schema:
-          type: string
-          format: uuid
-    get:
-      tags:
-        - Asynchronous
-      summary: Retrieve execution status
-      description: |
-        Retrieve the process status and available results if succeded.
-      operationId: get_status
-      responses:
-        '200':
-          description: Process execution status.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Status'
-        '500':
-          description: Internal error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-
-  #
-  # Asynchronous job results management
-  #
-  '/jobs/{jobId}/results':
-    servers:
-      - url: '/{customPath}'
-        variables:
-          customPath:
-            default: ''
-    parameters:
-      - name: jobId
-        in: path
-        description: Job identifier
-        required: true
-        schema:
-          type: string
-          format: uuid
-    get:
-      tags:
-        - Asynchronous
-      summary: Get job results
-      description: |
-        Retrieve results of the given job.
-      operationId: get_results
-      responses:
-        '200':
-          $ref: '#/components/schemas/JobResults'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          description: Internal error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-    delete:
-      tags:
-        - Asynchronous
-      summary: Delete all results
-      description: |
-        Delete all results.
-      operationId: delete_results
-      responses:
-        '204':
-          $ref: '#/components/responses/ResultDeleted'
-        '500':
-          description: Internal error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-
-  #
-  # Asynchronous job result management
-  #
-  '/jobs/{jobId}/results/{resultId}':
-    servers:
-      - url: '/{customPath}'
-        variables:
-          customPath:
-            default: ''
-    parameters:
-      - name: jobId
-        in: path
-        description: Job identifier.
-        required: true
-        schema:
-          type: string
-          format: uuid
-      - name: resultId
-        in: path
-        description: Result identifier.
-        required: true
-        schema:
-          type: string
-    get:
-      tags:
-        - Asynchronous
-      summary: Retrieve a result
-      description: |
-        Retrieve a result from its id.
-      operationId: get_result
-      responses:
-        '200':
-          $ref: '#/components/responses/OutputResponse'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          description: Internal error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-    delete:
-      tags:
-        - Asynchronous
-      summary: Delete a result
-      description: |
-        Delete a result from its id.
-      operationId: delete_result
-      responses:
-        '204':
-          $ref: '#/components/responses/ResultDeleted'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          description: Internal error.
           content:
             application/json:
               schema:
@@ -385,7 +181,7 @@ paths:
             default: ''
     get:
       tags:
-        - Optional
+        - Mandatory
       summary: Check if the service is alive
       description: |
         The response is a HTTP status code 200 containing in the body 'OK'.
@@ -450,17 +246,11 @@ components:
     NotFound:
       description: Entity not found.
 
-    JobDeleted:
-      description: Job succesfully canceled.
-
-    ResultDeleted:
-      description: Result(s) succesfully deleted.
-
-    InvalidInput:
-      description: Invalid input for operation.
-
     NotAvailable:
       description: Service not available.
+      
+    InvalidInput:
+      description: Invalid input for operation.
 
     Version:
       description: Version.
@@ -527,7 +317,7 @@ components:
         organization:
           description: Identifier of the organization or entity publishing the process.
           type: string
-          example: Airbus DS
+          example: Airbus DS Intelligence
         email:
           description: Contact email.
           type: string
@@ -543,56 +333,20 @@ components:
           type: string
           example: cat-detection
         requirements:
-          description: Requirements of the process service
+          # Requirements of the process service
           $ref: '#/components/schemas/Requirements'
         capabilities:
-          description: Capabilities of the process service
+          # Capabilities of the process service
           $ref: '#/components/schemas/Capabilities'
         resources:
-          description: Hardware resources needed for process execution.
+          # Hardware resources needed for process execution.
           $ref: '#/components/schemas/Resources'
         input:
-          description: |
-            Process execution input interface.
-            JSON Schema object with ADS metadata extensions.
-          type: object
-          format: application/schema+json
-          example:
-            {
-              "$schema": "http://json-schema.org/draft-06/schema#",
-              "title": "tile-object-detection-input",
-              "description": "Geo Process API input schema for tile object detection",
-              "type": "object",
-              "required": [
-                "zoom",
-                "tile"
-              ],
-              "properties": {
-                "zoom": {
-                  "description": "Tile zoom level",
-                  "type": "integer",
-                  "minimum": 1,
-                  "maximum": 20
-                },
-                "tile": {
-                  "description": "The tile image base64 encoded, may be JPEG or PNG format",
-                  "type": "string",
-                  "contentEncoding": "base64"
-                }
-              }
-            }
+          # Process execution input interface.
+          $ref: '#/components/schemas/ProcessInput'
         output:
-          description: Process execution output interface.
-          $ref: '#/components/schemas/Output'
-        config:
-          description: Process execution configuration interface.
-          type: object
-          format: application/schema+json
-        asynchronous:
-          description: True if asynchronous mode provided.
-          type: boolean
-          default: false
-          example: false
+          # Process execution output interface.
+          $ref: '#/components/schemas/ProcessOutput'
         batched:
           description: True if batched mode provided i.e. capable of receiving an array of payloads
           type: boolean
@@ -621,26 +375,26 @@ components:
           properties:
             optimal:
               description: Optimal size (in pixel) of the tile to be provided to the process service.
-              type: float
+              type: integer
               example: 768
             min:
               description: Minimal size (in pixel) of the tile to be provided to the process service.
-              type: float
+              type: integer
               example: 64
-            optimal:
+            max:
               description: Maximal size (in pixel) of the tile to be provided to the process service.
-              type: float
+              type: integer
               example: 2048   
 
         overlap_size:
           description: Expected overlap in pixels between two adjacent tiles of imagery.
-          type: int
+          type: integer
           example: 10
           default: 0
 
         number_of_images:
           description: How many images are expected by the process service (usually 1 image for object detection and 2 for change detection)
-          type: int
+          type: integer
           default: 1
 
         apply_fusion:
@@ -657,12 +411,12 @@ components:
 
         max_concurrent_requests:
           description: How many requests can the process service handle simultaneously.
-          type: int
+          type: integer
           default: 1
 
         duration_estimate:
           description: Estimated duration in seconds of process (with optimal hardware).
-          type: int
+          type: integer
           example: 720
 
         supported_image_type:
@@ -674,19 +428,19 @@ components:
         metadata:
           description: The list of metadata that the process service need to receive with each payload.
           type: object
-          additionalProperties: true		
+          additionalProperties: true    
           properties:
             incidenceAngle:
               description: Angle between the angle of view of the image and the nadir
-              type: float
+              type: number
               example: 4.57
             sunElevation:
               description: Angle between the horizon and the Sun direction at the time of image acquisition
-              type: float
+              type: number
               example: 46.9
             sunAzimuth:
               description: Angle between the North and the Sun direction at the time of image acquisition
-              type: float
+              type: number
               example: 173.5
 
         resolution:
@@ -699,15 +453,15 @@ components:
           properties:
             optimal:
               description: Optimal resolution (in meter per pixel) of the imagery to be provided to the process service.
-              type: float
+              type: number
               example: 1.5
             min:
               description: Minimal resolution (in meter per pixel) of the imagery to be provided to the process service.
-              type: float
+              type: number
               example: 0.5
-            optimal:
+            max:
               description: Maximal resolution (in meter per pixel) of the imagery to be provided to the process service.
-              type: float
+              type: number
               example: 2.5
 
     #
@@ -716,13 +470,14 @@ components:
     Capabilities:
       description: |
         Description of the precise technical capabilities of the process service. 
-        type: object
+      type: object
       required:
-        - 
+        - tags
       properties:
         disclaimer:
           type: string
-          description: 
+          description: |
+            Optional precision about the model and its results.
         tags:
           type: array
           items:
@@ -741,11 +496,11 @@ components:
         - ram
       properties:
         gpu_enabled:
-          description: Is the process service capable of managing GPU ?
+          description: Is the process service capable of managing GPU?
           type: boolean
           example: true
         cpu_enabled:
-          description: Is the process service capable of running on CPU only ?
+          description: Is the process service capable of running on CPU only?
           type: boolean
           example: true
         cpu:
@@ -795,7 +550,7 @@ components:
       properties:
         bit_depth:
           description: Number of bits used to encode one pixel.
-          type: int
+          type: integer
           example: 8
         bands:
           description: Number and order of bands available for each pixel.
@@ -833,15 +588,15 @@ components:
           $ref: '#/components/schemas/Links'
 
     #
-    # Output schema
+    # Process Output schema
     #
-    Output:
+    ProcessOutput:
       description: Description of the output of the processing service. 
       type: object
       required:
         - content
       properties:
-        description:
+        format:
           description: The description of the format of the output.
           type: string
           enum:
@@ -849,12 +604,8 @@ components:
             - image/png
         content:
           oneOf:
-            application/json:
-              schema:
-                - $ref: '#/components/schemas/as-GeoJSON'
-            image/png:
-              schema:
-                - $ref: '#/components/schemas/as-PNG'
+            - $ref: '#/components/schemas/as-GeoJSON'
+            - $ref: '#/components/schemas/as-PNG'
 
 
     #
@@ -872,7 +623,7 @@ components:
         features:
           type: array
           items:
-            $ref: '#/definitions/Detection'
+            $ref: '#/components/schemas/Detection'
 
 
     #
@@ -887,8 +638,8 @@ components:
         - properties
       properties:
         geometry:
-          type: '#/components/schemas/Geometry'
-          description: The geometry corresponding to the detection expressed in latitude / longitude in WGS84 
+          # The geometry corresponding to the detection expressed in x,y in pixels in the tile. 
+          $ref: '#/components/schemas/Geometry'
         properties:
           type: object
           description: The information associated to this specific detection
@@ -896,7 +647,7 @@ components:
             - tags
           properties:
             confidence:
-              type: float
+              type: number
               description: The confidence associated to this detection expressed as a value betwee 0.0 and 1.0 by the process service.
               example: 0.7
               default: 1.0
@@ -911,22 +662,22 @@ components:
                 items:
                   oneOf:
                     - type: string
-                    - type: float
+                    - type: number
             length:
               description: Length of the detected object in meters (if applicable).
-              type: float
+              type: number
             width:
               description: Width of the detected object in meters (if applicable).
-              type: float
+              type: number
             area:
               description: Surface of the detected object in squared meters.
-              type: float
+              type: number
             heading:
               description: Heading of the detected object in degrees from the North (if applicable).
-              type: float
+              type: number
             height:
               description: Height of the detected object on meters (if applicable).
-              type: float
+              type: number
 
 
     #
@@ -936,7 +687,6 @@ components:
     Geometry:
       type: object
       description: GeoJSON feature
-      discriminator: type
       required:
         - type
       externalDocs:
@@ -977,33 +727,31 @@ components:
         - execution
       properties:
         self:
-          description: The resource that return this process description.
+          # The resource that return this process description.
           $ref: '#/components/schemas/Reference'
         execution:
-          description: The target resource to execute this process.
+          # The target resource to execute this process.
           $ref: '#/components/schemas/Reference'
         config:
-          description: The target resource to get / set configuration of this process.
+          # The target resource to get / set configuration of this process.
           $ref: '#/components/schemas/Reference'
         version:
-          description: |
-            The target resource to get the API version implemented by this
-            process.
+          # The target resource to get the API version implemented by this process.
           $ref: '#/components/schemas/Reference'
         health:
-          description: The target resource to check health of this process.
+          # The target resource to check health of this process.
           $ref: '#/components/schemas/Reference'
         metrics:
-          description: The target resource to get usage metrics of this process.
+          # The target resource to get usage metrics of this process.
           $ref: '#/components/schemas/Reference'
         icon:
-          description: The target resource to retrieve the icon of this process.
+          # The target resource to retrieve the icon of this process.
           $ref: '#/components/schemas/Reference'
         license:
-          description: The target resource to retrieve the license of this process.
+          # The target resource to retrieve the license of this process.
           $ref: '#/components/schemas/Reference'
         documentation:
-          description: The target resource to retrieve the documentation of this process.
+          # The target resource to retrieve the documentation of this process.
           $ref: '#/components/schemas/Reference'
 
     #
@@ -1017,58 +765,6 @@ components:
       type: object
 
     #
-    # Status schema
-    #
-    Status:
-      description: |
-        Status of a process execution
-      type: object
-      required:
-        - status
-        - progress
-      properties:
-        status:
-          description: Status of this execution.
-          type: string
-          default: UNKNOWN
-          enum:
-            - UNKNOWN
-            - ACCEPTED
-            - RUNNING
-            - FAILED
-            - SUCCEEDED
-            - CANCELLED
-            - PAUSED
-        progress:
-          description: Progress in % of this execution.
-          type: integer
-
-    #
-    # JobResults schema
-    #
-    JobResults:
-      description: Results of this execution if succeded.
-      type: array
-      items:
-        $ref: '#/components/schemas/Result'
-
-    #
-    # Result schema
-    #
-    Result:
-      description: ''
-      type: object
-      required:
-        - id
-        - _link
-      properties:
-        id:
-          description: Result identifier.
-          type: string
-        _link:
-          $ref: '#/components/schemas/Reference'
-
-    #
     # ProcessInput schema
     #
     ProcessInput:
@@ -1076,6 +772,21 @@ components:
         Process input parameters as defined by the JSON Schema in the input
         attribute of the description resource.
       type: object
+      required:
+        - resolution
+        - tiles
+      properties:
+        resolution:
+          description: The input tile resolution
+          type: number
+          example: 0.5
+        tiles:
+          description: The N tiles required by the process
+          type: array
+          items:
+            description: The tile image base64 encoded, may be JPEG or PNG format
+            type: string
+          example: ["gABAQEASA....BIAADQBoUG", "hvdGzaG9w....IDMuM4QklN"]      
 
     #
     # Reference schema
@@ -1100,9 +811,7 @@ components:
           type: string
           example: application/json
         method:
-          description: |
-            HTTP verb to distinguish between several possible actions on the
-            same ressource. GET if omitted.
+          # HTTP verb to distinguish between several possible actions on the same ressource. GET if omitted.
           $ref: '#/components/schemas/ReferenceMethod'
 
     #

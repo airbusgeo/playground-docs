@@ -34,3 +34,24 @@ If you want the end-point to support batching, it should be able to receive a si
 ```
 
 If you want the end-point to support batching, it should be able to receive a single playload OR an array of payloads.
+
+# OpenAPI Specification
+
+<div id="swagger-ui"></div>
+
+<script src="../scripts/swagger-ui-bundle.js"> </script>
+<script src="../scripts/swagger-ui-standalone-preset.js"> </script>
+<script>
+window.onload = function() {
+  const ui = SwaggerUIBundle({
+    url: "https://raw.githubusercontent.com/airbusgeo/api/master/1.0/tile-geo-process-api.yaml",
+    dom_id: '#swagger-ui',
+    deepLinking: true,
+    presets: [
+      SwaggerUIBundle.presets.apis,
+    ]
+  })
+
+  window.ui = ui
+}
+</script>
