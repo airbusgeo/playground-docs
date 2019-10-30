@@ -64,6 +64,7 @@ pages:
     - End-points for Playground: geopaas/specs.md
     - Expected output: geopaas/output.md
     - When you are ready: geopaas/ready.md
+    - OpenAPI Specification: geopaas/openapi.md
     #- Create a custom process: processing/process.md
     #- Build a container image: processing/docker.md
     #- Use from in Intelligence Playground: processing/use.md
