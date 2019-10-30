@@ -44,7 +44,7 @@ If you want the end-point to support batching, it should be able to receive a si
 <script>
 window.onload = function() {
   const ui = SwaggerUIBundle({
-    url: "https://raw.githubusercontent.com/airbusgeo/api/master/1.0/tile-geo-process-api.yaml",
+    url: "https://raw.githubusercontent.com/airbusgeo/playground-docs/master/api/tile-geo-process-api.yaml",
     dom_id: '#swagger-ui',
     deepLinking: true,
     presets: [
