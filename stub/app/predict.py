@@ -89,7 +89,7 @@ class Predict(object):
 
         try:
             # convert first tile from byte array to PIL image
-            img = Image.open(io.BytesIO(tiles[0]))
+            img = Image.open(io.BytesIO(tiles[0])).convert('RGB')
             
             # and optionaly to a numpy array
             #img = np.asarray(img, dtype=np.uint8)
