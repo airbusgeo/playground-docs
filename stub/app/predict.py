@@ -89,10 +89,17 @@ class Predict(object):
 
         try:
             # convert first tile from byte array to PIL image
-            img = Image.open(io.BytesIO(tiles[0])).convert('RGB')
-            
-            # and optionaly to a numpy array
-            #img = np.asarray(img, dtype=np.uint8)
+            img = Image.open(io.BytesIO(tiles[0]))
+
+            # TODO: Throw an error if the image size does not fit your model
+            if img.size != (512, 512):
+                raise PredictError('Model expects tiles of 512 per 512 pixels.')
+
+            # TODO: Get rid of potential alpha channel (if your model only supports RGB)
+            img = img.convert('RGB')
+
+            # TODO: Convert to numpy (if your model needs np this rather than PIL)
+            img = np.asarray(img, dtype=np.uint8)
 
             # run machine learning algorithm on tile image
             results = self._predict(img)
