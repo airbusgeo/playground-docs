@@ -27,7 +27,7 @@ body {
 <script>
 window.onload = function() {
   const ui = SwaggerUIBundle({
-    url: "https://raw.githubusercontent.com/airbusgeo/playground-docs/master/api/api_geo_process_v1.0.yaml",
+    url: "https://raw.githubusercontent.com/AirbusDefenceAndSpace/geoprocessing-api/master/1.0/api_geo_process.yaml",
     dom_id: '#swagger-ui',
     deepLinking: true,
     presets: [

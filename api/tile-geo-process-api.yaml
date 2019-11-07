@@ -524,6 +524,10 @@ components:
           description: Size of RAM (bytes).
           type: integer
           example: 2097152 # 2 Gb
+        ram_gpu:
+          description: Size of RAM on GPU (bytes).
+          type: integer
+          example: 11534336 # 11 Gb
         static_memory:
           description: Required memory to process a single input.
           type: string
@@ -720,38 +724,16 @@ components:
     #
     Links:
       description: |
-        Links to related resources.
+        Links for a single resource.
       type: object
       required:
         - self
-        - execution
       properties:
         self:
-          # The resource that return this process description.
+          # Current resource reference.
           $ref: '#/components/schemas/Reference'
-        execution:
-          # The target resource to execute this process.
-          $ref: '#/components/schemas/Reference'
-        config:
-          # The target resource to get / set configuration of this process.
-          $ref: '#/components/schemas/Reference'
-        version:
-          # The target resource to get the API version implemented by this process.
-          $ref: '#/components/schemas/Reference'
-        health:
-          # The target resource to check health of this process.
-          $ref: '#/components/schemas/Reference'
-        metrics:
-          # The target resource to get usage metrics of this process.
-          $ref: '#/components/schemas/Reference'
-        icon:
-          # The target resource to retrieve the icon of this process.
-          $ref: '#/components/schemas/Reference'
-        license:
-          # The target resource to retrieve the license of this process.
-          $ref: '#/components/schemas/Reference'
-        documentation:
-          # The target resource to retrieve the documentation of this process.
+        reference:
+          # List similar resource references.
           $ref: '#/components/schemas/Reference'
 
     #
