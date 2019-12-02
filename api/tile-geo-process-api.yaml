@@ -386,6 +386,27 @@ components:
               type: integer
               example: 2048   
 
+        resolution:
+          description: Resolution (in meters per pixel) of the imagery to be provided to process service. The optimal value is the prefered resolution. The min and max parameters indicates the range of resolution in which the results are considered acceptable. If a strict resolution must be provided, all three numbers should be equals.
+          type: object
+          required:
+            - optimal
+            - min
+            - max
+          properties:
+            optimal:
+              description: Optimal resolution (in meter per pixel) of the imagery to be provided to the process service.
+              type: number
+              example: 1.5
+            min:
+              description: Minimal resolution (in meter per pixel) of the imagery to be provided to the process service.
+              type: number
+              example: 0.5
+            max:
+              description: Maximal resolution (in meter per pixel) of the imagery to be provided to the process service.
+              type: number
+              example: 2.5
+
         overlap_size:
           description: Expected overlap in pixels between two adjacent tiles of imagery.
           type: integer
@@ -427,44 +448,56 @@ components:
 
         metadata:
           description: The list of metadata that the process service need to receive with each payload.
-          type: object
-          additionalProperties: true    
-          properties:
-            incidenceAngle:
-              description: Angle between the angle of view of the image and the nadir
-              type: number
-              example: 4.57
-            sunElevation:
-              description: Angle between the horizon and the Sun direction at the time of image acquisition
-              type: number
-              example: 46.9
-            sunAzimuth:
-              description: Angle between the North and the Sun direction at the time of image acquisition
-              type: number
-              example: 173.5
+          type: array
+          items:
+            $ref: '#/components/schemas/Metadata'
 
-        resolution:
-          description: Resolution (in meters per pixel) of the imagery to be provided to process service. The optimal value is the prefered resolution. The min and max parameters indicates the range of resolution in which the results are considered acceptable. If a strict resolution must be provided, all three numbers should be equals.
-          type: object
-          required:
-            - optimal
-            - min
-            - max
-          properties:
-            optimal:
-              description: Optimal resolution (in meter per pixel) of the imagery to be provided to the process service.
-              type: number
-              example: 1.5
-            min:
-              description: Minimal resolution (in meter per pixel) of the imagery to be provided to the process service.
-              type: number
-              example: 0.5
-            max:
-              description: Maximal resolution (in meter per pixel) of the imagery to be provided to the process service.
-              type: number
-              example: 2.5
+        regions:
+          description: The list of regions where that process is expected to work correctly.
+          type: array
+          items:
+            $ref: '#/components/schemas/Regions'
 
     #
+    # Extra metadata
+    #
+    Metadata:
+      type: string
+      enum:
+        - 'incidenceAngle'
+        - 'sunElevation'
+        - 'sunAzimuth'
+      description: >
+            Sort order:
+             * `incidenceAngle` - Angle in degrees between the angle of view of the image and the nadir
+             * `sunElevation` - Angle in degrees between the horizon and the Sun direction at the time of image acquisition
+             * `sunAzimuth` - Angle in degrees between the North and the Sun direction at the time of image acquisition
+
+    #
+    # Description of regions where the processing 
+    #
+    Regions:
+      type: string
+      enum:
+        - 'WORLD'
+        - 'NORTH AMERICA'
+        - 'CENTRAL AMERICA'
+        - 'SOUTH AMERICA'
+        - 'EUROPE'
+        - 'NORTH AFRICA'
+        - 'WEST AFRICA'
+        - 'CENTRAL AFRICA'
+        - 'EAST AFRICA'
+        - 'SOUTHERN AFRICA'
+        - 'MIDDLE EAST'
+        - 'RUSSIA'
+        - 'CENTRAL ASIA'
+        - 'EAST ASIA'
+        - 'SOUTH ASIA'
+        - 'SOUTH EAST ASIA'
+        - 'AUSTRALIA'
+        - 'OCEANIA'
+
     # Capabilities
     #
     Capabilities:
@@ -560,9 +593,14 @@ components:
           description: Number and order of bands available for each pixel.
           type: string
           enum:
-            - P
+            - PAN
             - RGB
             - RGBI
+            - NIR
+            - SWIR
+            - TIR
+            - RADAR-X
+            - RADAR-C
         format:
           description: Format in which the imagery is provided
           type: string
@@ -571,11 +609,29 @@ components:
             - JP2
             - TIF
             - PNG
+        processing:
+          description: Processing applied to the imagery (optional)
+          type: string
+          enum:
+            - BASIC
+            - DISPLAY
+            - REFLECTANCE
+            - AMPLITUDE
+          default: DISPLAY
+        ortholevel:
+          description: Ortho-rectification applied to the imagery (optional). 
+            L1 for Sensor or no geoprocessing applied, L2 for geocoded imagery, L3 for ortho-rectified imagery and L4 for TrueOrtho
+          type: string
+          enum:
+            - L1
+            - L2
+            - L3
+            - L4
+          default: L3
 
     #
     # Tags schema
     #
-
     Tags:
       type: object
       description: A tag defining the class of the detected object
@@ -615,7 +671,6 @@ components:
     #
     # as-GeoJSON schema
     #
-
     as-GeoJSON:
       description: A GeoJSON FeatureCollection returning the results of the process service.
       type: object
