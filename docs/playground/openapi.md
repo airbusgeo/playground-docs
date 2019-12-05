@@ -20,6 +20,8 @@ body {
 }
 </style>
 
+# OpenAPI Specification
+
 <div id="swagger-ui"></div>
 
 <script src="../scripts/swagger-ui-bundle.js"> </script>
@@ -27,7 +29,7 @@ body {
 <script>
 window.onload = function() {
   const ui = SwaggerUIBundle({
-    url: "https://raw.githubusercontent.com/airbusgeo/playground-docs/master/api/api_geo_processes_manager_v1.0.yaml",
+    url: "https://raw.githubusercontent.com/airbusgeo/playground-docs/master/api/playground_geo_processes_manager_api.yaml",
     dom_id: '#swagger-ui',
     deepLinking: true,
     presets: [

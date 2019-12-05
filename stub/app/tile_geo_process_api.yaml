@@ -468,10 +468,10 @@ components:
         - 'sunElevation'
         - 'sunAzimuth'
       description: >
-            Sort order:
-             * `incidenceAngle` - Angle in degrees between the angle of view of the image and the nadir
-             * `sunElevation` - Angle in degrees between the horizon and the Sun direction at the time of image acquisition
-             * `sunAzimuth` - Angle in degrees between the North and the Sun direction at the time of image acquisition
+        Available metadata names:
+          * `incidenceAngle` - Angle in degrees between the angle of view of the image and the nadir
+          * `sunElevation` - Angle in degrees between the horizon and the Sun direction at the time of image acquisition
+          * `sunAzimuth` - Angle in degrees between the North and the Sun direction at the time of image acquisition
 
     #
     # Description of regions where the processing 

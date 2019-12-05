@@ -29,7 +29,7 @@ body {
 <script>
 window.onload = function() {
   const ui = SwaggerUIBundle({
-    url: "https://raw.githubusercontent.com/airbusgeo/playground-docs/master/api/tile-geo-process-api.yaml",
+    url: "https://raw.githubusercontent.com/airbusgeo/playground-docs/master/api/tile_geo_process_api.yaml",
     dom_id: '#swagger-ui',
     deepLinking: true,
     presets: [

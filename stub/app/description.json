@@ -1,33 +1,64 @@
 {
-    "name": "eu.gcr.io/playground-doc/tile-object-detection-stub",
-    "title": "Playground tile object detection stub",
-    "family": "",
-    "version": "1.0",
-    "description": "Geo Process API stub for Playground",
-    "organization": "Airbus Defence and Space Intelligence",
-    "email": "jean-francois.faudi@airbus.com",
+    "name": "INSERT THE LINK TO THE DOCKER IMAGE OF YOUR PROCESSING",
+    "title": "INSERT THE READABLE TITLE OF YOUR PROCESSING",
+    "family": "INSERT ONE OF: object-detection, change-detection, segmentation",
+    "version": "INSERT VERSION NUMBER AS 1.2.3",
+    "description": "INSERT READABLE DESCRIPTION OF YOUR PROCESSING",
+    "organization": "INSERT YOUR ORGANIZATION NAME",
+    "email": "INSERT YOUR EMAIL",
     "keywords": "stub, object, detection",
-    "resources": {
-        "cpu": 1,
-        "ram": 1048576
+    "requirements": {
+        "tile_size": {
+            "optimal": 256, 
+            "min": 256,
+            "max": 2048
+        },
+        "resolution": {
+            "optimal": 1.5,
+            "min": 0.5,
+            "max": 3.0
+        },
+        "overlap_size": 32,
+        "number_of_images": 1,
+        "apply_fusion": "SELECT_BASED_ON_AREA",
+        "max_concurrent_requests": 1,
+        "duration_estimate": 600,
+        "supported_image_type": [{
+            "bit_depth": 8,
+            "bands": ["R", "G", "B"],
+            "format": "JPG",
+            "processing": "DISPLAY"
+        }],
+        "metadata": [],
+        "regions": ["WORLD"]
     },
-
-    "template": "tile-object-detection",
-
+    "capabilities": {
+        "displaimer": "This field contains optional information about the processing such as metrics (recall and precision) or edge cases that will not work. Example: This algorithm is expected to return over 90% in recall and precision for ships larger than 26 m. Specific locations such as marinas have been excluded from the training dataset and the algorithm should not be expected to provide good results on such areas.",
+        "tags": [
+            "vessel", "barge", "fishing", "leisure", "merchant", "military", "passenger", "speedboat", "support"
+        ]
+    },
+    "resources": {
+        "gpu_enabled": true,
+        "cpu_enabled": false,
+        "cpu": 1,
+        "ram": 1048576,
+        "ram_gpu": 11534336,
+        "max_batch_size": 10 
+    },
     "input": {
         "$schema": "http://json-schema.org/draft-06/schema#",
-        "title": "tile-object-detection-input",
         "description": "Geo Process API input schema for tile object detection",
         "type" : "object",
         "required": [
-            "zoom",
-            "tileFormat",
-            "tile"
+            "resolution",
+            "tiles"
         ],
         "properties": {
             "resolution": {
                 "description": "Resolution of imagery",
-                "type": "float"
+                "type": "float",
+                "example": 0.5
             },
             "tiles": {
                 "description": "The array of images base64 encoded, may be JPEG or PNG format",
@@ -36,48 +67,17 @@
                     "type": "string",
                     "format": "base64"
                 }
-                
             }
         }
     },
-
     "output": {
         "description": "Tile object detection GeoJSON. Root element has to be a 'FeatureCollection' with one or several 'Feature' objects. Feature geometry is expressed with (0,0) at the top left of the tile image padding included. Feature properties may be 'category' and 'confidence'. The 'category' property is used for tags, labels or classification results. This value may be a string with several values separated by a comma or an array of strings. The 'confidence' property value is a float between 0. and 1.0.",
-        "content": {
-            "application/geo+json": {}
-        }
-    },
-    
-    "config": {
-        "$schema": "http://json-schema.org/draft-06/schema#",
-        "title": "tile-object-detection-config",
-        "description": "Geo Process API config schema for tile object detection",
-        "type" : "object",
-        "required": [
-            "resolution",
-            "size",
-            "padding"
-        ],
-        "properties": {
-            "resolution": {
-                "description": "Resolution of the imagery expected by the service",
-                "type" : "float"
-            },
-            "size": {
-                "description": "Size of the imagery expected by the service",
-                "type": "integer",
-                "minimum": 1
-            },
-            "padding": {
-                "description": "Padding expected by the service. 0 for no padding.",
-                "type": "integer",
-                "minimum": 0
-            }
-        }
-    },
+        "format": "application/geo+json",
+        "content": { "$ref": "#/definitions/asGeoJSON" }
 
+        }
+    },
     "asynchronous": false,
-
     "_links": {
         "describe": {
             "href": "/api/v1/describe"
@@ -87,6 +87,115 @@
         },
         "healthcheck": {
             "href": "/api/v1/health"
+        }
+    },
+    "definitions": {
+        "as-GeoJSON": {
+            "description": "A GeoJSON FeatureCollection returning the results of the process service.",
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "FeatureCollection"
+                ]
+              },
+              "features": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Detection"
+                }
+              }
+            }
+        },
+        "Detection": {
+            "type": "object",
+            "description": "A GeoJSON feature indicating one detection made by the process service.",
+            "required": [
+              "geometry",
+              "properties"
+            ],
+            "properties": {
+              "geometry": {
+                "$ref": "#/definitions/Geometry"
+              },
+              "properties": {
+                "type": "object",
+                "description": "The information associated to this specific detection",
+                "required": [
+                  "tags"
+                ],
+                "properties": {
+                  "confidence": {
+                    "type": "number",
+                    "description": "The confidence associated to this detection expressed as a value betwee 0.0 and 1.0 by the process service.",
+                    "example": 0.7,
+                    "default": 1.0
+                  },
+                  "tags": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "confidence_per_tag": {
+                    "type": "array",
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "oneOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "number"
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "length": {
+                    "description": "Length of the detected object in meters (if applicable).",
+                    "type": "number"
+                  },
+                  "width": {
+                    "description": "Width of the detected object in meters (if applicable).",
+                    "type": "number"
+                  },
+                  "area": {
+                    "description": "Surface of the detected object in squared meters.",
+                    "type": "number"
+                  },
+                  "heading": {
+                    "description": "Heading of the detected object in degrees from the North (if applicable).",
+                    "type": "number"
+                  },
+                  "height": {
+                    "description": "Height of the detected object on meters (if applicable).",
+                    "type": "number"
+                  }
+                }
+              }
+            }
+        },
+        "Geometry": {
+            "type": "object",
+            "description": "GeoJSON feature",
+            "required": [
+              "type"
+            ],
+            "externalDocs": {
+              "url": "http://geojson.org/geojson-spec.html#geometry-objects"
+            },
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "Polygon"
+                ],
+                "description": "The geometry types supported in the output. Currently only polygons are supported."
+              }
+            }
         }
     }
 }

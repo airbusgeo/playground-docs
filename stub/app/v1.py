@@ -54,7 +54,7 @@ async def init(sanic, loop):
 @v1.route('/openapi')
 @doc.summary('Open API specification of this service in YAML format')
 async def openapi(request: Request) -> HTTPResponse:
-    return await response.file('api_geo_process_v1.0.yaml')
+    return await response.file('tile_geo_process_api.yaml')
 
 # return OK is the service is still alive
 @v1.route('/health')

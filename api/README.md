@@ -2,45 +2,15 @@
 
 API specifications for Intelligence Playground.
 
-See [documentation](http://playground-docs.readthedocs.io/).
+See [Intelligence Playground Documentation](http://playground-docs.readthedocs.io/).
 
 ## Airbus Defence and Space Geo APIs
 
 ### Geo Process API
 
-[REST](https://en.wikipedia.org/wiki/Representational_state_transfer) API to be implemented by processing components that plugs to the Playground.
-Provided as [OpenAPI](https://en.wikipedia.org/wiki/OpenAPI_Specification).
+REST API to be implemented by processing components (Docker) that plugs into the Playground. Provided as [OpenAPI](geopaas/openapi.md). For details on implementation, check [Create a custom process](geopaas/intro.md)
 
 ### Geo Processes Management API
 
-[REST](https://en.wikipedia.org/wiki/Representational_state_transfer) API that allows external applications that are allowed to manage processes and job execution by the Playground.
-Provided as [OpenAPI](https://en.wikipedia.org/wiki/OpenAPI_Specification).
+REST API that allows external applications to manage processes and job execution through the Playground. Provided as [OpenAPI](playground/openapi.md).
 
-## Playground Geo API implementations
-
-### Geo Process API templates
-
-Templates specifies Geo Process API for a kind of process.
-
-* Object detection
-* Change detection
-
-Templates are provided as JSON schemas for the following endpoints:
-
-* Geo Process API describe endpoint
-* Geo Process API config endpoint
-* Input of Geo Process API jobs endpoint
-* if no output of Geo Process API jobs endpoint, GeoJSON with a FeatureCollection is expected
-
-### Geo Processes Management API implementation and templates
-
-Intelligence Playground adds the concept of project to the core Geo Processes Manager API by extending it.
-
-Templates specifies Geo Processes Manager API job input for a kind of process.
-
-* Object detection
-* Change detection
-
-Templates are provided as JSON schemas for the following endpoints:
-
-* Input of Geo Processes Manager API jobs creation endpoint

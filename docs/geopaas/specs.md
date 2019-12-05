@@ -15,7 +15,7 @@ This endpoint should accept POST requests and will receive requests containing a
 ```json
 {
 	"resolution": 0.5,
-	"tiles": ["base64encodedimagedata"]
+	"tiles": ["base64encodedimagedatafortile"]
 }
 ```
 

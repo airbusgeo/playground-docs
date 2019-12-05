@@ -1,0 +1,406 @@
+openapi: 3.0.0
+
+#
+# Info
+#
+info:
+  title: 'Tile Geo Process API'
+  description: |
+    This document describes the Airbus DS Intelligence "Tile Geo Process" API specification. It is based on the Airbus Defense and Space "Geo Process" API specification but provides a more precise implementation. Tile Geo Process services that are provided to Airbus DS Intelligence must implement this specification.
+
+    The only execution mode for Geo Process Services is synchronous.
+
+    This API provides two endpoints with a fixed path /api/v1/openapi and /api/v1/describe.
+    The path prefix for the others endpoints are implementation specific, for example the /process endpoint could be implemented at /process or /mypath/process or /api/v1/process.
+    As been the only fixed endpoint with implementation specific data, /api/v1/describe contains the _links attribute that has to reference all implemented endpoints for the service.
+    With this main service entry and the provided links it is possible for a client to discover and address others endpoints of the service.
+
+    The Intelligence Playground is an evaluation environment to test algorithms on OneAtlas imagery from Airbus and Partners.
+  version: "1.0.1"
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+
+  contact:
+    name: Airbus DS Intelligence
+    url: 'https://www.intelligence-airbusds.com/'
+
+  x-logo:
+    url: https://www.intelligence-airbusds.com/files/pmedia/public/r2421_9_airbus_rgb.png
+
+#
+# External docs
+#
+externalDocs:
+  description: Intelligence Playground Documentation
+  url: 'http://playground-docs.readthedocs.io'
+
+#
+# Tags
+#
+tags:
+  - name: Mandatory
+    description: |
+      Mandatory resources.
+      Defines the main entry point of the service.
+  - name: Synchronous
+    description: |
+      Mandatory resources for the synchronous mode.
+      Endpoints may be specific to each implementation.
+      Referenced via the _links attribute of the describe resource.
+  - name: Optional
+    description: |
+      Optional, implementation specific resources for low level
+      description and monitoring.
+      Endpoints may be specific to each implementation.
+      Referenced via the _links attribute of the describe resource.
+
+#
+# Paths
+#
+paths:
+  #
+  # OpenAPI schema
+  #
+  /api/v1/openapi:
+    get:
+      tags:
+        - Mandatory
+      summary: Open API specification of this service in YAML format
+      description: |
+        Returns Open API specification of this service in YAML format.
+        Subset of this API with implemented services.
+      responses:
+        '200':
+          description: Process Open API web UI.
+
+  #
+  # Describe
+  #
+  /api/v1/describe:
+    get:
+      tags:
+        - Mandatory
+      summary: Describes process service
+      description: |
+        Returns the description of the process.
+      operationId: describe
+      responses:
+        '200':
+          description: Process description.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Describe'
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  #
+  # Job execution
+  #
+  /process:
+    servers:
+      - url: '/{customPath}'
+        variables:
+          customPath:
+            default: ''
+    post:
+      tags:
+        - Synchronous
+      summary: Launch synchronous process execution on tile(s)
+      description: |
+        Execute the process as a synchronous process. The response contains a JSON object as defined
+        in the output attribute of the description resource.
+      operationId: process
+      requestBody:
+        description: |
+          Process input parameters as defined by the JSON Schema in the input
+          attribute of the description resource.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProcessInput'
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/OutputResponse'
+        '400':
+          $ref: '#/components/responses/InvalidInput'
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '503':
+          description: |
+            Service not available. Max number of simultaneous process execution
+            reached.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  #
+  # Instance versions
+  #
+  /version:
+    servers:
+      - url: '/{customPath}'
+        variables:
+          customPath:
+            default: ''
+    get:
+      tags:
+        - Optional
+      summary: Low level version description
+      description: |
+        Implementation specific.
+        Returns build, compiler or version control versions.
+      operationId: version
+      responses:
+        '200':
+          $ref: '#/components/responses/Version'
+
+  #
+  # Instance health check
+  #
+  /health:
+    servers:
+      - url: '/{customPath}'
+        variables:
+          customPath:
+            default: ''
+    get:
+      tags:
+        - Mandatory
+      summary: Check if the service is alive
+      description: |
+        The response is a HTTP status code 200 containing in the body 'OK'.
+      operationId: healthcheck
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+
+#
+# Components
+#
+components:
+
+  #
+  # Security
+  #
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT #recommended
+
+  #
+  # Responses
+  #
+  responses:
+    OutputResponse:
+      description: |
+        Process output as defined in the output attribute of the description resource.
+
+    NotFound:
+      description: Entity not found.
+
+    NotAvailable:
+      description: Service not available.
+      
+    InvalidInput:
+      description: Invalid input for operation.
+
+    Version:
+      description: Version.
+      content:
+        text/plain:
+          schema:
+            type: string
+
+    Success:
+      description: Success. OK as content.
+      content:
+        text/plain:
+          schema:
+            type: string
+
+  #
+  # Schemas
+  #
+  schemas:
+
+    #
+    # Describe schema
+    #
+    Describe:
+      description: |
+        Process description.
+      type: object
+      required:
+        - name
+        - title
+        - family
+        - version
+        - description
+        - organization
+        - email
+        - requirements
+        - capabilities
+        - resources
+        - input
+        - output
+        - _links
+      properties:
+        name:
+          description: Technical name of the process. May be the Docker image name.
+          type: string
+          example: eu.gcr.io/myproject/cat-detection:latest
+        title:
+          description: The title of the process.
+          type: string
+          example: 'Cat detection'
+        family:
+          description: The process family.
+          type: string
+          example: 'object-detection'
+        version:
+          description: The version of the process.
+          type: string
+          example: 1.0
+        description:
+          description: The description of the process.
+          type: string
+          example: 'Detect cats on tiles'
+        organization:
+          description: Identifier of the organization or entity publishing the process.
+          type: string
+          example: 'Airbus DS Intelligence'
+        email:
+          description: Contact email.
+          type: string
+          example: 'cat-detection@airbus.com'
+        keywords:
+          description: List of keywords or tags.
+          type: array
+          items:
+            type: string
+          example: ['cat', 'dog']
+        requirements:
+          # Requirements of the process service
+          $ref: 'shared.yaml/components/schemas/Requirements'
+        capabilities:
+          # Capabilities of the process service
+          $ref: 'shared.yaml/components/schemas/Capabilities'
+        resources:
+          # Hardware resources needed for process execution.
+          $ref: 'shared.yaml/components/schemas/Resources'
+        input:
+          # Process execution input interface.
+          $ref: '#/components/schemas/ProcessInput'
+        output:
+          # Process execution output interface.
+          $ref: 'shared.yaml/components/schemas/ProcessOutput'
+        batched:
+          description: True if batched mode provided i.e. capable of receiving an array of payloads
+          type: boolean
+          default: false
+          example: false
+        _links:
+          $ref: 'shared.yaml/components/schemas/Links'
+
+    #
+    # ProcessInput schema
+    #
+    ProcessInput:
+      description: |
+        Process input parameters as defined by the JSON Schema in the input
+        attribute of the description resource.
+      type: object
+      required:
+        - resolution
+        - tiles
+      properties:
+        resolution:
+          description: The input tile resolution
+          type: number
+          example: 0.5
+        tiles:
+          description: The N tiles required by the process
+          type: array
+          items:
+            description: The tile image base64 encoded, may be JPEG or PNG format
+            type: string
+          example: ["gABAQEASA....BIAADQBoUG", "hvdGzaG9w....IDMuM4QklN"]      
+
+    #
+    # Reference schema
+    #
+    Reference:
+      description: |
+        Reference object.
+      type: object
+      required:
+        - href
+      properties:
+        relation:
+          description: Description of the relation.
+          type: string
+        href:
+          description: Determine the target URI of the related resource.
+          type: string
+          format: uri
+          example: http://myservice.com/api/v1/describe
+        type:
+          description: Expected content type of the response of the reference.
+          type: string
+          example: application/json
+        method:
+          # HTTP verb to distinguish between several possible actions on the same ressource. GET if omitted.
+          $ref: '#/components/schemas/ReferenceMethod'
+
+    #
+    # ReferenceMethod schema
+    #
+    ReferenceMethod:
+      description: |
+        HTTP verbs to access resources.
+      type: string
+      enum:
+        - GET
+        - POST
+        - PUT
+        - DELETE
+
+    #
+    # Error schema
+    #
+    Error:
+      description: |
+        Error returned when request fails
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          description: End user error description.
+          type: string
+        hint:
+          description: Internal / developper error message (no trace).
+          type: string
+        correlationId:
+          description: System request identifier from request header.
+          type: string
+        timestamp:
+          description: Error timestamp.
+          type: string
