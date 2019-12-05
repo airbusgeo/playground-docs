@@ -40,11 +40,14 @@ pages:
     - Metrics : web/metrics.md
     - Taxonomy : web/taxonomy.md
     - Use Case: web/usecase.md
-    - Available Data: parsing/one-atlas-data.md
-    - Export Data Format: parsing/parsing.md
-  - Access through API:
+  - Interacting with Playground:
     - OpenAPI Specification: playground/openapi.md
     - Check our Python Client: playground/notebooks.md 
+    - Launch Jobs Batch: playground/launch_jobs_batch.md
+    - Import Zones in the Playground: playground/import_zones_in_Playground.md
+    - Export Zones from the Playground: playground/export_zones_from_playground.md
+    - Create a new Dataset : playground/dataset_creation.md
+    - Export Format: playground/export_format.md
   - Create a custom process:
     - Introduction: geopaas/intro.md
     - End-points for Playground: geopaas/specs.md

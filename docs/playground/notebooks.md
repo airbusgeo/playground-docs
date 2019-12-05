@@ -10,9 +10,11 @@ It also provide some example of requests organized by themes in Python Notebooks
 ## Install the Playground API Python Library
 
 First clone this repository:
+
 ```git clone https://github.com/airbusgeo/playground-python-client.git```
 
 Then open a command shell, go to the repository folder and type the following command:
+
 ```pip install .```
 
 This will install the Playground API Client in your local Python libraries.
@@ -21,7 +23,7 @@ This will install the Playground API Client in your local Python libraries.
 
 To connect to the API, you need to retrieve your API_KEYS from the OneAtlas website. Follow the simple steps below:
 
-1. Visit this URL: https://data.api.oneatlas.airbus.com/api-keys
+1. Visit this URL: [https://data.api.oneatlas.airbus.com/api-keys](https://data.api.oneatlas.airbus.com/api-keys)
 2. Click the **Create and API key** button
 3. Enter a description for your API_KEY (e.g. Playground Keys)
 4. Store the file in the same folder than this notebook and name it **api_key.txt**

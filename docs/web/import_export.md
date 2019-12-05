@@ -58,4 +58,4 @@ With these URL you can access to the export (with a bucket).
 
 ![Export Data](/images/web_ui/infos_exports.png)
 
-For more details you can see the global structure of any export individually in the section "[Export Data Format](../parsing/parsing.md)".
+For more details you can see the global structure of any export individually in the section "[Export Data Format](../playground/export_format.md)".

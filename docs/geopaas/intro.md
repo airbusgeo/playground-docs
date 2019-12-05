@@ -2,9 +2,9 @@
 
 The Intelligence Playground is a cloud environment to run machine learning algorithms on satellite images. To add a custom algorithm to the Intelligence Playground, you can either reference an external end-point or submit a Docker image. In both case, you will need to implement a specic API that is described in the following page.
 
-Although the Intelligence Playground follows the generic Airbus Defense and Space [Geo Process API Specification](../airbus_ds/geo_process_api.md), it implements a more precise version suitable for implementation and interoperability. In particular, the Intelligence Playground manages only **synchronous processes**. Please, refer to the [Tile Geo Process API Specification](../airbus_ds/geo_process_api.md) as your reference to implement a custom processing.
+The Intelligence Playground follows the generic Airbus Defense and Space [Geo Process API Specification](https://github.com/AirbusDefenceAndSpace/geoprocessing-api). It implements a more precise version suitable for implementation and interoperability called [Playground GeoProcessing API](../playground/openapi.md)
 
-Intelligence Playground image processing services are based on tiles (along with the WebMercator and Squared Pixel grids). When a processing is applied to an image, each single tile that is part of the image is processed and all results are merged together. This is why you need to specify at which resolution the processing should be applied.
+Please, refer to the [Tile Geo Process API Specification](openapi.md) as your reference to implement a custom processing. Intelligence Playground image processing services are based on tiles (along with the WebMercator and Squared Pixel grids). When a processing is applied to an image, each single tile that is part of the image is processed and all results are merged together. This is why you need to specify at which resolution the processing should be applied.
 
 Jump to [End-points description](specs.md).
 
