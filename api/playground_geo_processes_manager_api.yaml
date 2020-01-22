@@ -786,13 +786,10 @@ components:
       type: object
       required:
         - id
-        - name
         - title
         - family
         - version
         - description
-        - organization
-        - email
         - _links
       properties:
         id:
