@@ -1,12 +1,14 @@
 # Standard libraries
 import base64
 import json
+import io
 
 # Third-party libraries
 import click
 import loguru
 import numpy as np
 import requests
+from PIL import Image
 from schema import And, Optional, Or, Use, Schema, SchemaError
 
 POINT_SCHEMA = Schema(And(
@@ -15,12 +17,14 @@ POINT_SCHEMA = Schema(And(
     And(lambda coords: coords[0] >= 0, error='The first coordinate of a point, in pixels, should be positive.'),
     And(lambda coords: coords[1] >= 0, error='The second coordinate of a point, in pixels, should be positive.'),
 ))
+
 COORDINATES_SCHEMA = Schema(And(
     And(Or(list, tuple, error='Coordinates should be a list or tuple.')),
     And(lambda rings: len(rings) >= 1, error='Polygon should contain a single ring.'),
     And(lambda polygon: len(polygon[0]) >= 4, error='Polygon should contain at least 4 points.'),
     And([[POINT_SCHEMA]])
 ))
+
 POLYGON_SCHEMA = Schema({
     'type': 'Polygon',
     'coordinates': COORDINATES_SCHEMA
@@ -92,8 +96,11 @@ def process(endpoint, tile_width, tile_height, resolution, tile_path, verbose):
             encoded_string = base64.b64encode(image_file.read()).decode('utf-8')
 
     else:
-        tile = np.zeros((tile_width, tile_height), dtype=np.uint8)
-        encoded_string = base64.b64encode(tile).decode('utf-8')
+        arr = np.zeros((tile_width, tile_height), dtype=np.uint8)
+        img = Image.fromarray(arr)
+        imgByteArr = io.BytesIO()
+        img.save(imgByteArr, format='JPEG')
+        encoded_string = base64.b64encode(imgByteArr.getvalue()).decode('utf-8')
 
     # Run check
     loguru.logger.info('Check PROCESS end point: {endpoint}'.format(endpoint=endpoint))

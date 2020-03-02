@@ -24,6 +24,6 @@ geojson
 # matrix processing
 numpy
 
-# select which deep learning framework you love
+# select the deep learning framework you love
 #tensorflow
 #torch

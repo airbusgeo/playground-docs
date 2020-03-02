@@ -26,7 +26,7 @@ docker build --rm -f Dockerfile -t stub .
 Execute the container (redirect service port to 8000 on the host) :
 
 ```bash
-docker run --rm -ti -p 8000:8080 stub
+docker run --rm -ti -p 8080:8080 stub
 ```
 
 ## Check endpoint 
@@ -34,13 +34,13 @@ docker run --rm -ti -p 8000:8080 stub
 Check that the service is alive:
 
 ```bash
-curl http://localhost:8000/api/v1/health
+curl http://localhost:8080/api/v1/health
 ```
 
 Call the service description:
 
 ```bash
-curl http://localhost:8000/api/v1/describe
+curl http://localhost:8080/api/v1/describe
 ```
 
 Test service with an image:
