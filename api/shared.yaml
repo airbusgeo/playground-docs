@@ -115,11 +115,12 @@ components:
         - 'incidenceAngle'
         - 'sunElevation'
         - 'sunAzimuth'
-      description: >
-        Available metadata names:
+      description:
+        Available metadata names: |
           * `incidenceAngle` - Angle in degrees between the angle of view of the image and the nadir
-          * `sunElevation` - Angle in degrees between the horizon and the Sun direction at the time of image acquisition
-          * `sunAzimuth` - Angle in degrees between the North and the Sun direction at the time of image acquisition
+          * `illuminationElevationAngle` - Angle in degrees between the horizon and the Sun direction at the time of image acquisition
+          * `illuminationAzimuthAngle` - Angle in degrees between the North and the Sun direction at the time of image acquisition
+          * `acquisitionDate` - Acquisition date in UTC and ISO format i.e. 2020-03-25T09:16:41Z 
 
     #
     # Description of regions where the processing 

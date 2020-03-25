@@ -298,26 +298,26 @@ components:
           example: ['cat', 'dog']
         requirements:
           # Requirements of the process service
-          $ref: 'shared.yaml/components/schemas/Requirements'
+          $ref: 'shared.yaml#/components/schemas/Requirements'
         capabilities:
           # Capabilities of the process service
-          $ref: 'shared.yaml/components/schemas/Capabilities'
+          $ref: 'shared.yaml#/components/schemas/Capabilities'
         resources:
           # Hardware resources needed for process execution.
-          $ref: 'shared.yaml/components/schemas/Resources'
+          $ref: 'shared.yaml#/components/schemas/Resources'
         input:
           # Process execution input interface.
           $ref: '#/components/schemas/ProcessInput'
         output:
           # Process execution output interface.
-          $ref: 'shared.yaml/components/schemas/ProcessOutput'
+          $ref: 'shared.yaml#/components/schemas/ProcessOutput'
         batched:
           description: True if batched mode provided i.e. capable of receiving an array of payloads
           type: boolean
           default: false
           example: false
         _links:
-          $ref: 'shared.yaml/components/schemas/Links'
+          $ref: 'shared.yaml#/components/schemas/Links'
 
     #
     # ProcessInput schema
@@ -342,6 +342,22 @@ components:
             description: The tile image base64 encoded, may be JPEG or PNG format
             type: string
           example: ["gABAQEASA....BIAADQBoUG", "hvdGzaG9w....IDMuM4QklN"]      
+        metadata:
+          description: The list of metadata required by the process as indicated in describe/requirements
+          type: object
+          properties:
+            incidenceAngle:
+              type: array
+              items:
+                description: The incidence angle for each tile
+                type: number
+              example: [16.2370419275, 11.5333279292]
+            acquisitionDate:
+              type: array
+              items:
+                description: The acquisition date for each tile
+                type: string
+              example: ["2017-05-21T10:10:31.610Z", "2018-03-23T10:08:36.603Z"]
 
     #
     # Reference schema
