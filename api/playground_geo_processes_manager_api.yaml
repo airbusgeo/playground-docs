@@ -829,7 +829,7 @@ components:
             type: string
           example: ['cat', 'dog']
         _links:
-          $ref: 'shared.yaml/components/schemas/ItemLinks'
+          $ref: 'shared.yaml#/components/schemas/ItemLinks'
     #
     # ProcessDescribe schema
     #
@@ -889,15 +889,15 @@ components:
           example: ['cat', 'dog']
         requirements:
           # Requirements of the process service
-          $ref: 'shared.yaml/components/schemas/Requirements'
+          $ref: 'shared.yaml#/components/schemas/Requirements'
         capabilities:
           # Capabilities of the process service
-          $ref: 'shared.yaml/components/schemas/Capabilities'
+          $ref: 'shared.yaml#/components/schemas/Capabilities'
         output:
           # Process execution output interface.
-          $ref: 'shared.yaml/components/schemas/ProcessOutput'
+          $ref: 'shared.yaml#/components/schemas/ProcessOutput'
         _links:
-          $ref: 'shared.yaml/components/schemas/ItemLinks'
+          $ref: 'shared.yaml#/components/schemas/ItemLinks'
 
     #
     # Jobs schema
