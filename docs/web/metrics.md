@@ -4,7 +4,7 @@
 
 This section enables you to extract data or statistics about processes.
 
-## Metrics Creation
+### <span style="color:#2980b9">Metrics Creation</span>
 
 Creation interface : ![Interface](/images/web_ui/metrics_new_interface.png)
 You have to :
@@ -14,7 +14,7 @@ You have to :
 - choose Execution Dataset : select the dataset's project, then select the dataset as you want
 - click on "Clear"
 
-## Metrics List
+### <span style="color:#2980b9">Metrics List</span>
 
 You can see the list of metrics already created :
 ![Interface](/images/web_ui/metrics_list.png)

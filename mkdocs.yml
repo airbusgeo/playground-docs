@@ -35,10 +35,12 @@ pages:
     - Datasets: web/dataset.md
     - Jobs: web/job.md
     - Zone : web/zone.md
+    #- POI: web/poi.md
     - Compare : web/compare.md
     - Import / Export : web/import_export.md
     - Metrics : web/metrics.md
     - Taxonomy : web/taxonomy.md
+    - Image Viewer : web/image_viewer.md
     - Use Case: web/usecase.md
   - Interacting with Playground:
     - OpenAPI Specification: playground/openapi.md

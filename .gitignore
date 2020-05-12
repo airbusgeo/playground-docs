@@ -4,4 +4,4 @@ site
 __pycache__
 .vscode
 **/.DS_Store
-
+venv

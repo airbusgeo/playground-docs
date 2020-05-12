@@ -2,10 +2,8 @@
 
 -----------------
 
-This section enables you to do an import in the Intelligence Playground. You can see the import list :
-![Import Interface](/images/web_ui/import.png)
+This section enables you to do an import in the Intelligence Playground. You can create different import type : Poi Collection, Pois in an existing collection, zones and their optional record(s) or records in an existing zone. To do **new import** click on "New import" button :
 
-To do **new import** click on "New import" button :
 ![New Import](/images/web_ui/import_new.png)
 
 You have to :
@@ -21,27 +19,15 @@ You have to :
 
 -----------------
 
-This section enables you to export data. 
-
-## Export Creation
-
-You have to click on **New Export** :
+This section enables you to export data. To create an export you have to click on **New Export** :
 
 ![New Export](/images/web_ui/export_new.png)
 
 You have to :
 
-1. Choose the type of your export between : **Tile**, **Mask**, **Thumbnail**, **Vector**, **Zone**, **Job**, **Dataset**. Then you have to choose the corresponding features, you can see the table below for more details.
+1. Choose the type of your export. Then you have to choose the corresponding features.
 2. Choose an Export Name
 3. Click on "Submit"
-
-**_Types Features :_**
-
-|               |Projection       |Zoom             |Padding          |Job              |Dataset          |
-| ------------- |: -------------: |: -------------: |: -------------: |: -------------: |: -------------: |
-|Tile           |![O](/images/web_ui/1.png)|![O](/images/web_ui/1.png)|![O](/images/web_ui/1.png)|![1](/images/web_ui/2.png)|![O](/images/web_ui/1.png)|
-|Dataset        |![1](/images/web_ui/2.png)|![1](/images/web_ui/2.png)|![1](/images/web_ui/2.png)|![1](/images/web_ui/2.png)|![O](/images/web_ui/1.png)|
-|Job            |![1](/images/web_ui/2.png)|![1](/images/web_ui/2.png)|![1](/images/web_ui/2.png)|![0](/images/web_ui/1.png)|![1](/images/web_ui/2.png)|
 
 Then, you have to return on Export List :
 
@@ -55,7 +41,5 @@ You can see the export list, with the Information column you can access to the m
 With these URL you can access to the export (with a bucket).
 
 ##### Exported data for each type of exports
-
-![Export Data](/images/web_ui/infos_exports.png)
 
 For more details you can see the global structure of any export individually in the section "[Export Data Format](../playground/export_format.md)".

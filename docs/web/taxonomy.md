@@ -15,7 +15,7 @@ Actions :
 - Delete one (or more) taxonomy
 - Edit a taxonomy
 
-### Edit a Taxonomy :
+### <span style="color:#2980b9">Edit a taxonomy</span>
 
 To edit the tags of a Taxonomy you have two possibilities : the first option is with the button *Edit -> Tags*, the second is to *click on your taxonomy -> Tags -> Edit Tags*.
 

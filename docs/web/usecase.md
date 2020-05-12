@@ -2,7 +2,7 @@
 
 -----------------
 
-### <span style="color:red">1. Ground Truth Creation</span>
+### <span style="color:#2980b9">1. Ground Truth Creation</span>
 
 Steps to create a ground truth :
 
@@ -30,7 +30,7 @@ If you want to rename your zone, you can see the [Zone Page](zone.md "Zone Page"
 
 -----------------
 
-### <span style="color:red">2. Validation</span>
+### <span style="color:#2980b9">2. Validation</span>
 
 -----------------
 
@@ -43,30 +43,19 @@ Validation interface :
 
 There is always one record selected. You can validate or invalidate the state of a record.The style of a valid record is green and for invalid records that's red. Some tools are given to help you for validation work :
 
-1 - **Color** :
-If you want to update the color of records (without state valid or invalid) for better view.
-
-2 - **Selection footprint** :
-To deactivate he selection footprint for better view.
-
-3- **Shortcuts** :
-To help you with keyboard shortcuts.
-
-4 - **"Auto Next" option** :
-Active : to jump automatically to the following record.
-Deactive : to stay focus on the record after validation action.
-
-5 - **Focus** :
-If you move on the map and if you click on this button, the map focus automatically on the selected record.
-
-6 - **Arrows** :
-To jump to the following record if you deactive the "auto next" option or if you don't want to validate or invalidate the record now.
-
+1. **Color** : If you want to update the color of records (without state valid or invalid) for better view.
+2. **Selection footprint** : To deactivate he selection footprint for better view.
+3. **Shortcuts** : To help you with keyboard shortcuts.
+4. **"Auto Next" option** :
+    * Active : to jump automatically to the following record.
+    * Deactive : to stay focus on the record after validation action.
+5. **Focus** : If you move on the map and if you click on this button, the map focus automatically on the selected record.
+6. **Arrows** : To jump to the following record if you deactive the "auto next" option or if you don't want to validate or invalidate the record now.
 
 #### States Definitions
 
-<span style="color:#800000">ADDED</span> - for "records" manuals<br/>
-<span style="color:#800000">PREDICTED</span> - for "records" that created by processes<br/>
-<span style="color:#800000">MODIFIED</span> - if you do modifications on the structure of your record <br/>
-<span style="color:#800000">VERIFIED</span> - Validate, if your record has this state you can't change anything (add tag, delete tag, modify the structure of the record, delete the record...) in Edit section<br/>
-<span style="color:#800000">INVALID</span> - Invalidate<br/>
+<span style="color:#ff9900">ADDED</span> - for "records" manuals<br/>
+<span style="color:#ff9900">PREDICTED</span> - for "records" that created by processes<br/>
+<span style="color:#ff9900">MODIFIED</span> - if you do modifications on the structure of your record <br/>
+<span style="color:#ff9900">VERIFIED</span> - Validate, if your record has this state you can't change anything (add tag, delete tag, modify the structure of the record, delete the record...) in Edit section<br/>
+<span style="color:#ff9900">INVALID</span> - Invalidate<br/>
