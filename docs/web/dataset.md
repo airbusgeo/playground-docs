@@ -115,4 +115,4 @@ The difference between object detection and **<span style="color:#ff9900">change
 
 ## <span style="color:#2980b9">Validation option</span>
 
-You can see the [Validation](usecase.md) page for further details.
+You can see the [Validation](usecase.md) page for further details. 
