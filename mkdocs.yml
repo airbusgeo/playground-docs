@@ -24,9 +24,9 @@ extra_javascript:
 markdown_extensions:
   - admonition
 
-copyright: 'Copyright &copy; 2019 - Airbus Defence and Space - Intelligence'
+copyright: 'Copyright &copy; 2020 - Airbus Defence and Space - Intelligence'
 
-nav:
+pages:
   - Intelligence Playground: index.md
   - Web Interface:
     - Introduction: web/index.md
