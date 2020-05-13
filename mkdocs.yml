@@ -26,7 +26,7 @@ markdown_extensions:
 
 copyright: 'Copyright &copy; 2019 - Airbus Defence and Space - Intelligence'
 
-pages:
+nav:
   - Intelligence Playground: index.md
   - Web Interface:
     - Introduction: web/index.md
