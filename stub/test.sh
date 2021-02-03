@@ -15,7 +15,7 @@
 # limitations under the License.
 
 HOST="localhost"
-PORT="8000"
+PORT="8080"
 TILE="data/tile.png"
 
 WORKDIR="tmp"
@@ -23,6 +23,17 @@ REQUEST="$WORKDIR/request.json"
 
 # create workdir
 mkdir -p $WORKDIR
+
+# chech health
+echo "Check health service"
+
+STATUS=$(curl -s http://$HOST:$PORT/api/v1/health)
+echo $STATUS
+
+if [ $STATUS != "OK" ]
+then
+	exit 1
+fi
 
 # create request
 echo "Create request"
